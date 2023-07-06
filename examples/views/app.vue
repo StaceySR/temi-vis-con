@@ -21,7 +21,6 @@
   import chatView from '../views/chatView.vue';
   
   export default {
-  
     components: {
         x6,
         chatView

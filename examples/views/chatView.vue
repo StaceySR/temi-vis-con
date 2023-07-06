@@ -342,8 +342,6 @@
       //this.setSystemMsg();
   
       this.addMessage("你好，我是你的助手，我将帮助你进行机器人的功能定制，请你开始进行创作吧！", "assistant");
-  
-      
     }
   };
   </script>

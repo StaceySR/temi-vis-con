@@ -369,12 +369,14 @@ export function getForNode(node) {
         zIndex: 100,
         data,
         attrs: {
+            //node里的字
             label: {
                 text: label,
                 fill: "#7D7671",
                 strokeWidth: 0.4,
                 fontSize: 15,
             },
+            //node的形状体
             body: {
                 stroke: targetTheme.border,
                 strokeWidth: 1.5,
@@ -394,16 +396,21 @@ export function getForNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            // r: 6,
+                            r: 6,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
-                            fill: '#fff'
+                            fill: '#fff',
+                            transform: 'translate(0, 0)'
                         }
                     }
                 },
                 "port_bottom": {
                     position: 'bottom',
+                    // position:  {
+                    //     x: 0, 
+                    //     y: 0, 
+                    //    },
                     zIndex: 20,
                     attrs: {
                         circle: {

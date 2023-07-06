@@ -77,9 +77,11 @@ export function graphAutoLayout(nodes, edges) {
         type: 'dagre',
         rankdir: 'TB',
         align: undefined ,
-        ranksep: 50,
-        nodesep: 100,
-        controlPoints: true,
+        edgeLabelSpace: true,
+        // radial:true,
+        ranksep: 30,
+        nodesep: 65,
+        controlPoints: false,
       })
     const model = dagreLayout.layout(data)
     fromJSON(graph.value, model.nodes, model.edges)

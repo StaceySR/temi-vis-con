@@ -124,6 +124,9 @@ export function getMermaidData(){
     //todo 预留接受后端mermaid数据接口
     // const data = await axios.get('api')
     
+
+
+    
     const sourcedata = `graph TB
                                         r_01(["userRequest:羽毛球赛"])
                                         h_01["info:定义成员列表"]
