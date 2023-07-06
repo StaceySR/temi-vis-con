@@ -42,7 +42,7 @@
 
         if(this.currentJSCode.length === 0) {
           this.currentJSCode = await this.NL2JS(sendContent);
-          //console.log('currentJSCode', this.currentJSCode);
+          console.log('currentJSCode', this.currentJSCode);
 
           // 取回生成的hs代码后，进一步生成解释
           const explainContent = await this.JS2NL(this.currentJSCode);
@@ -93,14 +93,14 @@
         // const data = await res.json();
         // console.log('data', data);
 
-        await res.text().then((data) => {
+        const result = await res.text().then((data) => {
           console.log('data', data);
 
           return data;
         });
 
-        
-                  
+        return result;
+              
       },
 
       async NL2JSwithContext(userInput,currentJSCode) {
@@ -114,10 +114,13 @@
           }
         );
 
-        const data = await res.json();
-        console.log('data', data);
+        const result = await res.text().then((data) => {
+          console.log('data', data);
 
-        return data;
+          return data;
+        });
+
+        return result;
         
       },
 
@@ -133,11 +136,13 @@
         );
 
 
-        await res.text().then((data) => {
+        const result = await res.text().then((data) => {
           console.log('data', data);
 
           return data;
         });
+
+        return result;
           
       },
 
