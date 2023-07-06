@@ -79,7 +79,7 @@
       },
 
       async NL2JS(userInput) {
-        const res = await fetch("http://localhost:3001/APIs/nl2js",
+        const res = await fetch("http://192.168.123.70:3001/APIs/nl2js",
           {
             method: "POST",
             headers: {
@@ -104,7 +104,7 @@
       },
 
       async NL2JSwithContext(userInput,currentJSCode) {
-        const res = await fetch("http://localhost:3001/APIs/js2NLexplain" ,
+        const res = await fetch("http://192.168.123.70:3001/APIs/js2NLexplain" ,
           {
             method: "POST",
             headers: {
@@ -122,7 +122,7 @@
       },
 
       async JS2NL(jscode) {
-        const res = await fetch("//localhost:3001/APIs/js2NLexplain",
+        const res = await fetch("//192.168.123.70:3001/APIs/js2NLexplain",
           {
             method: "POST",
             headers: {
@@ -155,7 +155,7 @@
           //console.log('historyMsg', this.historyMsg);
           //const stringhistory = JSON.stringify(this.historyMsg);
           //console.log('stringhistory', stringhistory);
-          const response = await fetch("http://localhost:3333/conversation", {
+          const response = await fetch("http://192.168.123.70:3333/conversation", {
             method: "POST",
             // mode: 'cors',
             headers: {
