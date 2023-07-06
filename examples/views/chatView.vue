@@ -42,7 +42,7 @@
 
         if(this.currentJSCode.length === 0) {
           this.currentJSCode = await this.NL2JS(sendContent);
-          //console.log('currentJSCode', this.currentJSCode);
+          console.log('currentJSCode', this.currentJSCode);
 
           // 取回生成的hs代码后，进一步生成解释
           const explainContent = await this.JS2NL(this.currentJSCode);
@@ -54,20 +54,21 @@
           serverMsg.content = explainContent;
 
         } else {
-            //const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
+          const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
 
+          const explainContent = await this.ExplainModifiedJS(this.currentJSCode, modifiedJSCode);
+
+          //将最后的sytem message改成该解释内容
+          // 获得 messages 中最后一条role为system的message
+          const serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = explainContent;          
+
+          
             
         }
   
 
-  
 
-        // this.historyMsg.push({
-        //   role: 'user',
-        //   content: sendContent
-        // });
-        //this.fetchReply(this.userInput);
-        // this.fetchConversationReply();
         this.userInput = "";
   
   
@@ -79,7 +80,7 @@
       },
 
       async NL2JS(userInput) {
-        const res = await fetch("http://localhost:3001/APIs/nl2js",
+        const res = await fetch("http://192.168.123.70:3001/APIs/nl2js",
           {
             method: "POST",
             headers: {
@@ -93,18 +94,18 @@
         // const data = await res.json();
         // console.log('data', data);
 
-        await res.text().then((data) => {
+        const result = await res.text().then((data) => {
           console.log('data', data);
 
           return data;
         });
 
-        
-                  
+        return result;
+              
       },
 
       async NL2JSwithContext(userInput,currentJSCode) {
-        const res = await fetch("http://localhost:3001/APIs/js2NLexplain" ,
+        const res = await fetch("http://192.168.123.70:3001/APIs/js2NLexplain" ,
           {
             method: "POST",
             headers: {
@@ -114,15 +115,39 @@
           }
         );
 
-        const data = await res.json();
-        console.log('data', data);
+        const result = await res.text().then((data) => {
+          console.log('data', data);
 
-        return data;
+          return data;
+        });
+
+        return result;
         
       },
 
+      async ExplainModifiedJS(originCode, ModifiedCode) {
+        const res = await fetch("//192.168.123.70:3001/APIs/explainModifiedJS",
+        {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ origin: originCode, modified: ModifiedCode})
+          }
+        );
+
+        const result = await res.text().then((data) => {
+          console.log('data', data);
+
+          return data;
+        });
+
+        return result;
+
+      },
+
       async JS2NL(jscode) {
-        const res = await fetch("//localhost:3001/APIs/js2NLexplain",
+        const res = await fetch("//192.168.123.70:3001/APIs/js2NLexplain",
           {
             method: "POST",
             headers: {
@@ -133,11 +158,13 @@
         );
 
 
-        await res.text().then((data) => {
+        const result = await res.text().then((data) => {
           console.log('data', data);
 
           return data;
         });
+
+        return result;
           
       },
 
@@ -155,7 +182,7 @@
           //console.log('historyMsg', this.historyMsg);
           //const stringhistory = JSON.stringify(this.historyMsg);
           //console.log('stringhistory', stringhistory);
-          const response = await fetch("http://localhost:3333/conversation", {
+          const response = await fetch("http://192.168.123.70:3333/conversation", {
             method: "POST",
             // mode: 'cors',
             headers: {
