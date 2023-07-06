@@ -10,7 +10,7 @@
       <div class="input-container">
         <textarea ref="textarea" v-model="userInput" placeholder="请输入内容"></textarea>
         <button @click="sendMessage">发送</button>
-        <button @click="temiServiceBuild">部署</button>
+        <button @click="TemiServiceBuild">部署</button>
       </div>
     </div>
   </template>
@@ -79,6 +79,34 @@
           this.resizeTextarea({ target: this.$refs.textarea });
         }, 100);
   
+      },
+
+      async TemiServiceBuild() {
+        console.log('temiServiceBuild');
+        this.addMessage("正在部署中....", "assistant");
+
+
+        //部署代码到temi上
+        const res = await fetch("http://192.168.123.70:3001/APIs/js2temi",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text: this.currentJSCode })
+          }
+        );
+
+        const result = await res.text().then((data) => {
+          console.log('data', data);
+
+          return data;
+        });
+
+        // 获得 messages 中最后一条role为system的message
+        const serverMsg = this.messages[this.messages.length - 1];
+        serverMsg.content = result;
+
       },
 
       async NL2JS(userInput) {
