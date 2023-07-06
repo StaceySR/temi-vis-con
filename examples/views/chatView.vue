@@ -10,12 +10,14 @@
       <div class="input-container">
         <textarea ref="textarea" v-model="userInput" placeholder="请输入内容"></textarea>
         <button @click="sendMessage">发送</button>
+        <button @click="temiServiceBuild">部署</button>
       </div>
     </div>
   </template>
   
   <script>
-  import axios from "axios";
+
+  // import { getMermaidData }     from "../../packages/x6/common/mermaid2antV.js";
   
   export default {
     data() {
@@ -89,10 +91,6 @@
             body: JSON.stringify({ text: userInput })
           }
         );
-
-        // console.log('res', res.text());
-        // const data = await res.json();
-        // console.log('data', data);
 
         const result = await res.text().then((data) => {
           console.log('data', data);
@@ -177,191 +175,12 @@
   
       },
 
-      async fetchConversationReply() {
-        try {
-          //console.log('historyMsg', this.historyMsg);
-          //const stringhistory = JSON.stringify(this.historyMsg);
-          //console.log('stringhistory', stringhistory);
-          const response = await fetch("http://192.168.123.70:3333/conversation", {
-            method: "POST",
-            // mode: 'cors',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ text: this.historyMsg })
-          });
-  
-          const reader = response.body.getReader();
-          const decoder = new TextDecoder("utf-8");
-          let serverResponse = "";
-  
-  
-          // 在处理前显示正在生成中的信息
-          //this.addMessage("正在生成中....", "assistant");
-          //let serverResponseProcessed = "";
-  
-          const processStream = async ({ done, value }) => {
-            if (done) {
-              //const serverMsg = this.messages[this.messages.length - 1];
-              //serverMsg.content = "生成完成";
-              this.processResultfromGPT();
-              return;
-            }
-  
-            const chunk = decoder.decode(value, { stream: true });
-            serverResponse += chunk;
-            const lines = serverResponse.split("\n");
-  
-            while (lines.length > 1) {
-              const line = lines.shift();
-              if (line.startsWith("data: ")) {
-                const jsonString = line.substring(6);
-                if (jsonString.trim() !== "[DONE]") {
-                  const data = JSON.parse(jsonString);
-                  const delta = data.choices[0].delta;
-                  if (delta && delta.content) {
-                    //serverResponseProcessed += delta.content;
-  
-                    const lastMsg = this.historyMsg[this.historyMsg.length - 1];
-                    console.log('lastMsg', lastMsg.role);
-                    if (lastMsg.role === "assistant") {
-                      lastMsg.content += delta.content;
-                    } else {
-                      this.historyMsg.push({
-                        role: 'assistant',
-                        content: delta.content
-                      });
-                    }
-                    
-                  }
-                }
-              }
-            }
-  
-            serverResponse = lines[0];
-            return reader.read().then(processStream);
-          };
-  
-          reader.read().then(processStream);
-        } catch (error) {
-          console.error("Error fetching reply:", error);
-          this.addMessage("Error fetching reply", "server");
-        }      
-      },
-      async processResultfromGPT() {
-        //通过post向“http://127.0.0.1:1880/flows”发起请求，将生成的文本传递给node-red。headers中的“Content-Type”为“application/json”，“Node-RED-Deployment-Type”为“full”。body是messages中的最后一条消息的content。
-  
-        if(this.currentMsg.length === 0) {
-          this.currentMsg = this.historyMsg[this.historyMsg.length - 1].content;
-          console.log('rawdata', this.currentMsg);
-        } else {
-          this.currentMsg += this.historyMsg[this.historyMsg.length - 1].content;
-          console.log('rawdata', this.currentMsg);
-        }
-  
-        // 对当前msg进行处理，将内容提取出来，如果提取不出来的话，表示内容不完整，再次请求服务器
-  
-        try {
-          const donedataMatch = this.currentMsg.match(/<done>([\s\S]*?)<\/done>/);
-          if (donedataMatch) {
-            console.log('已经输出完成内容，rawdata', this.currentMsg);
-            // 表示内容完整，进行下一步处理
-            //const donedata = donedataMatch[1];
-  
-            // 处理flow中的内容
-            const flowdata = this.currentMsg.match(/<flow>([\s\S]*?)<\/flow>/)[1];
-            console.log('flowdata', flowdata);
-  
-            // 处理<describ>中的内容，并在UI上进行反馈
-            const describdata = this.currentMsg.match(/<describ>([\s\S]*?)<\/describ>/)[1];
-            console.log('describdata', describdata);
-            const serverMsg = this.messages[this.messages.length - 1];
-            serverMsg.content = "生成完成，我将按照一下内容进行部署：\n" + describdata;
-  
-            // 将生成的内容发送给node-red
-            const headers = {
-              "Content-Type": "application/json",
-              "Node-RED-Deployment-Type": "full"
-            };
-            const response = await axios.post('http://127.0.0.1:1880/flows', flowdata, { headers: headers });
-  
-            // 处理响应
-            console.log(response);
-            this.refreshTargetPage();
-  
-            // 清空当前msg
-            this.currentMsg = "";
-  
-          }else{
-            // 内容不完整，再次请求服务器
-            //this.fetchConversationReply();
-            console.log('内容不完整，再次请求服务器');
-  
-            const gotoPrompt = "go on";
-  
-            //this.addMessage(gotoPrompt, "user");
-            this.historyMsg.push({
-              role: 'user',
-              content: gotoPrompt
-            });
-            //this.fetchReply(this.userInput);
-            this.fetchConversationReply();
-          }
-  
-        }catch (error) {
-          console.error("Error fetching reply:", error);
-          this.addMessage("Error fetching reply", "server");
-        }
-  
-        
-    
-  
-  
-      },
       resizeTextarea(event) {
         event.target.style.height = "auto";
         event.target.style.height = event.target.scrollHeight + "px";
       } , 
   
-      // set system message from  prompt.txt assets file
-      // async setSystemMsg() {
-      //   const fileUrl = 'assets/prompts.txt';
-      //   fetch(fileUrl)
-      //     .then(response => response.text())
-      //     .then(text => {
-      //       this.systemMsg = text;
-      //       console.log('systemMsg', this.systemMsg);
 
-      //       this.historyMsg.push({
-      //         role: 'system',
-      //         content : this.systemMsg
-      //       });
-      //     }
-      //   )
-      //   .catch(error => {
-      //     console.error('读取文件失败:', error);
-      //   });
-      // },
-      
-      // refreshTargetPage() {
-      //   window.postMessage(
-      //     {
-      //       type: 'MY_CUSTOM_EVENT',
-      //       data: {
-      //         message: 'refresh',
-      //       },
-  
-      //     }, '*'
-  
-  
-      //   );
-  
-  
-      //   console.log('refreshTargetPage');
-      // }
-      
-      
-  
   
     },
     mounted() {
@@ -369,6 +188,8 @@
       //this.setSystemMsg();
   
       this.addMessage("你好，我是你的助手，我将帮助你进行机器人的功能定制，请你开始进行创作吧！", "assistant");
+  
+      // getMermaidData();
     }
   };
   </script>
@@ -462,5 +283,6 @@
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
+    margin: 5px;
   }
   </style>
