@@ -54,20 +54,21 @@
           serverMsg.content = explainContent;
 
         } else {
-            //const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
+          const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
 
+          const explainContent = await this.ExplainModifiedJS(this.currentJSCode, modifiedJSCode);
+
+          //将最后的sytem message改成该解释内容
+          // 获得 messages 中最后一条role为system的message
+          const serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = explainContent;          
+
+          
             
         }
   
 
-  
 
-        // this.historyMsg.push({
-        //   role: 'user',
-        //   content: sendContent
-        // });
-        //this.fetchReply(this.userInput);
-        // this.fetchConversationReply();
         this.userInput = "";
   
   
@@ -122,6 +123,27 @@
 
         return result;
         
+      },
+
+      async ExplainModifiedJS(originCode, ModifiedCode) {
+        const res = await fetch("//192.168.123.70:3001/APIs/explainModifiedJS",
+        {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ origin: originCode, modified: ModifiedCode})
+          }
+        );
+
+        const result = await res.text().then((data) => {
+          console.log('data', data);
+
+          return data;
+        });
+
+        return result;
+
       },
 
       async JS2NL(jscode) {
