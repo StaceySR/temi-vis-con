@@ -197,6 +197,7 @@ export default defineComponent({
         //当用户点击“autoLayout”button之后，将整个流程图进行自动布局。
         // const { nodes, edges } = list[data.currentIndex];
         const { nodes, edges } = graphFunc.getAtoms();
+        console.log("auto-nodes: ", nodes);
         graphFunc.autoLayout(nodes, edges);
       },
 
@@ -233,9 +234,8 @@ export default defineComponent({
 
       EventBus.$on('callGetData', (payload) => {
         methods.getData(payload);
-        methods.handleAutoLayout();
+        methods.handleSwitchDefault();
       });
-
     });
 
     return {

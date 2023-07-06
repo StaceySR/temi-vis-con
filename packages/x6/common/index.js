@@ -241,6 +241,7 @@ function getBaseEdges() {
  * 获取所有已存在的node节点和edge边
  */
 export function getAtoms(options) {
+    console.log("getAtoms: options: ", options);
     let atoms
     // 如果是空，则获取所有
     switch (options) {
