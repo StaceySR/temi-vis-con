@@ -18,6 +18,8 @@
   <script>
 
   // import { getMermaidData }     from "../../packages/x6/common/mermaid2antV.js";
+  import { EventBus } from "./eventBus.js";
+
   
   export default {
     data() {
@@ -60,6 +62,7 @@
 
           const explainContent = await this.ExplainModifiedJS(this.currentJSCode, modifiedJSCode);
 
+
           //将最后的sytem message改成该解释内容
           // 获得 messages 中最后一条role为system的message
           const serverMsg = this.messages[this.messages.length - 1];
@@ -68,7 +71,10 @@
           
             
         }
-  
+
+        // 生成代码后开始处理flow部分
+        const mermaidCode = await this.js2flow(this.currentJSCode);
+        EventBus.$emit('callGetData', mermaidCode);
 
 
         this.userInput = "";
@@ -192,6 +198,28 @@
 
         return result;
           
+      },
+
+      async js2flow() {
+        const res = await fetch("//192.168.123.70:3001/APIs/js2flow",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text: this.currentJSCode})
+          }
+        );
+
+
+        const result = await res.text().then((data) => {
+          console.log('data', data);
+
+          return data;
+        });
+
+        return result;
+                  
       },
 
       addMessage(content, role) {

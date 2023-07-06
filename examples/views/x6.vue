@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { EventBus} from "./eventBus.js";
 import * as mockData from "./data";
 import { graphFunc } from "../../packages";
 import {
@@ -222,11 +223,19 @@ export default defineComponent({
       }
     };
 
+    
+
     onMounted(() => {
       methods.getData();
       methods.handleSwitchDefault();
       methods.listener();
       methods.handleAutoLayout();
+
+      EventBus.$on('callGetData', (payload) => {
+        methods.getData(payload);
+        methods.handleAutoLayout();
+      });
+
     });
 
     return {
