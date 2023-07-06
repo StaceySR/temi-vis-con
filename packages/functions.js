@@ -23,6 +23,9 @@ export const clean = () => graphClean();
 /**自动布局 */
 export const autoLayout = (nodes, edges) => graphAutoLayout(nodes, edges);
 
+/**get mermaid data from back-end */
+export const getListData = (data)=> getData(data);
+
 /**
  * 修改Node节点
  * @param {IUpdateOptions} options
@@ -82,6 +85,3 @@ export class GraphListener {
     }
 
 }
-
-/**get mermaid data from back-end */
-export const getListData = ()=> getData();

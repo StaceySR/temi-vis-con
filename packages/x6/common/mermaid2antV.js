@@ -116,55 +116,51 @@ function parseMermaidCode(mermaidCode) {
 
     // 判断这个node是不是最后一个，如果是的话，也应该是TRIGGER 
     nodes[nodes.length - 1]["data"]["actionType"] = "TRIGGER";
-
     return { nodes, edges };
 }
 
-export function getMermaidData(){
+
+export function getMermaidData(data){
     //todo 预留接受后端mermaid数据接口
-    // const data = await axios.get('api')
-    
-
-
-    
-    const sourcedata = `graph TB
-                                        r_01(["userRequest:羽毛球赛"])
-                                        h_01["info:定义成员列表"]
-                                        h_02["info:定义用于保存成员报名信息的reply对象，初始化为空"]
-                                        r_01 --> h_01
-                                        h_01 --> h_02
-                                        f_01{{"forLoop:从members列表中取出当前的成员对象"}}
-                                        h_02 --> f_01
-                                        g_01["goto:前往当前成员座位"]
-                                        f_01 --"处理当前member信息"--> g_01
-                                        d_01["detectHuman"]
-                                        g_01 --> d_01
-                                        c_01{"condition: 是否在座位上"}
-                                        d_01 --> c_01
-                                        a_01["ask:询问当前成员本周六下午是否有空参加羽毛球赛"]
-                                        c_01 --true--> a_01
-                                        h_03["info:记录当前成员的参加情况"]
-                                        a_01 --> h_03
-                                        h_03 --> f_01
-                                        h_04["info:记录当前成员的参加情况"]
-                                        c_01 --false--> h_04
-                                        h_04 --> f_01
-                                        f_01 --"完成遍历循环"--> j_01
-                                        j_01{{"loopEnd:退出循环"}}
-                                        g_02["goto:前往客厅"]
-                                        j_01 --> g_02
-                                        s_01["speak:告知羽毛球赛的参与情况"]
-                                        g_02 --> s_01
-                                        f_02{{"forLoop:分别读出每个成员的报名情况"}}
-                                        s_01 --> f_02
-                                        s_02["speak:报告当前成员的报名情况"]
-                                        f_02 --"处理当前成员的报名情况"--> s_02
-                                        s_02 --> f_02
-                                        f_02 --"完成遍历循环"--> j_02
-                                        j_02{{"loopEnd:退出循环"}}
-                                        k_01(["end:任务结束"])
-                                        j_02 --> k_01
-                                        `
-    const data = parseMermaidCode(sourcedata);
-    return data;
+    // const data = await axios.get('api')    
+    // const sourcedata = `graph TB
+    //                                     r_01(["userRequest:羽毛球赛"])
+    //                                     h_01["info:定义成员列表"]
+    //                                     h_02["info:定义用于保存成员报名信息的reply对象，初始化为空"]
+    //                                     r_01 --> h_01
+    //                                     h_01 --> h_02
+    //                                     f_01{{"forLoop:从members列表中取出当前的成员对象"}}
+    //                                     h_02 --> f_01
+    //                                     g_01["goto:前往当前成员座位"]
+    //                                     f_01 --"处理当前member信息"--> g_01
+    //                                     d_01["detectHuman"]
+    //                                     g_01 --> d_01
+    //                                     c_01{"condition: 是否在座位上"}
+    //                                     d_01 --> c_01
+    //                                     a_01["ask:询问当前成员本周六下午是否有空参加羽毛球赛"]
+    //                                     c_01 --true--> a_01
+    //                                     h_03["info:记录当前成员的参加情况"]
+    //                                     a_01 --> h_03
+    //                                     h_03 --> f_01
+    //                                     h_04["info:记录当前成员的参加情况"]
+    //                                     c_01 --false--> h_04
+    //                                     h_04 --> f_01
+    //                                     f_01 --"完成遍历循环"--> j_01
+    //                                     j_01{{"loopEnd:退出循环"}}
+    //                                     g_02["goto:前往客厅"]
+    //                                     j_01 --> g_02
+    //                                     s_01["speak:告知羽毛球赛的参与情况"]
+    //                                     g_02 --> s_01
+    //                                     f_02{{"forLoop:分别读出每个成员的报名情况"}}
+    //                                     s_01 --> f_02
+    //                                     s_02["speak:报告当前成员的报名情况"]
+    //                                     f_02 --"处理当前成员的报名情况"--> s_02
+    //                                     s_02 --> f_02
+    //                                     f_02 --"完成遍历循环"--> j_02
+    //                                     j_02{{"loopEnd:退出循环"}}
+    //                                     k_01(["end:任务结束"])
+    //                                     j_02 --> k_01
+    //                                     `
+    const antVdata = parseMermaidCode(data);
+    return antVdata;
 }

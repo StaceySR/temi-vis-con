@@ -257,6 +257,6 @@ export function getAtoms(options) {
     return atoms
 }
 
-export function getData(){
-    return getMermaidData();
+export function getData(data){
+    return getMermaidData(data);
 }

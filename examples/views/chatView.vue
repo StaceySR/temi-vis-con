@@ -39,7 +39,6 @@
         this.addMessage(this.userInput, "user");
         this.addMessage("正在生成中....", "assistant");
 
-
         if(this.currentJSCode.length === 0) {
           this.currentJSCode = await this.NL2JS(sendContent);
           console.log('currentJSCode', this.currentJSCode);
@@ -48,11 +47,12 @@
           const explainContent = await this.JS2NL(this.currentJSCode);
           console.log('explainContent', explainContent);
 
-          //将最后的sytem message改成该解释内容
+          //这里生成mermaid代码 mermaidCode，将其调用
+
+          // 将最后的sytem message改成该解释内容
           // 获得 messages 中最后一条role为system的message
           const serverMsg = this.messages[this.messages.length - 1];
           serverMsg.content = explainContent;
-
         } else {
           const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
 
