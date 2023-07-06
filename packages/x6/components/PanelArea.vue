@@ -19,4 +19,5 @@ $minimap_border_color: #31d0c6;
     border: 2px solid $minimap_border_color;
   }
 }
+
 </style>

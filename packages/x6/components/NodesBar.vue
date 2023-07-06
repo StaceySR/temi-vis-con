@@ -178,7 +178,7 @@ li {
 
       // 静态vue节点
       .static-vue-node {
-        transition: all 0.08s;
+        transition: all 0.03s;
         &:hover {
           transform: scale(1.1) !important;
           color: #333;

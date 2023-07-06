@@ -120,6 +120,8 @@ export default defineComponent({
   }
   .panel-area-container {
     position: absolute;
+    // width: 80px;
+    // height: 80px;
     bottom: 0;
     right: 0;
   }
@@ -164,7 +166,7 @@ export default defineComponent({
 
 // 连接点交互
 circle[data-class="choice-point"]:hover {
-  transition: all 0.05s;
-  r: 9;
+  transition: all 0.01s;
+  r: 20;
 }
 </style>
