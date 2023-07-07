@@ -14,7 +14,6 @@ module.exports = {
       filename: "index.html",
     },
   },
-  configureWebpack: {},
   devServer: { // 环境配置
     host: '0.0.0.0',
     // host: '192.168.123.109',
