@@ -63,9 +63,9 @@ export function initGraph() {
             magnetAvailable: {
                 name: "stroke",
                 args: {
-                    padding: 4,
+                    padding: 1,
                     attrs: {
-                        "stroke-width": 4,
+                        "stroke-width": 2,
                         stroke: "skyblue",
                     },
                 },
@@ -91,9 +91,9 @@ export function initGraph() {
         minimap: {
             enabled: true,
             // width: 250,
-            // height: 250,
+            height: 150,
             container: document.getElementById("minimap"),
-            padding: 40,
+            padding: 10,
         },
         // 定制节点和边的交互行为
         // https://x6.antv.vision/zh/docs/tutorial/basic/interacting/#%E5%AE%9A%E5%88%B6%E4%BA%A4%E4%BA%92%E8%A1%8C%E4%B8%BA

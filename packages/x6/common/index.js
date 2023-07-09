@@ -5,6 +5,7 @@ import { fromJSON, toJSON } from "./transform";
 import { Channel } from "./transmit";
 import { freezeGraph, unfreezeGraph } from "./trigger";
 import { getMermaidData } from "./mermaid2antV";
+import { letAntVToMermaid } from "./antV2mermaid";
 import { useGraph } from "../store";
 import { DagreLayout } from '@antv/layout'
 
@@ -112,12 +113,12 @@ export function updateNode(data) {
         const { label, ...otherParams } = data
         // 设置label
         if (label) {
-            const cutLabel = fmtLabelOverflow(label)
+            // const cutLabel = fmtLabelOverflow(label)
             cell.setData({
                 tooltip: label,
                 initialization: false
             })
-            cell.setAttrs({ label: { text: cutLabel } })
+            cell.setAttrs({ label: { text: label } })
         }
         for (const key in otherParams) {
             if (Object.hasOwnProperty.call(otherParams, key)) {
@@ -260,4 +261,8 @@ export function getAtoms(options) {
 
 export function getData(data){
     return getMermaidData(data);
+}
+
+export function changeAntVToMermaid(nodes, edges){
+    return letAntVToMermaid(nodes, edges);
 }

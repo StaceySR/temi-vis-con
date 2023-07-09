@@ -30,7 +30,8 @@
         systemMsg: "",
         historyMsg: [],
         currentMsg: "",
-        currentJSCode:""
+        currentJSCode:"",
+        newMermaidData: "",
       };
     },
     methods: {
@@ -67,14 +68,13 @@
           // 获得 messages 中最后一条role为system的message
           const serverMsg = this.messages[this.messages.length - 1];
           serverMsg.content = explainContent;          
-
-          
-            
         }
 
         // 生成代码后开始处理flow部分
         const mermaidCode = await this.js2flow(this.currentJSCode);
         EventBus.$emit('callGetData', mermaidCode);
+
+
 
 
         this.userInput = "";
@@ -230,22 +230,35 @@
         });
   
       },
-
       resizeTextarea(event) {
         event.target.style.height = "auto";
         event.target.style.height = event.target.scrollHeight + "px";
       } , 
-  
 
-  
+      //根据前端用户修改，返回的new mermaid code，修改后端的驱动机器人的js code
+      changeRobotJsCode(){
+        console.log("newMermaidData: ", this.newMermaidData);
+        //
+
+        //方法体（补充）
+
+        //
+      }  
     },
     mounted() {
       this.$refs.textarea.addEventListener("input", this.resizeTextarea);
       //this.setSystemMsg();
   
       this.addMessage("你好，我是你的助手，我将帮助你进行机器人的功能定制，请你开始进行创作吧！", "assistant");
-  
+
+      EventBus.$on("send-new-mermaid-data", newMermaidCode => {
+        this.newMermaidData = newMermaidCode;
+        this.changeRobotJsCode();
+      });
       // getMermaidData();
+    },
+    beforeDestroy() {
+      EventBus.$off("send-new-mermaid-data");
     }
   };
   </script>

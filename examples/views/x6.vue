@@ -49,11 +49,18 @@
         >Exception</el-button
       >
       <el-button
-        size="big"
+        size="mini"
         :disabled="disabled"
         type="danger"
         @click="handleAutoLayout"
         >autoLayout</el-button
+      >
+      <el-button
+        size="big"
+        :disabled="disabled"
+        type="danger"
+        @click="handleConfirmChanges"
+        >confirm the changes</el-button
       >
       
       <div>
@@ -190,15 +197,41 @@ export default defineComponent({
       handleUpdateLabel() {  //[ChangeTheData]
         graphFunc.updateNode(data.form);
         data.form.label = "";
-        data.isUpdate = false;
+        // data.isUpdate = false;
+        data.isUpdate = true;
+        const { nodes, edges } = graphFunc.getAtoms();
+        // console.log("auto-nodes: ", nodes);
+        graphFunc.autoLayout(nodes, edges);
       },
       handleAutoLayout() {  //[AutoLayout]
         console.log("auto Layout！");
         //当用户点击“autoLayout”button之后，将整个流程图进行自动布局。
         // const { nodes, edges } = list[data.currentIndex];
         const { nodes, edges } = graphFunc.getAtoms();
-        console.log("auto-nodes: ", nodes);
+        // console.log("auto-nodes: ", nodes);
         graphFunc.autoLayout(nodes, edges);
+      },
+
+      handleConfirmChanges() {  //[confirm the changes]
+        const { ok, errs } = graphFunc.graphValidate();
+        if (ok && data.isUpdate==true) {
+          const { nodesJSON, edgesJSON } = graphFunc.exportData();
+          const newMermaidCode = graphFunc.confirmChanges(nodesJSON, edgesJSON);
+          EventBus.$emit("send-new-mermaid-data", newMermaidCode);
+          // console.log(mermaidCode);
+
+          Message.success("Export succeeded. Please view it on the console");
+        } else {
+          console.log("[debug]errs:", errs);
+          // Message.error(errs[0]);
+        }
+      },
+
+      getData(data=mermaidCode){
+        // console.log("流程图的mermaid code: ", data);
+        const {nodes,edges} = graphFunc.getListData(data);
+        list = [{nodes,edges}];
+        console.log("list:",list);
       },
 
       listener() {
@@ -215,17 +248,9 @@ export default defineComponent({
           );
         });
       },
-
-      getData(data=mermaidCode){
-        console.log("流程图的mermaid code: ", data);
-        const {nodes,edges} = graphFunc.getListData(data);
-        list = [{nodes,edges}];
-        console.log("list:",list);
-      }
     };
 
     
-
     onMounted(() => {
       methods.getData();
       methods.handleSwitchDefault();

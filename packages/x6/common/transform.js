@@ -114,16 +114,19 @@ export function getEllipseNode(node) {
     let { label, x, y, id, actionType, data } = getBaseConfig(node)
 
     // console.log("getNode: label: ", label);
+    const width = 10 * label.length;
+    const height = 50;
 
     // 主题色
     const targetTheme = getActionTypeTheme(actionType)
     return {
         id,
-        shape: "circle", // 指定使用何种图形，默认值为 'rect'
-        width: 50,
-        height: 50,
-        x: x - 25,
-        y: y - 25,
+        // shape: "circle", // 指定使用何种图形，默认值为 'rect'
+        shape: "rect",
+        width: width,
+        height: height,
+        x: x - width/2,
+        y: y - height/2,
         zIndex: 100,
         data,
         attrs: {
@@ -152,7 +155,7 @@ export function getEllipseNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 6,
+                            // r: 6,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -166,7 +169,7 @@ export function getEllipseNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 6,
+                            // r: 6,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -248,7 +251,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 6,
+                            // r: 6,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -264,23 +267,26 @@ export function getRectNode(node) {
 /**
  * 获取菱形node节点
  */
-export function getDiamondNode(node) {
+ export function getDiamondNode(node) {
+    // const { type, label, x, y, width, height, id, actionType, data } = getBaseConfig(node)
     const { type, label, x, y, id, actionType, data } = getBaseConfig(node)
-    // console.log("baseConfig: ", { type, label, x, y, id, actionType, data });
     // 主题色
     const targetTheme = getActionTypeTheme(actionType)
+    const width = 11.5 * label.length;
+    const height = 50;
     return {
         id,
         shape: type, // 指定使用何种图形，默认值为 'rect'
-        width: 50,
-        height: 50,
-        x: x - 25,
-        y: y - 25,
+        width,
+        height,
+        x: x - width / 2,
+        y: y - height / 2,
+        // x, y,
         zIndex: 100,
         markup: [
             {
                 tagName: 'rect',
-                selector: 'body'
+                selector: 'body',
             },
             {
                 tagName: 'text',
@@ -296,21 +302,20 @@ export function getDiamondNode(node) {
                 fontSize: 12,
             },
             body: {
-                transform: "rotate(-45,25,25)",
                 stroke: targetTheme.border,
                 strokeWidth: 1.5,
                 fill: targetTheme.background,
-                rx: 5, // 属性用于定义水平轴向的圆角半径尺寸。
-                ry: 5,
             }
         },
         ports: {
             items: [
-                { group: 'in', id: 'p_top' },
-                { group: 'out', id: 'p_bottom' },
+                { group: 'port-top', id: 'p_top' },
+                { group: 'port-bottom', id: 'p_bottom' },
             ],
             groups: {
-                in: {
+                "port-top": {
+                    position: 'top',
+                    zIndex: 20,
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
@@ -318,14 +323,13 @@ export function getDiamondNode(node) {
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
-                            fill: '#fff',
-                            // 上平移
-                            transform: 'translate(0, -7)'
+                            fill: '#fff'
                         }
-                    },
-                    position: 'top'
+                    }
                 },
-                out: {
+                "port-bottom": {
+                    position: 'bottom',
+                    zIndex: 20,
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
@@ -333,17 +337,95 @@ export function getDiamondNode(node) {
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
-                            fill: '#fff',
-                            // 下平移
-                            transform: 'translate(0, 7)'
+                            fill: '#fff'
                         }
-                    },
-                    position: 'bottom'
+                    }
                 }
             }
         },
     }
 }
+
+// export function getDiamondNode(node) {
+//     const { type, label, x, y, id, actionType, data } = getBaseConfig(node)
+//     // console.log("baseConfig: ", { type, label, x, y, id, actionType, data });
+//     // 主题色
+//     const targetTheme = getActionTypeTheme(actionType)
+//     return {
+//         id,
+//         shape: type, // 指定使用何种图形，默认值为 'rect'
+//         width: 50,
+//         height: 50,
+//         x: x - 25,
+//         y: y - 25,
+//         zIndex: 100,
+//         markup: [
+//             {
+//                 tagName: 'rect',
+//                 selector: 'body'
+//             },
+//             {
+//                 tagName: 'text',
+//                 selector: 'label',
+//             }
+//         ],
+//         data,
+//         attrs: {
+//             label: {
+//                 text: label,
+//                 fill: "#7D7671",
+//                 strokeWidth: 0.4,
+//                 fontSize: 12,
+//             },
+//             body: {
+//                 transform: "rotate(-45,25,25)",
+//                 stroke: targetTheme.border,
+//                 strokeWidth: 1.5,
+//                 fill: targetTheme.background,
+//                 rx: 5, // 属性用于定义水平轴向的圆角半径尺寸。
+//                 ry: 5,
+//             }
+//         },
+//         ports: {
+//             items: [
+//                 { group: 'in', id: 'p_top' },
+//                 { group: 'out', id: 'p_bottom' },
+//             ],
+//             groups: {
+//                 in: {
+//                     attrs: {
+//                         circle: {
+//                             dataClass: 'choice-point',
+//                             r: 6,
+//                             magnet: true,
+//                             stroke: '#5b8ffa',
+//                             strokeWidth: 1,
+//                             fill: '#fff',
+//                             // 上平移
+//                             transform: 'translate(0, -7)'
+//                         }
+//                     },
+//                     position: 'top'
+//                 },
+//                 out: {
+//                     attrs: {
+//                         circle: {
+//                             dataClass: 'choice-point',
+//                             r: 6,
+//                             magnet: true,
+//                             stroke: '#5b8ffa',
+//                             strokeWidth: 1,
+//                             fill: '#fff',
+//                             // 下平移
+//                             transform: 'translate(0, 7)'
+//                         }
+//                     },
+//                     position: 'bottom'
+//                 }
+//             }
+//         },
+//     }
+// }
 
 /**
  * 获取FOR循环节点
@@ -355,8 +437,8 @@ export function getForNode(node) {
     let { type, label, x, y, id, actionType, data } = getBaseConfig(node)
     // console.log("baseConfig: ", { type, label, x, y, id, actionType, data });
     // 主题色
-    type = "ellipse";
-    const width = 14 * label.length;
+    // type = "ellipse";
+    const width = 12 * label.length;
     const height = 50;
     const targetTheme = getActionTypeTheme(actionType)
     return {
@@ -374,7 +456,7 @@ export function getForNode(node) {
                 text: label,
                 fill: "#7D7671",
                 strokeWidth: 0.4,
-                fontSize: 15,
+                fontSize: 12,
             },
             //node的形状体
             body: {
