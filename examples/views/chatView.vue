@@ -49,20 +49,24 @@
           console.log('currentJSCode', this.currentJSCode);
 
           // 取回生成的hs代码后，进一步生成解释
-          const explainContent = await this.JS2NL(this.currentJSCode);
-          console.log('explainContent', explainContent);
+          // const explainContent = await this.JS2NL(this.currentJSCode);
+          // console.log('explainContent', explainContent);
 
-          //这里生成mermaid代码 mermaidCode，将其调用
+          this.JS2NL(this.currentJSCode).then((data) => {
+            console.log('data', data);
+            const serverMsg = this.messages[this.messages.length - 1];
+            serverMsg.content = data;
+          });
+
 
           // 将最后的sytem message改成该解释内容
           // 获得 messages 中最后一条role为system的message
-          const serverMsg = this.messages[this.messages.length - 1];
-          serverMsg.content = explainContent;
+          // const serverMsg = this.messages[this.messages.length - 1];
+          // serverMsg.content = explainContent;
         } else {
           const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
 
           const explainContent = await this.ExplainModifiedJS(this.currentJSCode, modifiedJSCode);
-
 
           //将最后的sytem message改成该解释内容
           // 获得 messages 中最后一条role为system的message
