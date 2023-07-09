@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <div class="title-container">
-      <el-link
+      <!-- <el-link
         type="primary"
         href="https://github.com/g0ngjie/antv-x6-vue2"
         :underline="false"
         target="_blank"
         >antv-x6-vue2</el-link
-      >
+      > -->
     </div>
     <div class="graph-container">
       <antv-x6-vue2 ref="graphContainer" @node-click="handleNodeClick">
