@@ -7,7 +7,7 @@ import { freezeGraph, unfreezeGraph } from "./trigger";
 import { getMermaidData } from "./mermaid2antV";
 import { letAntVToMermaid } from "./antV2mermaid";
 import { useGraph } from "../store";
-import { DagreLayout } from '@antv/layout'
+import { DagreLayout } from '@antv/layout';
 
 /**json格式化 */
 export function fmtJSON(target) {
@@ -74,19 +74,22 @@ export function graphAutoLayout(nodes, edges) {
         nodes: nodes,
         edges: edges,
       }
+    console.log("dagre-data: ", data)
     const dagreLayout = new DagreLayout({
         type: 'dagre',
         rankdir: 'TB',
-        align: undefined ,
-        edgeLabelSpace: true,
+        // align: undefined ,
+        align: 'DL',
+        // edgeLabelSpace: true,
         // radial:true,
         ranksep: 30,
-        nodesep: 65,
-        controlPoints: false,
+        nodesep: 70,
+        // controlPoints: true,
       })
     const model = dagreLayout.layout(data)
+    console.log("dagre-model-data: ", model)
     fromJSON(graph.value, model.nodes, model.edges)
-    // graph.fromJSON(model)
+    // graph.fromJSON(getNodeJSON(model.nodes), fmtJSON(model.edges))
 }
 
 /**监听单元事件双击回调 */
@@ -96,6 +99,7 @@ export function nodeDclick(cb) {
 
 /**监听单元事件单击回调 */
 export function nodeClick(cb) {
+    console.log("index.js--nodeClick");
     Channel.eventListener(CustomEventTypeEnum.NODE_CLICK, (detail) => cb(detail));
 }
 
@@ -205,7 +209,9 @@ function getBaseNodes() {
     //     }
     // })
     return nodes.map(node => {
+        // console.log("getBaseNodes: node: ", node)
         const { attrs, id, data } = node
+        // console.log("getBaseNodes: node: ", { attrs, id, data })
         return {
             attrs,
             id,

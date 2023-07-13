@@ -72,8 +72,9 @@ function parseMermaidCode(mermaidCode) {
             const node = {
                             "attrs": {"label": { "text": nodeAction+nodeLabel }},
                             "id": nodeId,
-                            "data": { "actionType": actionType }, //代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
+                            "data": { "actionType": actionType }//代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
                         };
+            // console.log("mermaid: each node: ", node);
             nodes.push(node);
         }
 
@@ -101,14 +102,25 @@ function parseMermaidCode(mermaidCode) {
             const edge = {
                             "source": {
                                 "cell": source,  //node的id
-                                "port": "p_bottom"
+                                "port": "p_bottom",
+                                anchor: { 
+                                    name: 'center', 
+                                },
                             },
                             "target": {
                                 "cell": target,
-                                "port": "p_top"
+                                "port": "p_top",
+                                anchor: { 
+                                    name: 'center', 
+                                },
                             },
                             "labels": [{ "attrs": { "label": { "text": label } } }]
                         }
+            // const edge = {
+            //     "source": source, 
+            //     "target": target,
+            //     "labels": [{ "attrs": { "label": { "text": label } } }]
+            // }
             edges.push(edge);
         }
         // console.log("edges: ", edges);
@@ -116,6 +128,7 @@ function parseMermaidCode(mermaidCode) {
 
     // 判断这个node是不是最后一个，如果是的话，也应该是TRIGGER 
     nodes[nodes.length - 1]["data"]["actionType"] = "TRIGGER";
+    // console.log("mermaid2antV: nodes+edges: ", {nodes, edges});
     return { nodes, edges };
 }
 

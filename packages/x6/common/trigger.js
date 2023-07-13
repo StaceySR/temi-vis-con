@@ -111,6 +111,16 @@ export function selectAll(graph) {
     }
 }
 
+// 取消选中
+export function selectCancel(graph) {
+    console.log("取消选中");
+    graph.cleanSelection();
+    // const cells = graph.getCells();
+    // if (cells.length) {
+    //     graph.unselect(cells);
+    // }
+}
+
 /**
  * 冻结画布
  */

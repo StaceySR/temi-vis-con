@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <div class="title-container">
-      <!-- <el-link
+    <!-- <div class="title-container">
+      <el-link
         type="primary"
         href="https://github.com/g0ngjie/antv-x6-vue2"
         :underline="false"
         target="_blank"
         >antv-x6-vue2</el-link
-      > -->
-    </div>
+      >
+    </div> -->
     <div class="graph-container">
       <antv-x6-vue2 ref="graphContainer" @node-click="handleNodeClick">
         <div slot="panel_area_slot" slot-scope="{ row }">
@@ -26,28 +26,28 @@
       <el-button size="mini" :disabled="disabled" @click="handleClean"
         >Clear</el-button
       >
-      <el-button size="mini" :disabled="disabled" @click="handleExportAtoms"
+      <!-- <el-button size="mini" :disabled="disabled" @click="handleExportAtoms"
         >GetData</el-button
-      >
-      <el-button size="mini" :disabled="disabled" @click="handleExport"
+      > -->
+      <!-- <el-button size="mini" :disabled="disabled" @click="handleExport"
         >Export</el-button
-      >
-      <el-button
+      > -->
+      <!-- <el-button
         size="mini"
         :type="disabled ? 'danger' : ''"
         @click="handleOnlyLook"
         >Readonly</el-button
-      >
-      <el-button size="mini" :disabled="disabled" @click="handleSwitchDefault"
+      > -->
+      <!-- <el-button size="mini" :disabled="disabled" @click="handleSwitchDefault"
         >SwitchData</el-button
-      >
-      <el-button
+      > -->
+      <!-- <el-button
         size="mini"
         :disabled="disabled"
         type="danger"
         @click="handleTestError"
         >Exception</el-button
-      >
+      > -->
       <el-button
         size="mini"
         :disabled="disabled"
@@ -55,15 +55,41 @@
         @click="handleAutoLayout"
         >autoLayout</el-button
       >
+
+      <el-input
+        size="mini"
+        clearable
+        :disabled="!isUpdate"
+        v-model="form.label"
+        style="width: 200px; margin: 10px 10px 0 100px"
+        @keyup.enter.native="handleUpdateLabel"
+      ></el-input>
+      <el-button size="mini" :disabled="!isUpdate" @click="handleUpdateLabel"
+        >ChangeTheData</el-button
+      >
+
       <el-button
         size="big"
-        :disabled="disabled"
+        :disabled="!isUpdate"
         type="danger"
         @click="handleConfirmChanges"
-        >confirm the changes</el-button
+        >confirm all changes</el-button
       >
+
+      <!-- <el-input
+        size="mini"
+        clearable
+        :disabled="!isUpdate"
+        v-model="form.label"
+        style="width: 300px; margin: 10px 10px 0 0"
+        @keyup.enter.native="handleUpdateLabel"
+      ></el-input>
+      <el-button size="mini" :disabled="!isUpdate" @click="handleUpdateLabel"
+        >ChangeTheData</el-button
+      > -->
+
       
-      <div>
+      <!-- <div>
         <el-input
           size="mini"
           clearable
@@ -75,7 +101,7 @@
         <el-button size="mini" :disabled="!isUpdate" @click="handleUpdateLabel"
           >ChangeTheData</el-button
         >
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -183,7 +209,7 @@ export default defineComponent({
       },
       handleSwitchDefault() {  //[SwitchData]
         const { nodes, edges } = methods.switchData();
-        // console.log("defaultData: node: ", nodes);
+        console.log("defaultData: node: ", nodes);
         // graphFunc.initDefaultData(nodes, edges);
         graphFunc.autoLayout(nodes, edges);
       },
@@ -283,9 +309,10 @@ export default defineComponent({
   }
 }
 .graph-container {
-  height: 85vh;
+  height: 100vh;
 }
 .options-container {
   padding: 0 10px;
+  // background-color: antiquewhite;
 }
 </style>

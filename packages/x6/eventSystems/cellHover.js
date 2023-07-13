@@ -1,7 +1,8 @@
-
+//隐藏链接点
 const changePortsVisible = (node, visible) => {
   const ports = document.querySelectorAll(`g[data-cell-id="${node.id}"] .x6-port-body`);
   ports.forEach((port) => {
+    // console.log("visible: ", visible);
     port.style.visibility = visible ? 'visible' : 'hidden';
   });
 };
@@ -33,7 +34,6 @@ function showTips(graph, tooltips, x, y) {
 }
 
 export default (graph) => {
-
   graph.on('node:mouseenter', ({ node }) => {
     const data = node.getData()
     if (data && data.disableMove) {
@@ -55,4 +55,6 @@ export default (graph) => {
       if (node.shape === 'html') graph.removeNode(node)
     })
   });
+
+  
 }

@@ -45,7 +45,7 @@
 
 <script>
 // 工具栏
-import { onPaste, selectAll, deleteCells } from "../../common/trigger";
+import { onPaste, selectAll, selectCancel, deleteCells } from "../../common/trigger";
 import { Channel } from "../../common/transmit";
 import { CustomEventTypeEnum, SelectStateEnum } from "../../common/enums";
 import SvgIcon from "../SvgIcon.vue";
@@ -106,6 +106,9 @@ export default defineComponent({
             break;
           case "select_all":
             selectAll(graph.value);
+            break;
+          case "select_cancel":
+            selectCancel(graph.value);
             break;
           default:
             break;
@@ -215,7 +218,7 @@ export default defineComponent({
     right: 10px;
     z-index: 999;
     @include set_w_h(300px, auto);
-    border-radius: 4px;
+    // border-radius: 4px;
     border: 1px solid #ebeef5;
     text-align: justify;
     font-size: 14px;
@@ -245,7 +248,7 @@ export default defineComponent({
       .label {
         padding: 1px 5px;
         background-color: #5f5f61;
-        border-radius: 3px;
+        // border-radius: 3px;
         color: #fff;
       }
       .value {

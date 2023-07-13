@@ -36,6 +36,7 @@ export function initGraph() {
         panning: {
             enabled: true,
             eventTypes: ["leftMouseDown", "rightMouseDown", "mouseWheel"],
+            // modifiers: 'shift', //要按下这个修饰键才能进行画布平移
         },
         // 网格
         grid: {
@@ -66,7 +67,8 @@ export function initGraph() {
                     padding: 1,
                     attrs: {
                         "stroke-width": 2,
-                        stroke: "skyblue",
+                        // stroke: "skyblue",
+                        stroke: "red"
                     },
                 },
             },
@@ -77,7 +79,9 @@ export function initGraph() {
                     padding: 4,
                     attrs: {
                         "stroke-width": 8,
-                        stroke: "skyblue",
+                        // stroke: "skyblue",
+                        stroke: "red",
+
                     },
                 },
             },
@@ -88,26 +92,33 @@ export function initGraph() {
             modifiers: ["ctrl", "meta"],
         },
         // 迷你地图
-        minimap: {
-            enabled: true,
-            // width: 250,
-            height: 150,
-            container: document.getElementById("minimap"),
-            padding: 10,
-        },
+        // minimap: {
+        //     enabled: true,
+        //     // width: 250,
+        //     height: 150,
+        //     container: document.getElementById("minimap"),
+        //     padding: 10,
+        // },
         // 定制节点和边的交互行为
         // https://x6.antv.vision/zh/docs/tutorial/basic/interacting/#%E5%AE%9A%E5%88%B6%E4%BA%A4%E4%BA%92%E8%A1%8C%E4%B8%BA
+
+        //这里控制node是否能移动
         interacting: function (cellView) {
+            // console.log("cellView: ", cellView);
             if (cellView.cell.getData()?.disableMove) {
                 return { nodeMovable: false }
             }
             return true
+            // return {nodeMovable: false}
         },
         // 配置全局的连线规则
         // https://x6.antv.vision/zh/docs/api/graph/interaction
         connecting: {
             // 自动吸附
-            snap: true,
+            // snap: true,
+            snap: {
+                radius: 50,
+              },
             // 不允许连接到画布空白位置的点
             allowBlank: false,
             // 不允许创建循环连线
@@ -118,6 +129,7 @@ export function initGraph() {
             // https://x6.antv.vision/zh/docs/tutorial/basic/interacting/#highlight
             highlight: true,
             // 当连接到节点时，通过 sourceAnchor 来指定源节点的锚点。
+            anchor: 'center',
             sourceAnchor: {
                 name: "center",
             },
@@ -127,13 +139,42 @@ export function initGraph() {
             connectionPoint: "anchor",
             // 连接器将起点、路由返回的点、终点加工为 元素的 d 属性，决定了边渲染到画布后的样式，默认值为 normal。
             connector: {
-                name: "rounded",
+                // export * from './normal';
+                // export * from './loop';
+                // export * from './rounded';
+                // export * from './smooth';
+                // export * from './jumpover';
+
+                // name: "rounded",
+                // args: {
+                //     radius: 20,
+                // },
+                name: "jumpover", // 重叠的线会有跳跃注明
                 args: {
-                    radius: 20,
-                },
+                    type: 'arc',
+                    size: 10
+                }
             },
             // 路由将边的路径点 vertices 做进一步转换处理，并在必要时添加额外的点，然后返回处理后的点，默认值为 normal。
-            router: "manhattan",
+            // export * from './normal';
+            // export * from './oneside';
+            // export * from './orth';
+            // export * from './metro';
+            // export * from './manhattan/index';
+            // export * from './er';
+            // export * from './loop';
+
+            // router: "manhattan",
+            router: {
+                name: "manhattan",
+                args: {
+                  step: 10,
+                  startDirections: ['top', 'right', 'bottom', 'left'],
+                  endDirections: ['top', 'right', 'bottom', 'left'],
+                  excludeShapes: ["rect"],
+                }
+            },
+            
             // https://x6.antv.vision/zh/docs/tutorial/basic/interacting/#validatemagnet
             // 判断是否新增边
             validateMagnet({ magnet }) {
@@ -177,6 +218,7 @@ export function initGraph() {
             },
         },
     });
+  
 
     // 注册Vue节点
     registerNode()
@@ -186,5 +228,42 @@ export function initGraph() {
     trigger(graph);
     // 缓存实例化graph引用
     useProvideGraph(graph)
+
+    // graph.on('edge:mouseenter', ({ cell }) => {
+    //     cell.addTools([
+    //       'source-arrowhead',
+    //       {
+    //         name: 'target-arrowhead',
+    //         args: {
+    //           attrs: {
+    //             fill: 'red',
+    //           },
+    //         },
+    //       },
+    //     ])
+    // })
+    
+    // graph.on('edge:mouseleave', ({ cell }) => {
+    //     cell.removeTools()
+    // })
+
+    //   // 双击进入edge label编辑模式
+    // graph.on('edge:dblclick', ({ cell, e }) => {
+    //     cell.addTools({
+    //     name: 'edge-editor',
+    //     args: {
+    //         event: e,
+    //     },
+    //     })
+    // });
+    //单击画布，取消所有选中
+    // graph.on('canvas:click', () => {
+    //     console.log("canvas click clean")
+    //     graph.cleanSelection()
+    // });
+    // graph.on('edge:contextmenu', (e) => {
+    //     console.log('Canvas clicked!', e);
+    //     // 处理画布点击事件的代码
+    // });
     return graph
 }

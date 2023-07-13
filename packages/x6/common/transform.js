@@ -14,7 +14,7 @@ export function getActionTypeTheme(type) {
         /**浅蓝色 */
         BLUE: { border: '#A4C2FF', background: '#D0DDF9' },
         /**绿色 */
-        GREEN: { border: '#A8D7CD', background: '#BFE8E2' },
+        GREEN: { border: '#939393', background: '#EBFCF9' },
         /**橘色 */
         ORANGE: { border: '#FDBE94', background: '#FBECE3' },
         /**灰色 */
@@ -42,45 +42,118 @@ export function getActionTypeTheme(type) {
  * 获取默认配置选项
  * 兼容x6/g6
  */
+// function getBaseConfig(node) {
+//     // console.log("getBaseConfig: node: ", node);
+
+//     let { type, shape, tooltip, attrs, x, y, size, id, position, data, actionType, initialization } = node
+//     // let { id, data, actionType } = node
+
+
+//     // console.log("getBaseConfig: node: data: ", data);
+//     // console.log("getBaseConfig: node: attrs: ", attrs);
+//     let _width,
+//         _height,
+//         _x = x,
+//         _y = y,
+//         _shape = shape,
+//         _tooltip = tooltip,
+//         _actionType = actionType
+//     if (data && data.actionType) {
+//         _actionType = data.actionType
+//     }
+//     if (size) {
+//         // G6
+//         if (Lang.isArray(size)) {
+//             _width = size[0]
+//             _height = size[1]
+//         }
+//         // x6
+//         else if (Lang.isObject(size)) {
+//             _width = size.width
+//             _height = size.height
+//         }
+//     }
+//     if (Lang.isObject(position)) {
+//         _x = position.x
+//         _y = position.y
+//     }
+//     // 形状转义
+//     // G6
+//     if (Lang.isString(type)) {
+//         _shape = type
+//         if (type === 'diamond') _shape = 'rect'
+//     }
+//     if (Lang.isObject(attrs)) {
+//         _tooltip = attrs.label.text
+//     }
+
+//     // const cutLabel = fmtLabelOverflow(_tooltip)
+//     const cutLabel = _tooltip;
+
+
+//     return {
+//         type: _shape,
+//         label: cutLabel,
+//         x: _x,
+//         y: _y,
+//         width: _width,
+//         height: _height,
+//         id,
+//         actionType: _actionType,
+//         data: {
+//             actionType: _actionType,
+//             initialization,
+//             tooltip: _tooltip
+//         }
+//     }
+// }
+
 function getBaseConfig(node) {
     // console.log("getBaseConfig: node: ", node);
 
-    let { type, shape, tooltip, attrs, x, y, size, id, position, data, actionType, initialization } = node
+    // let { type, shape, tooltip, attrs, x, y, size, id, position, data, actionType, initialization } = node
+    let { x, y, id, data, attrs, actionType } = node
+    var _tooltip
+    if (data){
+        actionType = data.actionType
+    }
+    // var actionType = data.actionType
+
 
     // console.log("getBaseConfig: node: data: ", data);
     // console.log("getBaseConfig: node: attrs: ", attrs);
-    let _width,
-        _height,
-        _x = x,
-        _y = y,
-        _shape = shape,
-        _tooltip = tooltip,
-        _actionType = actionType
-    if (data && data.actionType) {
-        _actionType = data.actionType
-    }
-    if (size) {
-        // G6
-        if (Lang.isArray(size)) {
-            _width = size[0]
-            _height = size[1]
-        }
-        // x6
-        else if (Lang.isObject(size)) {
-            _width = size.width
-            _height = size.height
-        }
-    }
-    if (Lang.isObject(position)) {
-        _x = position.x
-        _y = position.y
-    }
+    // let _width,
+    //     _height
+        // _x = x,
+        // _y = y,
+        // _shape = shape,
+        // _tooltip = tooltip,
+        // _actionType = actionType
+    // if (data && data.actionType) {
+    //     _actionType = data.actionType
+    // }
+    // if (size) {
+    //     // G6
+    //     if (Lang.isArray(size)) {
+    //         _width = size[0]
+    //         _height = size[1]
+    //     }
+    //     // x6
+    //     else if (Lang.isObject(size)) {
+    //         _width = size.width
+    //         _height = size.height
+    //     }
+    // }
+    // if (Lang.isObject(position)) {
+    //     _x = position.x
+    //     _y = position.y
+    // }
     // 形状转义
     // G6
-    if (Lang.isString(type)) {
-        _shape = type
-        if (type === 'diamond') _shape = 'rect'
-    }
+    // if (Lang.isString(type)) {
+    //     _shape = type
+    //     if (type === 'diamond') _shape = 'rect'
+    // }
     if (Lang.isObject(attrs)) {
         _tooltip = attrs.label.text
     }
@@ -90,17 +163,16 @@ function getBaseConfig(node) {
 
 
     return {
-        type: _shape,
+        // type: _shape,
+        x: x,
+        y: y,
         label: cutLabel,
-        x: _x,
-        y: _y,
-        width: _width,
-        height: _height,
+        // width: _width,
+        // height: _height,
         id,
-        actionType: _actionType,
         data: {
-            actionType: _actionType,
-            initialization,
+            actionType: actionType,
+            // initialization,
             tooltip: _tooltip
         }
     }
@@ -111,11 +183,13 @@ function getBaseConfig(node) {
  */
 export function getEllipseNode(node) {
     // const { type, label, x, y, width, height, id, actionType, data } = getBaseConfig(node)
-    let { label, x, y, id, actionType, data } = getBaseConfig(node)
+    // let { label, x, y, id, actionType, data } = getBaseConfig(node)
+    let { x, y, label, id, data } = getBaseConfig(node)
 
     // console.log("getNode: label: ", label);
     const width = 10 * label.length;
     const height = 50;
+    const actionType = data.actionType;
 
     // 主题色
     const targetTheme = getActionTypeTheme(actionType)
@@ -127,7 +201,9 @@ export function getEllipseNode(node) {
         height: height,
         x: x - width/2,
         y: y - height/2,
-        zIndex: 100,
+        // y,
+        // x, y,
+        // zIndex: 100,
         data,
         attrs: {
             label: {
@@ -138,7 +214,7 @@ export function getEllipseNode(node) {
             },
             body: {
                 stroke: targetTheme.border,
-                strokeWidth: 1.5,
+                strokeWidth: 1,
                 fill: targetTheme.background,
             }
         },
@@ -146,6 +222,8 @@ export function getEllipseNode(node) {
             items: [
                 { group: 'port_top', id: 'p_top' },
                 { group: 'port_bottom', id: 'p_bottom' },
+                { group: 'port_left', id: 'p_left' },
+                { group: 'port_right', id: 'p_right' },
 
             ],
             groups: {
@@ -155,7 +233,7 @@ export function getEllipseNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            // r: 6,
+                            r: 15,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -169,15 +247,48 @@ export function getEllipseNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            // r: 6,
+                            r: 15,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
                             fill: '#fff'
                         },
                     },
-                }
-            }
+                },
+                "port_left": {
+                    // position: ['top', 'bottom', 'left', 'right'],
+                    position: 'left',
+                    // zIndex: 20,
+                    attrs: {
+                        circle: {
+                            dataClass: 'choice-point',
+                            r: 15,
+                            magnet: true,
+                            stroke: '#5b8ffa',
+                            strokeWidth: 1,
+                            // fill: '#fff',
+                            // transform: 'translate(0, 0)'
+                        }
+                    }
+                },
+                "port_right": {
+                    // position: ['top', 'bottom', 'left', 'right'],
+                    position: 'right',
+                    // zIndex: 20,
+                    attrs: {
+                        circle: {
+                            dataClass: 'choice-point',
+                            r: 15,
+                            magnet: true,
+                            stroke: '#5b8ffa',
+                            strokeWidth: 1,
+                            // fill: '#fff',
+                            // transform: 'translate(0, 0)'
+                        }
+                    }
+                },
+            },
+            
         },
     }
 }
@@ -187,20 +298,23 @@ export function getEllipseNode(node) {
  */
 export function getRectNode(node) {
     // const { type, label, x, y, width, height, id, actionType, data } = getBaseConfig(node)
-    const { type, label, x, y, id, actionType, data } = getBaseConfig(node)
+    // const { type, label, x, y, id, actionType, data } = getBaseConfig(node)
+    // let { type, label, id, actionType, data } = getBaseConfig(node)
+    let { x, y, label, id, data } = getBaseConfig(node)
+
     // 主题色
-    const targetTheme = getActionTypeTheme(actionType)
+    const targetTheme = getActionTypeTheme(data.actionType)
     const width = 11.5 * label.length;
     const height = 50;
     return {
         id,
-        shape: type, // 指定使用何种图形，默认值为 'rect'
+        shape: 'rect', // 指定使用何种图形，默认值为 'rect'
         width,
         height,
         x: x - width / 2,
         y: y - height / 2,
-        // x, y,
-        zIndex: 100,
+        // y,
+        // zIndex: 100,
         markup: [
             {
                 tagName: 'rect',
@@ -229,15 +343,18 @@ export function getRectNode(node) {
             items: [
                 { group: 'port-top', id: 'p_top' },
                 { group: 'port-bottom', id: 'p_bottom' },
+                { group: 'port_left', id: 'p_left' },
+                { group: 'port_right', id: 'p_right' },
             ],
             groups: {
                 "port-top": {
                     position: 'top',
                     zIndex: 20,
+                    // args: { x: 0, y: 0 },
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 6,
+                            r: 15,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -248,17 +365,51 @@ export function getRectNode(node) {
                 "port-bottom": {
                     position: 'bottom',
                     zIndex: 20,
+                    // args: { x: 0, y: 0 },
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            // r: 6,
+                            r: 15,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
                             fill: '#fff'
                         }
                     }
-                }
+                },
+                "port_left": {
+                    // position: ['top', 'bottom', 'left', 'right'],
+                    position: 'left',
+                    zIndex: 20,
+                    attrs: {
+                        circle: {
+                            dataClass: 'choice-point',
+                            r: 15,
+                            magnet: true,
+                            stroke: '#5b8ffa',
+                            strokeWidth: 1,
+                            visibility: 'visible',
+                            // fill: '#fff',
+                            // transform: 'translate(0, 0)'
+                        }
+                    }
+                },
+                "port_right": {
+                    // position: ['top', 'bottom', 'left', 'right'],
+                    position: 'right',
+                    zIndex: 20,
+                    attrs: {
+                        circle: {
+                            dataClass: 'choice-point',
+                            r: 15,
+                            magnet: true,
+                            stroke: '#5b8ffa',
+                            strokeWidth: 1,
+                            // fill: '#fff',
+                            // transform: 'translate(0, 0)'
+                        }
+                    }
+                },
             }
         },
     }
@@ -269,20 +420,25 @@ export function getRectNode(node) {
  */
  export function getDiamondNode(node) {
     // const { type, label, x, y, width, height, id, actionType, data } = getBaseConfig(node)
-    const { type, label, x, y, id, actionType, data } = getBaseConfig(node)
+    // const { type, label, x, y, id, actionType, data } = getBaseConfig(node)
+    // let { type, label, id, actionType, data } = getBaseConfig(node)
+    let { x, y, label, id, data } = getBaseConfig(node)
+
+
     // 主题色
-    const targetTheme = getActionTypeTheme(actionType)
+    const targetTheme = getActionTypeTheme(data.actionType)
     const width = 11.5 * label.length;
     const height = 50;
     return {
         id,
-        shape: type, // 指定使用何种图形，默认值为 'rect'
+        shape: 'rect', // 指定使用何种图形，默认值为 'rect'
         width,
         height,
         x: x - width / 2,
         y: y - height / 2,
+        // y,
         // x, y,
-        zIndex: 100,
+        // zIndex: 100,
         markup: [
             {
                 tagName: 'rect',
@@ -311,6 +467,8 @@ export function getRectNode(node) {
             items: [
                 { group: 'port-top', id: 'p_top' },
                 { group: 'port-bottom', id: 'p_bottom' },
+                { group: 'port_left', id: 'p_left' },
+                { group: 'port_right', id: 'p_right' },
             ],
             groups: {
                 "port-top": {
@@ -319,7 +477,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 6,
+                            r: 15,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -333,14 +491,46 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 6,
+                            r: 15,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
                             fill: '#fff'
                         }
                     }
-                }
+                },
+                "port_left": {
+                    // position: ['top', 'bottom', 'left', 'right'],
+                    position: 'left',
+                    // zIndex: 20,
+                    attrs: {
+                        circle: {
+                            dataClass: 'choice-point',
+                            r: 15,
+                            magnet: true,
+                            stroke: '#5b8ffa',
+                            strokeWidth: 1,
+                            // fill: '#fff',
+                            // transform: 'translate(0, 0)'
+                        }
+                    }
+                },
+                "port_right": {
+                    // position: ['top', 'bottom', 'left', 'right'],
+                    position: 'right',
+                    // zIndex: 20,
+                    attrs: {
+                        circle: {
+                            dataClass: 'choice-point',
+                            r: 15,
+                            magnet: true,
+                            stroke: '#5b8ffa',
+                            strokeWidth: 1,
+                            // fill: '#fff',
+                            // transform: 'translate(0, 0)'
+                        }
+                    }
+                },
             }
         },
     }
@@ -434,21 +624,27 @@ export function getRectNode(node) {
  */
 export function getForNode(node) {
     // console.log("forNode: ", node);
-    let { type, label, x, y, id, actionType, data } = getBaseConfig(node)
+    // let { type, label, x, y, id, actionType, data } = getBaseConfig(node)
+    // let { type, label, id, actionType, data } = getBaseConfig(node)
+    let { x, y, label, id, data } = getBaseConfig(node)
+
+
     // console.log("baseConfig: ", { type, label, x, y, id, actionType, data });
     // 主题色
     // type = "ellipse";
     const width = 12 * label.length;
     const height = 50;
-    const targetTheme = getActionTypeTheme(actionType)
+    const targetTheme = getActionTypeTheme(data.actionType)
     return {
         id,
-        shape: type, // 指定使用何种图形，默认值为 'rect'
+        shape: 'rect', // 指定使用何种图形，默认值为 'rect'
         width,
         height,
         x: x - width / 2,
         y: y - height / 2,
-        zIndex: 100,
+        // y,
+        // x, y,
+        // zIndex: 100,
         data,
         attrs: {
             //node里的字
@@ -469,21 +665,24 @@ export function getForNode(node) {
             items: [
                 { group: 'port_top', id: 'p_top' },
                 { group: 'port_bottom', id: 'p_bottom' },
+                { group: 'port_left', id: 'p_left' },
+                { group: 'port_right', id: 'p_right' },
 
             ],
             groups: {
                 "port_top": {
+                    // position: ['top', 'bottom', 'left', 'right'],
                     position: 'top',
-                    zIndex: 20,
+                    // zIndex: 20,
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 6,
+                            r: 15,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
-                            fill: '#fff',
-                            transform: 'translate(0, 0)'
+                            // fill: '#fff',
+                            // transform: 'translate(0, 0)'
                         }
                     }
                 },
@@ -493,18 +692,50 @@ export function getForNode(node) {
                     //     x: 0, 
                     //     y: 0, 
                     //    },
-                    zIndex: 20,
+                    // zIndex: 20,
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            // r: 6,
+                            r: 15,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
-                            fill: '#fff'
+                            // fill: '#fff'
                         },
                     },
-                }
+                },
+                "port_left": {
+                    // position: ['top', 'bottom', 'left', 'right'],
+                    position: 'left',
+                    // zIndex: 20,
+                    attrs: {
+                        circle: {
+                            dataClass: 'choice-point',
+                            r: 15,
+                            magnet: true,
+                            stroke: '#5b8ffa',
+                            strokeWidth: 1,
+                            // fill: '#fff',
+                            // transform: 'translate(0, 0)'
+                        }
+                    }
+                },
+                "port_right": {
+                    // position: ['top', 'bottom', 'left', 'right'],
+                    position: 'right',
+                    // zIndex: 20,
+                    attrs: {
+                        circle: {
+                            dataClass: 'choice-point',
+                            r: 15,
+                            magnet: true,
+                            stroke: '#5b8ffa',
+                            strokeWidth: 1,
+                            // fill: '#fff',
+                            // transform: 'translate(0, 0)'
+                        }
+                    }
+                },
             }
         },
     }
@@ -562,7 +793,7 @@ export function getVueNode(node) {
     }
 }
 
-function getNodeJSON(nodes) {
+export function getNodeJSON(nodes) {
     const nodeList = []
     for (const node of nodes) {
         // console.log("getNodeJSON: node: ", node)
@@ -616,7 +847,9 @@ export function fromJSON(graph, nodes, edges) {
     }
     graph.fromJSON({
         nodes: getNodeJSON(nodes),
-        edges: fmtJSON(edges)
+        edges: fmtJSON(edges),
+        // nodes: nodes,
+        // edges: edges
     });
 }
 

@@ -9,8 +9,8 @@
       </div>
       <div class="input-container">
         <textarea ref="textarea" v-model="userInput" placeholder="请输入内容"></textarea>
-        <button @click="sendMessage">发送</button>
-        <button @click="TemiServiceBuild">部署</button>
+        <button class="chatButton" @click="sendMessage">发送</button>
+        <button class="chatButton" @click="TemiServiceBuild">部署</button>
       </div>
     </div>
   </template>
@@ -19,7 +19,6 @@
 
   // import { getMermaidData }     from "../../packages/x6/common/mermaid2antV.js";
   import { EventBus } from "./eventBus.js";
-
   
   export default {
     data() {
@@ -269,6 +268,7 @@
     font-family: "Avenir", Helvetica, Arial, sans-serif;
     text-align: center;
     margin-top: 60px;
+    display: block;
   }
   
   .chat-container {
@@ -320,6 +320,7 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    padding: 10px;
   }
   
   input[type="text"] {
@@ -345,12 +346,13 @@
     outline: none;
   }
   
-  button {
+  .chatButton {
     background-color: #0080ff;
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    width: 50px;
+    /* padding: 10px 20px; */
     cursor: pointer;
     margin: 5px;
   }

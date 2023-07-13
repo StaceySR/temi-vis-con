@@ -12,13 +12,13 @@
       <!-- 图形容器 -->
       <div id="container" class="graph-main-container" />
       <!-- 可操作区 -->
-      <div class="panel-area-container">
+      <!-- <div class="panel-area-container">
         <PanelArea>
           <template slot-scope="{ row }">
             <slot :name="panelAreaName" :row="row" />
           </template>
         </PanelArea>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -101,11 +101,12 @@ export default defineComponent({
   }
 }
 .layout {
-  display: flex;
+  // display: flex;
+  display: inline-block;
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
-  padding: 0 10px 10px 10px;
+  // padding: 0 10px 10px 10px;
   margin-top: 30px;
   position: relative;
 
@@ -116,6 +117,11 @@ export default defineComponent({
   }
 
   .node-bar-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 150px;
     z-index: 2;
   }
   .panel-area-container {

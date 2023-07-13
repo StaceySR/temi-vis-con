@@ -35,7 +35,12 @@ export const Tools = {
     selectAll: {
         svg: "select_all",
         title: "全选",
-    }
+    },
+    selectCancel: {
+        svg: "select_cancel",
+        title: "取消选中",
+        // can: true,
+    },
 }
 
 // 引导文案

@@ -26,23 +26,24 @@
         chatView
     }
   };
-  
-  
   </script>
   
   
   <style>
   .container {
     display: flex;
+    width: 100%;
+    height: 100%;
   }
   
   
   .Flow-Wrapper{
-    width: 70%;
+    width: 80%;
   }
   
   
   .ChatView-Wrapper{
-    width: 30%;
+    /* width: 30%; */
+    /* background-color: beige; */
   }
   </style>
