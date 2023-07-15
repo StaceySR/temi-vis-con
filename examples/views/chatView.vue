@@ -29,7 +29,8 @@
         systemMsg: "",
         historyMsg: [],
         currentMsg: "",
-        currentJSCode:"",
+          currentJSCode: "",
+          currentFlowCode: "",
         newMermaidData: "",
       };
     },
@@ -75,7 +76,8 @@
 
         // 生成代码后开始处理flow部分
         const mermaidCode = await this.js2flow(this.currentJSCode);
-        EventBus.$emit('callGetData', mermaidCode);
+        this.currentFlowCode = mermaidCode;
+        EventBus.$emit('callGetData', this.currentFlowCode);
 
 
 
@@ -239,12 +241,37 @@
       } , 
 
       //根据前端用户修改，返回的new mermaid code，修改后端的驱动机器人的js code
-      changeRobotJsCode(){
+      async changeRobotJsCode(){
         console.log("newMermaidData: ", this.newMermaidData);
         //
 
+        
         //方法体（补充）
+        const res = await fetch("//192.168.123.70:3001/APIs/flow2js",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ jscode: this.currentJSCode, oldFlow: this.currentFlowCode, newFlow: this.newMermaidData})
+          }
+        );
 
+
+        const result = await res.text().then((data) => {
+          console.log('new jscode data', data);
+          return data;
+        });
+
+        this.currentJSCode = result;
+
+        // 生成代码后开始处理flow部分
+        const mermaidCode = await this.js2flow(this.currentJSCode);
+        this.currentFlowCode = mermaidCode;
+        EventBus.$emit('callGetData', this.currentFlowCode);        
+
+
+        return result;
         //
       }  
     },
