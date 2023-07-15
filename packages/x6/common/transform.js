@@ -5,6 +5,14 @@ import { ActionType, CustomEventTypeEnum } from "./enums";
 import ErrorClass from "./errorClass";
 import { Channel } from "./transmit";
 
+
+
+const portPoint_r = 5;
+const node_width = 120;
+const node_height = 40;
+
+
+
 /**获取不同actionType对应主题色 */
 export function getActionTypeTheme(type) {
     /**@enum */
@@ -119,6 +127,10 @@ function getBaseConfig(node) {
     }
     // var actionType = data.actionType
 
+    // 规定node的宽度和高度
+    let _width = node_width;
+    let _height = node_height;
+
 
     // console.log("getBaseConfig: node: data: ", data);
     // console.log("getBaseConfig: node: attrs: ", attrs);
@@ -167,8 +179,8 @@ function getBaseConfig(node) {
         x: x,
         y: y,
         label: cutLabel,
-        // width: _width,
-        // height: _height,
+        width: _width,
+        height: _height,
         id,
         data: {
             actionType: actionType,
@@ -184,11 +196,11 @@ function getBaseConfig(node) {
 export function getEllipseNode(node) {
     // const { type, label, x, y, width, height, id, actionType, data } = getBaseConfig(node)
     // let { label, x, y, id, actionType, data } = getBaseConfig(node)
-    let { x, y, label, id, data } = getBaseConfig(node)
+    let { x, y, label, id, data, width, height } = getBaseConfig(node)
 
     // console.log("getNode: label: ", label);
-    const width = 10 * label.length;
-    const height = 50;
+    // const width = 10 * label.length;
+    // const height = 50;
     const actionType = data.actionType;
 
     // 主题色
@@ -233,7 +245,7 @@ export function getEllipseNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -247,7 +259,7 @@ export function getEllipseNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -262,7 +274,7 @@ export function getEllipseNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -278,7 +290,7 @@ export function getEllipseNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -300,19 +312,21 @@ export function getRectNode(node) {
     // const { type, label, x, y, width, height, id, actionType, data } = getBaseConfig(node)
     // const { type, label, x, y, id, actionType, data } = getBaseConfig(node)
     // let { type, label, id, actionType, data } = getBaseConfig(node)
-    let { x, y, label, id, data } = getBaseConfig(node)
+    let { x, y, label, id, data, width, height } = getBaseConfig(node)
 
     // 主题色
     const targetTheme = getActionTypeTheme(data.actionType)
-    const width = 11.5 * label.length;
-    const height = 50;
+    // const width = 11.5 * label.length;
+    // const height = 50;
     return {
         id,
         shape: 'rect', // 指定使用何种图形，默认值为 'rect'
         width,
         height,
-        x: x - width / 2,
-        y: y - height / 2,
+        // x: x - width / 2,
+        // y: y - height / 2,
+        x: x,
+        y: y,
         // y,
         // zIndex: 100,
         markup: [
@@ -354,7 +368,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -369,7 +383,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -384,7 +398,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -401,7 +415,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -422,22 +436,22 @@ export function getRectNode(node) {
     // const { type, label, x, y, width, height, id, actionType, data } = getBaseConfig(node)
     // const { type, label, x, y, id, actionType, data } = getBaseConfig(node)
     // let { type, label, id, actionType, data } = getBaseConfig(node)
-    let { x, y, label, id, data } = getBaseConfig(node)
+    let { x, y, label, id, data, width, height } = getBaseConfig(node)
 
 
     // 主题色
     const targetTheme = getActionTypeTheme(data.actionType)
-    const width = 11.5 * label.length;
-    const height = 50;
+    // const width = 11.5 * label.length;
+    // const height = 50;
     return {
         id,
         shape: 'rect', // 指定使用何种图形，默认值为 'rect'
         width,
         height,
-        x: x - width / 2,
-        y: y - height / 2,
+        // x: x - width / 2,
+        // y: y - height / 2,
         // y,
-        // x, y,
+        x, y,
         // zIndex: 100,
         markup: [
             {
@@ -477,7 +491,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -491,7 +505,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -506,7 +520,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -522,7 +536,7 @@ export function getRectNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -626,24 +640,24 @@ export function getForNode(node) {
     // console.log("forNode: ", node);
     // let { type, label, x, y, id, actionType, data } = getBaseConfig(node)
     // let { type, label, id, actionType, data } = getBaseConfig(node)
-    let { x, y, label, id, data } = getBaseConfig(node)
+    let { x, y, label, id, data, width, height } = getBaseConfig(node)
 
 
     // console.log("baseConfig: ", { type, label, x, y, id, actionType, data });
     // 主题色
     // type = "ellipse";
-    const width = 12 * label.length;
-    const height = 50;
+    // const width = 12 * label.length;
+    // const height = 50;
     const targetTheme = getActionTypeTheme(data.actionType)
     return {
         id,
         shape: 'rect', // 指定使用何种图形，默认值为 'rect'
         width,
         height,
-        x: x - width / 2,
-        y: y - height / 2,
-        // y,
-        // x, y,
+        // x: x - width / 2,
+        // y: y - height / 2,
+
+        x, y,
         // zIndex: 100,
         data,
         attrs: {
@@ -677,7 +691,7 @@ export function getForNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -696,7 +710,7 @@ export function getForNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -711,7 +725,7 @@ export function getForNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,
@@ -727,7 +741,7 @@ export function getForNode(node) {
                     attrs: {
                         circle: {
                             dataClass: 'choice-point',
-                            r: 15,
+                            r: portPoint_r,
                             magnet: true,
                             stroke: '#5b8ffa',
                             strokeWidth: 1,

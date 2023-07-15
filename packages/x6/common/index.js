@@ -82,9 +82,9 @@ export function graphAutoLayout(nodes, edges) {
         align: 'DL',
         // edgeLabelSpace: true,
         // radial:true,
-        ranksep: 30,
-        nodesep: 70,
-        // controlPoints: true,
+        ranksep: 20,
+        nodesep: 50,
+        controlPoints: true,
       })
     const model = dagreLayout.layout(data)
     console.log("dagre-model-data: ", model)
