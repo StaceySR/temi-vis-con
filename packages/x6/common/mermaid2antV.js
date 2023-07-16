@@ -100,22 +100,33 @@ function parseMermaidCode(mermaidCode) {
             const target = edgeMatch[2];
             //5. 将edge格式化保存至edges列表
             const edge = {
-                            "source": {
-                                "cell": source,  //node的id
-                                "port": "p_bottom",
-                                anchor: { 
-                                    name: 'center', 
-                                },
-                            },
-                            "target": {
-                                "cell": target,
-                                "port": "p_top",
-                                anchor: { 
-                                    name: 'center', 
-                                },
-                            },
-                            "labels": [{ "attrs": { "label": { "text": label } } }]
-                        }
+                "source": {
+                    "cell": source,  //node的id
+                    "port": "p_bottom",
+                    anchor: { 
+                        name: 'center', 
+                    },
+                },
+                "target": {
+                    "cell": target,
+                    "port": "p_top",
+                    anchor: { 
+                        name: 'center', 
+                    },
+                },
+                "labels": [
+                    {
+                        "attrs": { "label": { "text": label } }
+                    }
+                ],
+                "attrs": {
+                    "line": {
+                        "stroke": '#7c68fc',
+                        "strokeWidth": 1,
+                    }
+                },
+                            
+            }
             // const edge = {
             //     "source": source, 
             //     "target": target,

@@ -240,6 +240,7 @@ function getBaseEdges() {
             source: edge.source,
             target: edge.target,
             labels: edge.labels,
+            attrs: edge.attrs,
         }
     })
 }
