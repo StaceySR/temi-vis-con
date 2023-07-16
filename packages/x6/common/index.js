@@ -82,7 +82,7 @@ export function graphAutoLayout(nodes, edges) {
         align: 'DL',
         // edgeLabelSpace: true,
         // radial:true,
-        ranksep: 20,
+        ranksep: 25,
         nodesep: 50,
         controlPoints: true,
       })

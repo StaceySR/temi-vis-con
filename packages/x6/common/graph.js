@@ -129,12 +129,22 @@ export function initGraph() {
             // https://x6.antv.vision/zh/docs/tutorial/basic/interacting/#highlight
             highlight: true,
             // 当连接到节点时，通过 sourceAnchor 来指定源节点的锚点。
-            anchor: 'center',
+            // anchor: 'bottom',
+            anchor: {
+                name: "bottom",
+                args: {
+                    // 连接桩的大小
+                    // size: 8,
+                    // dx: 5,
+                    // dy: 10
+                },
+
+            },
             sourceAnchor: {
                 name: "center",
             },
             // 当连接到节点时，通过 targetAnchor 来指定目标节点的锚点。
-            targetAnchor: "center",
+            targetAnchor: "top",
             // 指定连接点，默认值为 boundary。
             connectionPoint: "anchor",
             // 连接器将起点、路由返回的点、终点加工为 元素的 d 属性，决定了边渲染到画布后的样式，默认值为 normal。
@@ -145,15 +155,15 @@ export function initGraph() {
                 // export * from './smooth';
                 // export * from './jumpover';
 
-                // name: "rounded",
-                // args: {
-                //     radius: 20,
-                // },
-                name: "jumpover", // 重叠的线会有跳跃注明
+                name: "rounded",
                 args: {
-                    type: 'arc',
-                    size: 10
-                }
+                    radius: 10,
+                },
+                // name: "jumpover", // 重叠的线会有跳跃注明
+                // args: {
+                //     type: 'arc',
+                //     size: 10
+                // }
             },
             // 路由将边的路径点 vertices 做进一步转换处理，并在必要时添加额外的点，然后返回处理后的点，默认值为 normal。
             // export * from './normal';
@@ -164,16 +174,26 @@ export function initGraph() {
             // export * from './er';
             // export * from './loop';
 
-            // router: "manhattan",
             router: {
                 name: "manhattan",
                 args: {
-                  step: 10,
-                  startDirections: ['top', 'right', 'bottom', 'left'],
-                  endDirections: ['top', 'right', 'bottom', 'left'],
-                  excludeShapes: ["rect"],
+                  step: 15,
+                  startDirections: ['bottom'],
+                  endDirections: ['top'],
+                    // excludeShapes: ["rect"],
+                  padding: 10,
                 }
             },
+
+            // router: {
+            //     name: 'orth',
+            //     args: {
+            //       startDirections: ['bottom'],
+            //       endDirections: ['top'],
+            //     //   excludeShapes: ['rect'],
+            //       padding: 10,
+            //     },
+            //   },
             
             // https://x6.antv.vision/zh/docs/tutorial/basic/interacting/#validatemagnet
             // 判断是否新增边
