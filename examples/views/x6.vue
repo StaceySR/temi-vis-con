@@ -281,7 +281,7 @@ export default defineComponent({
       methods.getData();
       methods.handleSwitchDefault();
       methods.listener();
-      methods.handleAutoLayout();
+      // methods.handleAutoLayout();
 
       EventBus.$on('callGetData', (payload) => {
         methods.getData(payload);

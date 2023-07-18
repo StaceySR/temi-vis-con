@@ -30,7 +30,7 @@ export function fmtJSON(target) {
 /**文字溢出格式化 */
 export function fmtLabelOverflow(label) {
     if (!Lang.isString(label)) return label
-    if (label.length <= 9) return label
+    if (label.length <= 7) return label
     const cutLabel = label.slice(0, 6) + '...'
     return cutLabel
 }

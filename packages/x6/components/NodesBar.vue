@@ -1,70 +1,30 @@
 <template>
   <div class="node-bar-container">
-    <!-- <ul class="nodes-bar">
+    <ul class="nodes-bar">
       <li v-for="(node, index) in nodes" :key="index">
         <div
+          id="container_node"
           :class="[freeze ? `freeze-${node.shape}` : `default-${node.shape}`]"
           :style="node.styles"
           @mousedown="startDrag(node, $event)"
-        >
-          <span>{{ node.label }}</span>
+        >          
+            <img class="icon" :src="imagePath(node.label)" />
+          <div class="content">
+            <!-- 这里是你的内容 -->
+            <span>{{ node.label }}</span>
+          </div>
         </div>
       </li>
-    </ul> -->
-    <!-- <div>
-      <label for="my-select">选择一个选项：</label>
-      <select id="my-select" v-model="selectedOption">
-        <option disabled value="">请选择</option>
-        <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
-      </select>
-      <p>你选择的选项是：{{ selectedOption }}</p>
-    </div> -->
-    <div class="custom-select">
-    <div class="custom-select__selected" @click="toggleDropdown">
-      <div class="custom-select__selected-text">{{ selectedOption.label }}</div>
-      <div class="custom-select__arrow" :class="{ 'custom-select__arrow--up': dropdownVisible }"></div>
-    </div>
-    <ul class="custom-select__options" v-show="dropdownVisible">
-      <li v-for="option in options" :key="option.value" class="custom-select__option" @click="selectOption(option)">
-        {{ option.label }}
-      </li>
-    </ul>
-  </div>
-    <!-- <hr style="border-color: #f2f6fc" /> -->
-    <ul class="nodes-bar">
-      <!-- Vue组件 -->
-      <li
-        @mousedown="
-          startDrag(
-            // {
-            //   label: 'Vue-node',
-            //   shape: 'rect',
-            //   actionType: 'Vue-node',
-            // },
-            {
-              actionType: 'TRIGGER',
-              label: 'Start',
-              shape: 'ellipse',
-            },
-            $event
-          )
-        "
-      >
-        <VueNode :class="[freeze ? `freeze-rect` : `static-vue-node`]" />
-      </li>
-    </ul>
+    </ul>  
   </div>
 </template>
 
 <script>
 import { Addon } from "@antv/x6";
 import { Channel } from "../common/transmit";
-import { ActionType, CustomEventTypeEnum } from "../common/enums";
+import { CustomEventTypeEnum } from "../common/enums";
 import {
-  getDiamondNode,
-  getEllipseNode,
-  getRectNode,
-  getVueNode,
+  getDetailNode,
 } from "../common/transform";
 import { defineComponent, reactive, toRefs, watch } from "@vue/composition-api";
 import { useGraph } from "../store";
@@ -74,29 +34,15 @@ import VueNode from "./vue-static-shape/VueNode.vue";
 
 
 export default defineComponent({
-  data() {
-    return {
-      selectedOption: { label: '请选择', value: '' },
-      options: [
-        { label: '选项一', value: 'option1' },
-        { label: '选项二', value: 'option2' },
-        { label: '选项三', value: 'option3' }
-      ],
-      dropdownVisible: false
-    }
-  },
-  methods: {
-    toggleDropdown() {
-      this.dropdownVisible = !this.dropdownVisible;
-    },
-    selectOption(option) {
-      this.selectedOption = option;
-      this.dropdownVisible = false;
-    }
-  },
   props: ["nodes"],
   components: {
     VueNode,
+  },
+  methods: {
+    imagePath(label) {
+      // 构建图片路径
+      return "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/" + label + ".png"
+    },
   },
   setup() {
     const graph = useGraph();
@@ -110,87 +56,14 @@ export default defineComponent({
       startDrag(currentTarget, e) {
         const { actionType, shape, label } = currentTarget;
         console.log("currentTarget: ", { actionType, shape, label })
-        const { TRIGGER, CONDITION, ACTION } = ActionType;
-        let json;
-        switch (actionType) {
-          // 触发器
-          case TRIGGER:
-            // json = getEllipseNode({
-            //   shape,
-            //   tooltip: label,
-            //   size: { width: 100, height: 50 },
-            //   actionType,
-            //   initialization: true,
-            // });
-            json = getEllipseNode({
+        let json = getDetailNode({
               shape,
               tooltip: label,
               // size: { width: 100, height: 50 },
               attrs: {label: {text: label}},
               data: {actionType: actionType},
-              // actionType,
               initialization: true,
             });
-            break;
-          // 条件
-          case CONDITION:
-            // json = getDiamondNode({
-            //   // x6 不存在 diamond 形状, 转义 rect
-            //   shape: "rect",
-            //   tooltip: label,
-            //   actionType,
-            //   initialization: true,
-            // });
-            json = getDiamondNode({
-              // x6 不存在 diamond 形状, 转义 rect
-              shape: "rect",
-              tooltip: label,
-              // actionType,
-              attrs: {label: {text: label}},
-              data: {actionType: actionType},
-              initialization: true,
-            });
-            break;
-          // 动作
-          case ACTION:
-            // json = getRectNode({
-            //   shape,
-            //   tooltip: label,
-            //   size: { width: 100, height: 50 },
-            //   actionType,
-            //   initialization: true,
-            // });
-            json = getRectNode({
-              shape,
-              tooltip: label,
-              // size: { width: 100, height: 50 },
-              // actionType,
-              attrs: {label: {text: label}},
-              data: {actionType: actionType},
-              initialization: true,
-            });
-            break;
-          case "Vue-node":
-            // json = getVueNode({
-            //   shape: "rect",
-            //   tooltip: label,
-            //   size: { width: 110, height: 50 },
-            //   actionType,
-            //   initialization: true,
-            // });
-            json = getVueNode({
-              shape: "rect",
-              tooltip: label,
-              // size: { width: 110, height: 50 },
-              // actionType,
-              attrs: {label: {text: label}},
-              data: {actionType: actionType},
-              initialization: true,
-            });
-            break;
-          default:
-            break;
-        }
         const node = graph.value.createNode(json);
         if (!data.freeze) data.dnd.start(node, e);
       },
@@ -261,103 +134,67 @@ li {
         }
       }
 
-      // 静态vue节点
-      .static-vue-node {
-        transition: all 0.03s;
-        &:hover {
-          transform: scale(1.1) !important;
-          color: #333;
-        }
-      }
+      // // 静态vue节点
+      // .static-vue-node {
+      //   transition: all 0.03s;
+      //   &:hover {
+      //     transform: scale(1.1) !important;
+      //     color: #333;
+      //   }
+      // }
 
-      // 默认菱形
-      .default-diamond {
-        &:hover {
-          transform: rotateZ(45deg) scale(1.1) !important;
-        }
-        span {
-          transform: rotate(-45deg);
-        }
-      }
+      // // 默认菱形
+      // .default-diamond {
+      //   &:hover {
+      //     transform: rotateZ(45deg) scale(1.1) !important;
+      //   }
+      //   span {
+      //     transform: rotate(-45deg);
+      //   }
+      // }
 
       [class^="freeze-"] {
         opacity: 0.7;
         cursor: no-drop;
       }
-      .freeze-diamond {
-        &:hover {
-          transform: rotateZ(45deg) scale(1) !important;
-        }
-        span {
-          transform: rotate(-45deg);
-        }
-      }
+      // .freeze-diamond {
+      //   &:hover {
+      //     transform: rotateZ(45deg) scale(1) !important;
+      //   }
+      //   span {
+      //     transform: rotate(-45deg);
+      //   }
+      // }
     }
   }
 }
 
-// 下拉框的样式
-.custom-select {
-  position: relative;
-  top: 10px;
-  left: 4px;
-  width: 140px;
-}
-
-.custom-select__selected {
+#container_node {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 14px;
-  padding: 5px;
-  cursor: pointer;
+  padding-left: 30px;
+  width: 200px; /* 设置容器的宽度 */
+  overflow: hidden; /* 隐藏超出容器边界的内容 */
+  position: relative; /* 将容器设置为相对定位 */
 }
 
-.custom-select__selected-text {
+.icon {
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain; /* 将背景图像缩放到完全适合容器内 */
+  position: absolute; /* 将图标设置为绝对定位 */
+  left: 7px; /* 将图标定位在容器的左侧 */
+  // background-image: var(--icon-url); /* 使用 CSS 变量设置背景图像 */
+  // top: 50%; /* 将图标垂直居中对齐 */
+  // transform: translateY(-50%); /* 调整图标的垂直位置 */
+}
+
+.content {
   flex: 1;
-}
-
-.custom-select__arrow {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 4px 0 4px;
-  border-color: #999 transparent transparent transparent;
-  margin-left: 5px;
-}
-
-.custom-select__arrow--up {
-  border-width: 0 4px 5px 4px;
-  border-color: transparent transparent #999 transparent;
-  margin-top: 5px;
-  margin-bottom: -5px;
-}
-
-.custom-select__options {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-top: none;
-  border-radius: 3px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  z-index: 1;
-}
-
-.custom-select__option {
+  margin-left: 12px;
   padding: 5px;
-  cursor: pointer;
-}
-
-.custom-select__option:hover {
-  background-color: #f0f0f0;
+  background-color: #fff; /* 内容的背景颜色 */
 }
 </style>

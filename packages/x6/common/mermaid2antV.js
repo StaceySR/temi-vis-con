@@ -40,37 +40,51 @@ function parseMermaidCode(mermaidCode) {
         if (nodeLine) {
             // console.log("nodeLine: ", nodeLine);
             //2. 匹配 "r_01", 座位node.id
-            const nodeId = nodeLine[1];                    
+            let nodeId = nodeLine[1];                    
             //3. 匹配 "userRequest:预约开会"中的"userRequest", 作为node.Action
-            const nodeAction = nodeLine[2];
+            let nodeAction = nodeLine[2];
             // console.log("nodeAction: ", nodeAction);
             //4. 匹配 "userRequest:预约开会"中的"预约开会", 作为node.label
-            const nodeLabel = nodeLine[3];
+            let nodeLabel = nodeLine[3];
             // console.log("nodeLabel: ", nodeLabel);
             
             //5. 判断node.actionType
-            let actionType = "ACTION";
-            if (nodeId[0] === "r") {
-                actionType = "TRIGGER";
-            } else {
-                if (nodeId[0] === "c") {
-                    actionType = "CONDITION";
-                } 
-                else{
-                    //判断是不是for循环相关的节点
-                    // console.log(nodeLine[0][nodeId.length] + nodeLine[0][nodeId.length+1]);
-                    if (nodeLine[0][nodeId.length] + nodeLine[0][nodeId.length+1] == "{{") {
-                        // console.log("for节点");     
-                        actionType = "FOR";                               
-                    }
+            // let actionType = "ACTION";
+            // if (nodeId[0] === "r") {
+            //     actionType = "TRIGGER";
+            // } else {
+            //     if (nodeId[0] === "c") {
+            //         actionType = "CONDITION";
+            //     } 
+            //     else{
+            //         //判断是不是for循环相关的节点
+            //         // console.log(nodeLine[0][nodeId.length] + nodeLine[0][nodeId.length+1]);
+            //         if (nodeLine[0][nodeId.length] + nodeLine[0][nodeId.length+1] == "{{") {
+            //             // console.log("for节点");     
+            //             actionType = "FOR";                               
+            //         }
 
-                }
+            //     }
+            // }
+            //5. 判断node.actionType
+            // console.log("nodeAction: ", nodeAction)
+            let actionType = nodeAction.toUpperCase();
+            if (nodeAction == "condition") {
+                actionType = "IF"                
             }
-
-
+            if (nodeAction == "forLoop" || nodeAction == "loopEnd") {
+                actionType = "FOR"
+            }
+            if (nodeAction == "end") {
+                actionType = "END"
+            }
+            if (nodeLabel.length == 0) {
+                nodeLabel = nodeAction                
+            }
             //5. 将node格式化保存至nodes列表
             const node = {
-                            "attrs": {"label": { "text": nodeAction+nodeLabel }},
+                            // "attrs": {"label": { "text": nodeAction+nodeLabel }},
+                            "attrs": {"label": { "text": nodeLabel }},
                             "id": nodeId,
                             "data": { "actionType": actionType }//代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
                         };
@@ -138,8 +152,8 @@ function parseMermaidCode(mermaidCode) {
     });
 
     // 判断这个node是不是最后一个，如果是的话，也应该是TRIGGER 
-    nodes[nodes.length - 1]["data"]["actionType"] = "TRIGGER";
-    // console.log("mermaid2antV: nodes+edges: ", {nodes, edges});
+    // nodes[nodes.length - 1]["data"]["actionType"] = "TRIGGER";
+    console.log("mermaid2antV: nodes+edges: ", {nodes, edges});
     return { nodes, edges };
 }
 

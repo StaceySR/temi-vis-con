@@ -66,16 +66,32 @@ export const Config = {
     TOOLTIPS_SLOT: 'tooltips_slot',
 }
 
+// /**
+//  * 节点触发类型
+//  */
+// export const ActionType = {
+//     /**@type {String} 触发器 */
+//     TRIGGER: 'TRIGGER',
+//     /**@type {String} 条件 */
+//     CONDITION: 'CONDITION',
+//     /**@type {String} 动作 */
+//     ACTION: 'ACTION',
+//     /**@type {String} FOR循环*/
+//     FOR: 'FOR',
+// }
+
 /**
  * 节点触发类型
  */
 export const ActionType = {
-    /**@type {String} 触发器 */
-    TRIGGER: 'TRIGGER',
-    /**@type {String} 条件 */
-    CONDITION: 'CONDITION',
-    /**@type {String} 动作 */
-    ACTION: 'ACTION',
-    /**@type {String} FOR循环*/
+    USERREQUEST: 'USERREQUEST',
+    SPEAK: 'SPEAK',
+    ASK: 'ASK',
     FOR: 'FOR',
+    INFO: 'INFO',
+    IF: 'IF',
+    END: 'END',
+    GOTO: 'GOTO',
+    DETECTHUMAN: 'DETECTHUMAN'
 }
+

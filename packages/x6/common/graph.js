@@ -132,12 +132,12 @@ export function initGraph() {
             // anchor: 'bottom',
             anchor: {
                 name: "bottom",
-                args: {
-                    // 连接桩的大小
-                    // size: 8,
-                    // dx: 5,
-                    // dy: 10
-                },
+                // args: {
+                //     // 连接桩的大小
+                //     size: 8,
+                //     dx: 5,
+                //     dy: 10
+                // },
 
             },
             sourceAnchor: {

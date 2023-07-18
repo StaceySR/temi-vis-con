@@ -13,7 +13,7 @@ export default (graph) => {
         const path = view.findOne('path')
         if (path) {
           const token = Vector.create('circle', {
-            r: 5,
+            r: 8,
             fill: '#5F95FF',
           })
           token.animateAlongPath(
