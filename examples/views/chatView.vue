@@ -418,6 +418,8 @@
     /* margin-right: 10px; */
     resize: none;
     /* overflow: hidden; */
+    font-size: 16px;
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
   }
   
   textarea:focus {

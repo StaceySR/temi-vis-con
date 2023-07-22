@@ -86,7 +86,7 @@ function parseMermaidCode(mermaidCode) {
                             "attrs": {"label": { "text": nodeAction+": "+nodeLabel }},
                             // "attrs": {"label": { "text": nodeLabel }},
                             "id": nodeId,
-                            "data": { "actionType": actionType }//代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
+                            "data": { "actionType": actionType , "tooltip": nodeAction+": "+nodeLabel}//代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
                         };
             // console.log("mermaid: each node: ", node);
             nodes.push(node);

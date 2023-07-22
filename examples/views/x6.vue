@@ -216,7 +216,7 @@ export default defineComponent({
       isUpdate: false,
       isSelected: false,
       title: "",
-      form: { label: "", name: "" },
+      form: { label: "", name: "" , tooltip: ""},
       titleData: {
         title: 'X6 示例标题', // 假设这里有一个标题
       },
@@ -276,6 +276,7 @@ export default defineComponent({
         graphFunc.initDefaultData();
       },
       handleUpdateLabel() {  //[ChangeTheData]
+        console.log("handleUpdateLabel: ", data.form.label)
         graphFunc.updateNode(data.form);
         data.form.label = "";
         // data.isUpdate = false;
@@ -333,10 +334,16 @@ export default defineComponent({
 
       listener() {
         graphFunc.GraphListener.doubleNodeClick((detail) => {
+
+          data.form.tooltip = detail.node.data.tooltip;
           data.form.label = detail.label;
-          const parts = detail.label.split(':');
+          const parts = detail.node.data.tooltip.split(':');
+
+          // const parts = detail.label.split(':');
           data.form.name = parts[0];   // 'name'
           data.form.label = parts[1]; // 'John'
+
+          console.log("data.form: ", data.form)
           data.isUpdate = true;
           data.isSelected = true;
           console.log("[debug]detail:", detail);
@@ -515,9 +522,11 @@ export default defineComponent({
   // margin: 10px 10px 0 10px;
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid #CFCFCF;
+  // border: 1px solid #CFCFCF;
   background: #FFF;
 }
+
+
 
 .node-name{
   display: flex;

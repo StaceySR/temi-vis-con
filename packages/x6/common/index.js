@@ -74,7 +74,7 @@ export function graphAutoLayout(nodes, edges) {
         nodes: nodes,
         edges: edges,
       }
-    console.log("dagre-data: ", data)
+    console.log("before-dagre-data: ", data)
     const dagreLayout = new DagreLayout({
         type: 'dagre',
         rankdir: 'TB',
@@ -111,31 +111,52 @@ export function runtimeError(cb) {
 
 /**修改Node节点 */
 export function updateNode(data) {
+    console.log("updateNode.data: ", data.label, data.name, data.tooltip)
     const graph = useGraph()
     const cells = graph.value.getSelectedCells()
     if (Lang.isArray(cells) && cells.length === 1) {
         const cell = cells[0]
-        const { label, ...otherParams } = data
+        // let { label, ...otherParams } = data
+        // console.log("label: ---", label)
+        // // 设置label
+        // if (label) {
+        //     label = data.name + ": " + label
+        //     console.log("updateNode: ", label)
+        //     const cutLabel = fmtLabelOverflow(label)
+        //     console.log("cutLabel: ---", cutLabel)
+        //     cell.setData({
+        //         tooltip: label,
+        //         initialization: false
+        //     })
+        //     cell.setAttrs({ label: {text: cutLabel} })
+        // }
+        // for (const key in otherParams) {
+        //     if (Object.hasOwnProperty.call(otherParams, key)) {
+        //         const value = otherParams[key];
+        //         if (!Lang.isNil(value)) {
+        //             console.log("keys: ", key, value)
+        //             cell.setData({
+        //                 [key]: value,
+        //                 initialization: false
+        //             })
+        //         }
+        //     }
+        // }
+        let { label, name, tooltip } = data
+        console.log("label: ---", label, name, tooltip)
         // 设置label
         if (label) {
+            label = name + ": " + label
+            console.log("updateNode: ", label)
             const cutLabel = fmtLabelOverflow(label)
+            console.log("cutLabel: ---", cutLabel)
             cell.setData({
-                tooltip: cutLabel,
+                tooltip: label,
                 initialization: false
             })
-            cell.setAttrs({ label: { text: label } })
+            cell.setAttrs({ label: {text: cutLabel} })
         }
-        for (const key in otherParams) {
-            if (Object.hasOwnProperty.call(otherParams, key)) {
-                const value = otherParams[key];
-                if (!Lang.isNil(value)) {
-                    cell.setData({
-                        [key]: value,
-                        initialization: false
-                    })
-                }
-            }
-        }
+        console.log("cell: --", cell)
         // 清除选框
         graph.value.cleanSelection()
     }
@@ -208,16 +229,8 @@ function getBaseNodes() {
     const graph = useGraph()
     // 获取所有节点
     const nodes = graph.value.getNodes()
-    // console.log("getBaseNodes: node: ", nodes)
-    // return nodes.map(node => {
-    //     const { id, data } = node
-    //     return {
-    //         id,
-    //         data
-    //     }
-    // })
     return nodes.map(node => {
-        // console.log("getBaseNodes: node: ", node)
+        console.log("getBaseNodes: node: ", node)
         const { attrs, id, data } = node
         // console.log("getBaseNodes: node: ", { attrs, id, data })
         return {
@@ -257,7 +270,6 @@ function getBaseEdges() {
  * 获取所有已存在的node节点和edge边
  */
 export function getAtoms(options) {
-    console.log("getAtoms: options: ", options);
     let atoms
     // 如果是空，则获取所有
     switch (options) {

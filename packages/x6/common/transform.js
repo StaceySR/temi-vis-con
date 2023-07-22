@@ -164,13 +164,27 @@ function getBaseConfig(node) {
         actionType = data.actionType
     }
 
+    // console.log("getBaseConfig: node: ", node)
+
     // 规定node的宽度和高度
     let _width = node_width;
     let _height = node_height;
 
+    // if (data.tooltip) {
+    //     console.log("data.tootip: ", data.tooltip)
+    //     console.log("attrs.label.text: ", attrs.label.text)
+    //     if (data.tooltip.length != attrs.label.text.length) {
+    //         attrs.label.text = data.tooltip            
+    //     }
+    // }
     if (Lang.isObject(attrs)) {
         _tooltip = attrs.label.text
+        console.log("_tooltip: ", attrs.label.text)
+        console.log("true: tooltip: ", data.tooltip)
     }
+    // if (Lang.isObject(data)){
+    //     _tooltip = data.tooltip
+    // }
     const cutLabel = fmtLabelOverflow(_tooltip)
 
     return {
@@ -183,7 +197,8 @@ function getBaseConfig(node) {
         id,
         data: {
             actionType: actionType,
-            tooltip: _tooltip
+            // tooltip: _tooltip
+            tooltip: data.tooltip
         }
     }
 }
@@ -193,6 +208,7 @@ function getBaseConfig(node) {
  */
 export function getDetailNode(node) {
     let { x, y, label, id, data, width, height } = getBaseConfig(node)
+    console.log("getDetailNode: ", label)
     const actionType = data.actionType;
     // 主题色
     const targetTheme = getActionTypeTheme(actionType)
@@ -226,17 +242,6 @@ export function getDetailNode(node) {
             fill: targetTheme.left_background,
             // opacity: 0.8
           },
-        //   icon: {
-        //     // 设置图标的SVG路径和样式
-        //     d: 'M10,10 L20,20 L10,30 Z',
-        //     fill: '#ccc',
-        //     stroke: '#000',
-        //     strokeWidth: 1,
-        //     refX: 0,
-        //     // refY: '50%',
-        //     xAlignment: 'left',
-        //     yAlignment: 'middle',
-        //   },
           icon: {
             x: 6,
             y: 6,
@@ -941,49 +946,11 @@ export function getNodeJSON(nodes) {
     const nodeList = []
     for (const node of nodes) {
         const nodeJSON = fmtJSON(node)
-        // 兼容G6
-        // const {
-        //     TRIGGER,
-        //     CONDITION,
-        //     ACTION,
-        //     FOR,
-        // } = ActionType;
-        // const {
-        //         USERREQUEST,
-        //         SPEAK,
-        //         ASK,
-        //         FOR,
-        //         INFO,
-        //         IF,
-        //         END,
-        //         GOTO,
-        //         DETECTHUMAN,
-        // } = ActionType
         const actionType = nodeJSON.data.actionType
         if (!actionType) {
             Channel.dispatchEvent(CustomEventTypeEnum.RUNTIME_ERR, ErrorClass.InvalidFormatData('缺少ActionType'))
             throw new ErrorClass.InvalidFormatData('缺少ActionType')
         }
-        // console.log("getNodeJSON: nodeJSON: ", nodeJSON);
-        // switch (actionType) {
-        //     // 触发器
-        //     case TRIGGER:
-        //         nodeList.push(getEllipseNode(nodeJSON))
-        //         break;
-        //     // 状态条件
-        //     case CONDITION:
-        //         nodeList.push(getDiamondNode(nodeJSON))
-        //         break;
-        //     // 执行动作
-        //     case ACTION:
-        //         nodeList.push(getRectNode(nodeJSON))
-        //         break;
-        //     case FOR:
-        //         nodeList.push(getForNode(nodeJSON))
-        //         break;
-        //     default:
-        //         break;
-        // }
         nodeList.push(getDetailNode(nodeJSON))
     }
     return nodeList
