@@ -90,11 +90,13 @@
     
   }
   .title-center {
-    display: flex;
-    align-items: center; /* 垂直方向居中对齐标题 */
+    flex: 1; /* 自动占据剩余的空间 */
+    text-align: center; /* 文字居中 */
   }
   .title-buttons {
-    display: flex; /* 将按钮横向排布 */
+    display: flex;
+    justify-content: flex-end; /* 将按钮放置在容器的右侧 */
+    align-items: center; /* 垂直居中按钮 */
   }
   .title-button {
     background-color: transparent;

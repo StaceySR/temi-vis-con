@@ -33,6 +33,8 @@
       <button class="ok-button" @click="handleConfirmChanges">
         <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
       </button>
+
+      <button id="emitTitleToParent" @click="emitTitleToParent"></button>
     </div>
 
     <div v-if="isSelected"  class="options-container">
@@ -366,6 +368,11 @@ export default defineComponent({
       methods.listener();
       computed.showOptions();
       // methods.handleAutoLayout();
+      // 获取button元素
+      var button = document.getElementById("emitTitleToParent");
+
+      // 触发button的click函数
+      button.click();
 
       EventBus.$on('callGetData', (payload) => {
         methods.getData(payload);
