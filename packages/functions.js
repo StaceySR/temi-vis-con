@@ -1,4 +1,4 @@
-import { getGraphJSON, setDefaultGraphData, disableGraph, nodeDclick, nodeClick, updateNode as commonUpdateNode, validate, getAtoms as getAtomList, runtimeError as catchErr, graphClean, graphAutoLayout, getData, changeAntVToMermaid } from "./x6/common";
+import { getGraphJSON, setDefaultGraphData, disableGraph, nodeDclick, nodeClick, updateNode as commonUpdateNode, validate, getAtoms as getAtomList, runtimeError as catchErr, graphClean, graphAutoLayout, getData, changeAntVToMermaid, selectedNodesCount} from "./x6/common";
 /**
  * 获取数据
  * @returns {IExportData}
@@ -12,6 +12,12 @@ export const exportData = () => getGraphJSON();
 export const initDefaultData = (nodes, edges) => setDefaultGraphData(nodes, edges);
 /**获取所有已存在的node节点和edge边 */
 export const getAtoms = (options) => getAtomList(options);
+
+/**
+ * 获取当前选中节点与否
+ * @returns 
+ */
+export const selectedNodes = () => selectedNodesCount();
 /**
  * 画布只读
  * @param {boolean} bool
@@ -86,5 +92,4 @@ export class GraphListener {
     static runtimeError(cb) {
         catchErr(cb);
     }
-
 }

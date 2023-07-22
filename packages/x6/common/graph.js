@@ -157,7 +157,7 @@ export function initGraph() {
 
                 name: "rounded",
                 args: {
-                    radius: 10,
+                    radius: 1,
                 },
                 // name: "jumpover", // 重叠的线会有跳跃注明
                 // args: {
@@ -183,18 +183,7 @@ export function initGraph() {
                     // excludeShapes: ["rect"],
                   padding: 10,
                 }
-            },
-
-            // router: {
-            //     name: 'orth',
-            //     args: {
-            //       startDirections: ['bottom'],
-            //       endDirections: ['top'],
-            //     //   excludeShapes: ['rect'],
-            //       padding: 10,
-            //     },
-            //   },
-            
+            },            
             // https://x6.antv.vision/zh/docs/tutorial/basic/interacting/#validatemagnet
             // 判断是否新增边
             validateMagnet({ magnet }) {
@@ -209,7 +198,7 @@ export function initGraph() {
                         line: {
                             strokeDasharray: "5 5",
                             stroke: "#7c68fc",
-                            strokeWidth: 2,
+                            strokeWidth: 1,
                             targetMarker: {
                                 name: "block",
                                 args: {

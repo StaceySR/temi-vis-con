@@ -5,14 +5,14 @@ import { getActionTypeTheme } from "./transform";
 // 基础样式
 const BaseStyle = {
     rect: {
-        width: '92px',
+        width: '110px',
         height: '35px',
-        lineHeight: '36px',
+        lineHeight: '30px',
         textAlign: 'center',
-        border: '2px solid #5b8ffa',
+        border: '2px solid',
         // backgroundColor: '#9ec9ff',
-        borderRadius: '3px',
-        color: '#7D7671'
+        borderRadius: '5px',
+        // color: '#7D7671'
     },
     ellipse: {
         width: '100px',
@@ -66,7 +66,7 @@ function getStyles(type) {
     const targetTheme = getActionTypeTheme(type)
     return {
         ...base,
-        backgroundColor: targetTheme.background,
+        backgroundColor: targetTheme.left_background,
         borderColor: targetTheme.border
     }
 }

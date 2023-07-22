@@ -22,10 +22,23 @@
         </div>
       </antv-x6-vue2>
     </div>
-    <div class="options-container">
-      <el-button size="mini" :disabled="disabled" @click="handleClean"
+
+    <div class="right-buttons">
+      <button class="auto-layout-button" @click="handleAutoLayout">
+        <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/autoLayout.png"/>
+      </button>
+      <button class="redo-button">
+        <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/redo.png"/>
+      </button>
+      <button class="ok-button" @click="handleConfirmChanges">
+        <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
+      </button>
+    </div>
+
+    <div v-if="isSelected"  class="options-container">
+      <!-- <el-button size="mini" :disabled="disabled" @click="handleClean"
         >Clear</el-button
-      >
+      > -->
       <!-- <el-button size="mini" :disabled="disabled" @click="handleExportAtoms"
         >GetData</el-button
       > -->
@@ -48,33 +61,59 @@
         @click="handleTestError"
         >Exception</el-button
       > -->
-      <el-button
+      <!-- <el-button
         size="mini"
         :disabled="disabled"
         type="danger"
         @click="handleAutoLayout"
         >autoLayout</el-button
-      >
+      > -->
+
+      <!-- <span class="node-name">{{ form.name }}</span> -->
+      <span class="node-name">{{ form.name }}</span>
 
       <el-input
-        size="mini"
         clearable
         :disabled="!isUpdate"
         v-model="form.label"
-        style="width: 200px; margin: 10px 10px 0 100px"
         @keyup.enter.native="handleUpdateLabel"
+        class="update-input"
       ></el-input>
-      <el-button size="mini" :disabled="!isUpdate" @click="handleUpdateLabel"
-        >ChangeTheData</el-button
-      >
+
+      <!-- <textarea ref="textarea" v-model="userInput" placeholder="请输入内容" class="update-input" @keyup.enter.native="handleUpdateLabel"></textarea> -->
+
+      <!-- <el-button 
+        size="mini" 
+        :disabled="!isUpdate" 
+        @click="handleUpdateLabel" 
+        class="bottom-button"
+        >
+        <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+      </el-button>
 
       <el-button
         size="big"
         :disabled="!isUpdate"
-        type="danger"
         @click="handleConfirmChanges"
-        >confirm all changes</el-button
-      >
+        class="bottom-button"
+        >
+        <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+      </el-button> -->
+
+      <button 
+        @click="emitTitleToParent"
+        class="bottom-button"
+        >
+        <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+      </button>
+
+      <button
+        @click="handleUpdateLabel"
+        class="bottom-button"
+        >
+        <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+      </button>
+
 
       <!-- <el-input
         size="mini"
@@ -175,8 +214,24 @@ export default defineComponent({
       disabled: false,
       currentIndex: 0,
       isUpdate: false,
-      form: { label: "" },
+      isSelected: false,
+      title: "",
+      form: { label: "", name: "" },
+      titleData: {
+        title: 'X6 示例标题', // 假设这里有一个标题
+      },
     });
+    const computed = {
+      showOptions() {
+        // return data.isSelected;
+        console.log("show: ", graphFunc.selectedNodes() > 0)
+        data.isSelected = graphFunc.selectedNodes() > 0
+        // return graphFunc.selectedNodes() > 0;4tt
+      },
+    };
+    // const isSelected = computed(() => {
+    //   return graphFunc.selectedNodes() > 0;
+    // });
     const methods = {
       handleNodeClick(e) {
         console.log("[debug]节点单击Emit事件:", e);
@@ -228,6 +283,7 @@ export default defineComponent({
         const { nodes, edges } = graphFunc.getAtoms();
         // console.log("auto-nodes: ", nodes);
         graphFunc.autoLayout(nodes, edges);
+        // data.isUpdate = false;
       },
       handleAutoLayout() {  //[AutoLayout]
         console.log("auto Layout！");
@@ -258,12 +314,31 @@ export default defineComponent({
         const {nodes,edges} = graphFunc.getListData(data);
         list = [{nodes,edges}];
         console.log("list:",list);
+        // methods.emitTitleToParent();
+      },
+
+      getTitle(){
+        data.title = list[0].nodes[0].attrs.label.text
+        console.log("gettitle: ", data.title)
+        const newTitle = data.title
+        console.log("newTitle: ", newTitle)
+        EventBus.$emit("send-new-title", newTitle);
+      },
+
+      emitTitleToParent() {
+        data.titleData.title = list[0].nodes[0].attrs.label.text
+        console.log("title: ", data.titleData.title)
+        this.$emit('title-to-parent', this.titleData.title);
       },
 
       listener() {
         graphFunc.GraphListener.doubleNodeClick((detail) => {
           data.form.label = detail.label;
+          const parts = detail.label.split(':');
+          data.form.name = parts[0];   // 'name'
+          data.form.label = parts[1]; // 'John'
           data.isUpdate = true;
+          data.isSelected = true;
           console.log("[debug]detail:", detail);
         });
         graphFunc.GraphListener.runtimeError((err) => {
@@ -279,8 +354,10 @@ export default defineComponent({
     
     onMounted(() => {
       methods.getData();
+      methods.getTitle();
       methods.handleSwitchDefault();
       methods.listener();
+      computed.showOptions();
       // methods.handleAutoLayout();
 
       EventBus.$on('callGetData', (payload) => {
@@ -288,10 +365,10 @@ export default defineComponent({
         methods.handleSwitchDefault();
       });
     });
-
     return {
       ...toRefs(data),
       ...methods,
+      ...computed,
     };
   },
 });
@@ -304,15 +381,157 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   .title-container {
+    text-align: center;
     padding: 5px 20px;
-    background-color: #f2f6fc;
+    background-color: #5AB2B8;    
+    z-index: 5;
+  }
+  .el-link{
+    color: #ffffff;
   }
 }
 .graph-container {
-  height: 100vh;
+  height: 100%;
 }
 .options-container {
   padding: 0 10px;
   // background-color: antiquewhite;
+}
+.options-container {
+  width: 501px;
+  height: 90px;
+  border-radius: 19px;
+  border: 1px solid #B4B4B4;
+  background: #FFF;
+  z-index: 2;
+
+  display: flex;
+  // flex-direction: column;
+  justify-content: center; /* 垂直方向居中对齐 */
+  align-items: center; /* 水平方向居中对齐 */
+  gap: 15px; /* 设置按钮之间的间距 */
+
+  /* shadow */
+  box-shadow: 0px 0px 6px 5px rgba(209, 209, 209, 0.25);
+  flex-shrink: 0;
+  position: absolute; /* 绝对定位 */
+  bottom: 1%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  .bottom-button {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    background-color: #5AB2B8;
+    border-radius: 100px;
+    border: 2px solid #5AB2B8;
+    filter: drop-shadow(0px 0px 6px rgba(209, 209, 209, 0.25));
+  }
+  .bottom-button img {
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+  }
+  
+  .bottom-button:hover {
+    background-color: #EEE;
+    border-color: #999;
+    border: 0px solid #fff;
+    // color: #333;
+  }
+
+  .bottom-button:active {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.right-buttons {
+    position: absolute;
+    top: 60px;
+    right: 490px;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直方向居中对齐 */
+    align-items: center; /* 水平方向居中对齐 */
+    gap: 20px; /* 设置按钮之间的间距 */
+    
+    .auto-layout-button {
+      background-color: #FFF;
+      width: 55px;
+      height: 55px;
+      border-radius: 109px; 
+      border: 2px solid #fff;
+      // flex-shrink: 0;
+      // fill: #FFF;
+      // stroke-width: 1px;
+      // stroke: #FFF;
+      filter: drop-shadow(0px 0px 6px rgba(209, 209, 209, 0.8));
+    }
+
+    .redo-button {
+      background-color: #FFC0C0;
+      width: 55px;
+      height: 55px;
+      border-radius: 109px; 
+      border: 2px solid #FFC0C0;
+      margin-top: 40px;
+      // flex-shrink: 0;
+      // fill: #FFF;
+      // stroke-width: 1px;
+      // stroke: #FFF;
+      filter: drop-shadow(0px 0px 6px rgba(209, 209, 209, 0.8));
+    }
+
+    .ok-button {
+      background-color: #5AB2B8;
+      width: 55px;
+      height: 55px;
+      border-radius: 109px; 
+      border: 2px solid #5AB2B8;
+      // flex-shrink: 0;
+      // fill: #FFF;
+      // stroke-width: 1px;
+      // stroke: #FFF;
+      filter: drop-shadow(0px 0px 6px rgba(209, 209, 209, 0.8));
+    }    
+  }
+.right-buttons button:hover {
+  background-color: #EEE;
+  border-color: #999;
+  border: 0px solid #fff;
+  // color: #333;
+}
+
+.right-buttons button:active {
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.update-input{
+  width: 290px;
+  height: 41px;
+  flex-shrink: 0;
+  // margin: 10px 10px 0 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #CFCFCF;
+  background: #FFF;
+}
+
+.node-name{
+  display: flex;
+  width: 61px;
+  height: 41px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #4F6C8F;
+  text-align: center;
+  font-family: Avenir;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
 }
 </style>

@@ -11,7 +11,7 @@ import { fmtLabelOverflow } from "./index"
 
 
 const portPoint_r = 8;
-const node_width = 120;
+const node_width = 180;
 const node_height = 40;
 
 
@@ -21,19 +21,11 @@ export function getActionTypeTheme(type) {
     /**@enum */
     const Theme = {
         /**默认深蓝 */
-        DEFAULT: { border: '#939393', background: '#83b7ff' },
-        /**浅蓝色 */
-        BLUE: { border: '#939393', background: '#37BEE8' },
-        /**绿色 */
-        GREEN: { border: '#939393', background: '#79DDCF' },
-        /**橘色 */
-        ORANGE: { border: '#939393', background: '#F1B575' },
-        /**灰色 */
-        GRAY: { border: '#939393', background: '#9B9B9B' },
-        /**黄色 */
-        YELLOW: { border: '#939393', background: '#FDF3D7' },
-        PURPLE: { border: '#939393', background: '#B4C5E9' },
-        RED: { border: '#939393', background: '#F68B8B' },
+        DEFAULT: { border: '#939393', background: '#83b7ff', left_background: '#83b7ff' },
+        BLUE: { border: '#4F6C8F', background: '#DEEDFF', left_background: '#4F6C8F' },
+        GREEN: { border: '#6D9862', background: '#E7FCE2', left_background: '#6D9862' },
+        YELLOW: { border: '#CCC74D', background: '#FFFEE0', left_background: '#CCC74D' },
+        PURPLE: { border: '#B16C9D', background: '#FFEFFB', left_background: '#B16C9D' },
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT
@@ -51,15 +43,15 @@ export function getActionTypeTheme(type) {
     // }[type]
     const { USERREQUEST, SPEAK, ASK, FOR, IF, INFO, END, GOTO, DETECTHUMAN} = ActionType
     return {
-        [USERREQUEST]: Theme.GREEN,
-        [SPEAK]: Theme.ORANGE,
-        [ASK]: Theme.PURPLE,
-        [FOR]: Theme.GRAY,
-        [IF]: Theme.GRAY,
-        [INFO]: Theme.GRAY,
+        [USERREQUEST]: Theme.YELLOW,
+        [SPEAK]: Theme.BLUE,
+        [ASK]: Theme.BLUE,
+        [FOR]: Theme.PURPLE,
+        [IF]: Theme.PURPLE,
+        [INFO]: Theme.GREEN,
         [GOTO]: Theme.BLUE,
-        [END]: Theme.GRAY,
-        [DETECTHUMAN]: Theme.RED,
+        [END]: Theme.YELLOW,
+        [DETECTHUMAN]: Theme.BLUE,
     }[type]
 }
 
@@ -217,19 +209,22 @@ export function getDetailNode(node) {
         attrs: {
           body: {
             stroke: targetTheme.border,
-            strokeWidth: 0.2,
+            strokeWidth: 2,
             fill: targetTheme.background,
-            opacity: 0.5
+            // opacity: 0.5,
+            rx: 5,
+            ry: 5,
           },
+          
           leftRect: {
-            x: 0,
-            y: 0,
-            width: 30,
-            height: height,
-            // stroke: targetTheme.border,
-            strokeWidth: 0,
-            fill: targetTheme.background,
-            opacity: 0.8
+            x: 2,
+            y: 2,
+            width: 38,
+            height: 36,
+            stroke: targetTheme.border,
+            strokeWidth: 2.5,
+            fill: targetTheme.left_background,
+            // opacity: 0.8
           },
         //   icon: {
         //     // 设置图标的SVG路径和样式
@@ -243,18 +238,19 @@ export function getDetailNode(node) {
         //     yAlignment: 'middle',
         //   },
           icon: {
-            x: 5,
-            y: 10,
-            width: 20,
-            height: 20,
+            x: 6,
+            y: 6,
+            width: 28,
+            height: 28,
             xlinkHref: iconURL,
            },
           label: {
             text: label,
-            fill: "#7D7671",
-            strokeWidth: 0.4,
+            fill: "#000000",
+            // strokeWidth: 0.4,
             fontSize: 12,
-            x: -25,
+            fontWeight: "bold", // 将fontWeight属性设置为"bold"
+            x: -38,
             'text-anchor': 'start', // 文本左对齐
             // refX: 20,
             // refY: '50%',

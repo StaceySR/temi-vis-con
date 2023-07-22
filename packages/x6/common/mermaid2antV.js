@@ -83,8 +83,8 @@ function parseMermaidCode(mermaidCode) {
             }
             //5. 将node格式化保存至nodes列表
             const node = {
-                            // "attrs": {"label": { "text": nodeAction+nodeLabel }},
-                            "attrs": {"label": { "text": nodeLabel }},
+                            "attrs": {"label": { "text": nodeAction+": "+nodeLabel }},
+                            // "attrs": {"label": { "text": nodeLabel }},
                             "id": nodeId,
                             "data": { "actionType": actionType }//代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
                         };
@@ -135,7 +135,7 @@ function parseMermaidCode(mermaidCode) {
                 ],
                 "attrs": {
                     "line": {
-                        "stroke": '#7c68fc',
+                        "stroke": '#C0C0C0',
                         "strokeWidth": 1,
                     }
                 },

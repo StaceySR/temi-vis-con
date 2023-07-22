@@ -1,5 +1,9 @@
 <template>
     <div id="chat">
+      <div class="chat-icon">
+        <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/robot.png"/>
+        <span class="chat-title">RSC</span>
+      </div>
       <div class="chat-container">
         <div class="message" v-for="message in messages" :key="message.id" :class="message.role">
           <div class="content" :class="message.role ==='user' ?  'content-user' : 'content-assistant'">
@@ -8,9 +12,13 @@
         </div>
       </div>
       <div class="input-container">
-        <textarea ref="textarea" v-model="userInput" placeholder="请输入内容"></textarea>
-        <button class="chatButton" @click="sendMessage">发送</button>
-        <button class="chatButton" @click="TemiServiceBuild">部署</button>
+        <textarea ref="textarea" v-model="userInput" placeholder="请输入内容" class="chat-input">
+          
+        </textarea>
+        <button class="chatButton" @click="sendMessage">
+          <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/sendButton.png" alt="按钮">
+        </button>
+        <!-- <button class="chatButton" @click="TemiServiceBuild">部署</button> -->
       </div>
     </div>
   </template>
@@ -298,19 +306,50 @@
   #chat {
     font-family: "Avenir", Helvetica, Arial, sans-serif;
     text-align: center;
-    margin-top: 60px;
+    /* margin-top: 60px; */
     display: block;
+    /* width: 100%; */
   }
   
   .chat-container {
-    width: 300px;
+    width: 88%;
     height: 90%;
-    min-height: 500px;
-    border: 1px solid #ccc;
+    min-height: 580px;
+    /* border: 1px solid #ccc; */
     margin: 0 auto;
     overflow-y: auto;
     padding: 10px;
+    border-radius: 21px;
+    background: #FFF;
   }
+
+.chat-icon {
+  position: relative;
+  top: 0px;
+  /* margin-top: -20px; */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-icon img {
+  width: 30px;
+  height: 30px;
+}
+
+.chat-title {
+  color: #5AB2B8;
+  font-family: Avenir;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  margin-left: 9px;
+}
   
   .message {
     display: flex;
@@ -350,41 +389,80 @@
   .input-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 10px;
+    /* width: 100%; */
   }
   
   input[type="text"] {
-    width: 200px;
+    /* width: 200px; */
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-right: 10px;
+    /* margin-right: 10px; */
     resize: vertical;
   }
   
-  textarea {
-    width: 200px;
+  .chat-input {
+    position: relative;
+    /* width: 450px; */
+    width: 92%;
+    min-height: 80px;
+    max-height: 80px;
+    overflow: auto;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
+    border-radius: 12px;
+    border: 1px solid #878787;
+    background: #FFF;
+    /* margin-right: 10px; */
     resize: none;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
   
   textarea:focus {
     outline: none;
   }
+  /* 滚动条整体样式 */
+  ::-webkit-scrollbar {
+    width: 8px; /* 宽度 */
+    height: 8px; /* 高度 */
+  }
+
+  /* 滚动条轨道样式 */
+  ::-webkit-scrollbar-track {
+    background-color: #f5f5f5; /* 背景色 */
+  }
+
+  /* 滚动条滑块样式 */
+  ::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1; /* 滑块颜色 */
+    border-radius: 10px; /* 滑块圆角 */
+  }
+
+  /* 滚动条滑块悬停样式 */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #a8a8a8;
+  }
   
   .chatButton {
-    background-color: #0080ff;
+    position: absolute;
+    bottom: 29px;
+    right: 25px;
+    background-color: #5AB2B8;
     color: #fff;
     border: none;
     border-radius: 5px;
-    width: 50px;
+    width: 35px;
+    height: 35px;
     /* padding: 10px 20px; */
     cursor: pointer;
-    margin: 5px;
+    /* margin: 5px; */
+  }
+
+  .chatButton img {
+    display: block; /* 将图片设置为块级元素 */
+    width: 32px; /* 设置图片宽度为按钮的宽度 */
+    height: 32px; /* 设置高度自适应 */
   }
   </style>

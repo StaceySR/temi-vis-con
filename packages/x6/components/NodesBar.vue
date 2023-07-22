@@ -1,6 +1,8 @@
 <template>
   <div class="node-bar-container">
+    <span class="nodes-bar-title">组件库</span>
     <ul class="nodes-bar">
+
       <li v-for="(node, index) in nodes" :key="index">
         <div
           id="container_node"
@@ -100,13 +102,39 @@ li {
   margin: 0;
   list-style: none;
 }
+.nodes-bar-title{
+  color: #000;
+  text-align: center;
+  font-family: Avenir;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  position: absolute; /* 添加绝对定位 */
+  top: 18px; /* 顶部对齐 */
+  left: 50%; /* 水平居中 */
+  transform: translateX(-50%); /* 水平居中 */
+  margin-bottom: 10px;
+
+}
 .node-bar-container {
   // 禁止被双击选中
   user-select: none;
-  width: 150px;
-  height: 20%;
+  width: 200px;
+  height: 15%;
   overflow: scroll;
   background: #f6f6f6;
+  padding-top: 30px; 
+  
+  position: absolute;
+  top: 19px;
+  left: 8px;
+  width: 180px;
+  height: 413px;
+  z-index: 2;
+  border-radius: 9px; 
+  border: 1px solid #B4B4B4;
+  box-shadow: 0px 0px 6px 5px rgba(209, 209, 209, 0.25);
   .nodes-bar {
     width: 100%;
     padding: 20px 0;
@@ -115,7 +143,7 @@ li {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       & > div {
         display: flex;
         justify-content: center;
@@ -173,7 +201,7 @@ li {
   display: flex;
   align-items: center;
   padding-left: 30px;
-  width: 200px; /* 设置容器的宽度 */
+  width: 212px; /* 设置容器的宽度 */
   overflow: hidden; /* 隐藏超出容器边界的内容 */
   position: relative; /* 将容器设置为相对定位 */
 }
@@ -194,7 +222,7 @@ li {
 .content {
   flex: 1;
   margin-left: 12px;
-  padding: 5px;
+  padding: 7px;
   background-color: #fff; /* 内容的背景颜色 */
 }
 </style>

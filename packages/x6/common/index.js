@@ -31,7 +31,7 @@ export function fmtJSON(target) {
 export function fmtLabelOverflow(label) {
     if (!Lang.isString(label)) return label
     if (label.length <= 7) return label
-    const cutLabel = label.slice(0, 6) + '...'
+    const cutLabel = label.slice(0, 12) + '...'
     return cutLabel
 }
 
@@ -94,6 +94,7 @@ export function graphAutoLayout(nodes, edges) {
 
 /**监听单元事件双击回调 */
 export function nodeDclick(cb) {
+    console.log("index.js--nodeDClick");
     Channel.eventListener(CustomEventTypeEnum.DOUBLE_NODE_CLICK, (detail) => cb(detail));
 }
 
@@ -117,9 +118,9 @@ export function updateNode(data) {
         const { label, ...otherParams } = data
         // 设置label
         if (label) {
-            // const cutLabel = fmtLabelOverflow(label)
+            const cutLabel = fmtLabelOverflow(label)
             cell.setData({
-                tooltip: label,
+                tooltip: cutLabel,
                 initialization: false
             })
             cell.setAttrs({ label: { text: label } })
@@ -138,6 +139,13 @@ export function updateNode(data) {
         // 清除选框
         graph.value.cleanSelection()
     }
+}
+
+export function selectedNodesCount(){
+    const graph = useGraph()
+    const cells = graph.value.getSelectedCells()
+    console.log("cells: ", cells.length)
+    return cells.length
 }
 
 /**
