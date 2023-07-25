@@ -60,16 +60,16 @@ export function getActionTypeIcon(type) {
     /**@enum */
     const Theme = {
         /**默认 */
-        DEFAULT: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
-        USERREQUEST: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
-        SPEAK: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
-        ASK: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/ask.png",
-        GOTO: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/goto.png",
-        FOR: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/for.png",
-        IF: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/if.png",
-        INFO: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons//var.png",
-        DETECTHUMAN: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
-        END: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/end.png",
+        DEFAULT: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
+        USERREQUEST: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
+        SPEAK: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
+        ASK: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/ask.png",
+        GOTO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/goto.png",
+        FOR: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/for.png",
+        IF: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/if.png",
+        INFO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons//var.png",
+        DETECTHUMAN: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
+        END: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/end.png",
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT

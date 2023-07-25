@@ -43,7 +43,7 @@ export default defineComponent({
   methods: {
     imagePath(label) {
       // 构建图片路径
-      return "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/" + label + ".png"
+      return "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/" + label + ".png"
     },
   },
   setup() {

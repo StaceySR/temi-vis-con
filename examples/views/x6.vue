@@ -25,13 +25,13 @@
 
     <div class="right-buttons">
       <button class="auto-layout-button" @click="handleAutoLayout">
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/autoLayout.png"/>
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/autoLayout.png"/>
       </button>
       <button v-if="isSelected" class="redo-button">
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/redo.png"/>
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/redo.png"/>
       </button>
       <button v-if="isSelected" class="ok-button" @click="handleConfirmChanges">
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
       </button>
 
       <button id="emitTitleToParent" @click="emitTitleToParent"></button>
@@ -85,7 +85,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -105,7 +105,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
       </button>
     </div> -->
 
@@ -140,7 +140,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -160,7 +160,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
       </button>
     </div>
 
@@ -195,7 +195,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -215,7 +215,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
       </button>
     </div>
 
@@ -250,7 +250,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -270,7 +270,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
       </button>
     </div>
 
@@ -294,7 +294,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -314,7 +314,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
       </button>
     </div>
 
@@ -350,7 +350,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -370,7 +370,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
       </button>
     </div>
 
@@ -394,7 +394,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -414,7 +414,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
       </button>
     </div>
 

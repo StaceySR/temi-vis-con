@@ -1,7 +1,7 @@
 <template>
     <div id="chat">
       <div class="chat-icon">
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/robot.png"/>
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/robot.png"/>
         <span class="chat-title">RSC</span>
       </div>
       <div class="chat-container">
@@ -16,7 +16,7 @@
           
         </textarea>
         <button class="chatButton" @click="sendMessage">
-          <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/sendButton.png" alt="按钮">
+          <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/sendButton.png" alt="按钮">
         </button>
         <!-- <button class="chatButton" @click="TemiServiceBuild">部署</button> -->
       </div>
