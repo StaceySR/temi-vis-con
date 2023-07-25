@@ -30,7 +30,7 @@ export const clean = () => graphClean();
 export const autoLayout = (nodes, edges) => graphAutoLayout(nodes, edges);
 
 /**get mermaid data from back-end */
-export const getListData = (data)=> getData(data);
+export const getListData = (mermaidCode)=> getData(mermaidCode);
 
 /**confirm the changes and put the new mermaid data to the back-end */
 export const confirmChanges = (nodes, edges) => changeAntVToMermaid(nodes, edges);

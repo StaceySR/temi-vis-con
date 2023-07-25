@@ -6,10 +6,10 @@
         </div>
         <div class="title-buttons">
           <button class="title-button">
-            <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/play.png"/>
+            <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/play.png"/>
           </button>
           <button class="title-button">
-            <img class="title-button-img2" src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/download.png"/>
+            <img class="title-button-img2" src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/download.png"/>
           </button>
         </div>
       </div>
@@ -120,6 +120,9 @@
     top: 2px;
     width: 32px;
     height: 32px;
+  }
+  .title-button:hover{
+    transform: scale(1.1) !important;
   }
 
   a.title {

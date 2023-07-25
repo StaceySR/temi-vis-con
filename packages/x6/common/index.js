@@ -96,6 +96,8 @@ export function graphAutoLayout(nodes, edges) {
 export function nodeDclick(cb) {
     console.log("index.js--nodeDClick");
     Channel.eventListener(CustomEventTypeEnum.DOUBLE_NODE_CLICK, (detail) => cb(detail));
+    // Channel.eventListener(CustomEventTypeEnum.CELL_CLICK, (detail) => cb(detail));
+
 }
 
 /**监听单元事件单击回调 */
@@ -286,8 +288,8 @@ export function getAtoms(options) {
     return atoms
 }
 
-export function getData(data){
-    return getMermaidData(data);
+export function getData(mermaidCode){
+    return getMermaidData(mermaidCode);
 }
 
 export function changeAntVToMermaid(nodes, edges){

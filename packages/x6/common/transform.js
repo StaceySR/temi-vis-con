@@ -60,16 +60,16 @@ export function getActionTypeIcon(type) {
     /**@enum */
     const Theme = {
         /**默认 */
-        DEFAULT: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
-        USERREQUEST: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
-        SPEAK: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
-        ASK: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/ask.png",
-        GOTO: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/goto.png",
-        FOR: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/for.png",
-        IF: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/if.png",
-        INFO: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons//var.png",
-        DETECTHUMAN: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
-        END: "http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/end.png",
+        DEFAULT: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
+        USERREQUEST: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
+        SPEAK: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
+        ASK: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/ask.png",
+        GOTO: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/goto.png",
+        FOR: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/for.png",
+        IF: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/if.png",
+        INFO: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons//var.png",
+        DETECTHUMAN: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
+        END: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/end.png",
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT
@@ -179,8 +179,8 @@ function getBaseConfig(node) {
     // }
     if (Lang.isObject(attrs)) {
         _tooltip = attrs.label.text
-        console.log("_tooltip: ", attrs.label.text)
-        console.log("true: tooltip: ", data.tooltip)
+        // console.log("_tooltip: ", attrs.label.text)
+        // console.log("true: tooltip: ", data.tooltip)
     }
     // if (Lang.isObject(data)){
     //     _tooltip = data.tooltip
@@ -208,7 +208,7 @@ function getBaseConfig(node) {
  */
 export function getDetailNode(node) {
     let { x, y, label, id, data, width, height } = getBaseConfig(node)
-    console.log("getDetailNode: ", label)
+    // console.log("getDetailNode: ", label)
     const actionType = data.actionType;
     // 主题色
     const targetTheme = getActionTypeTheme(actionType)

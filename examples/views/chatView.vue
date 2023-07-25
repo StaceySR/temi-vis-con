@@ -1,7 +1,7 @@
 <template>
     <div id="chat">
       <div class="chat-icon">
-        <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/robot.png"/>
+        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/robot.png"/>
         <span class="chat-title">RSC</span>
       </div>
       <div class="chat-container">
@@ -16,7 +16,7 @@
           
         </textarea>
         <button class="chatButton" @click="sendMessage">
-          <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/sendButton.png" alt="按钮">
+          <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/sendButton.png" alt="按钮">
         </button>
         <!-- <button class="chatButton" @click="TemiServiceBuild">部署</button> -->
       </div>
@@ -307,14 +307,37 @@
     font-family: "Avenir", Helvetica, Arial, sans-serif;
     text-align: center;
     /* margin-top: 60px; */
-    display: block;
+    /* display: block; */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     /* width: 100%; */
+  }
+  .chat-icon, .chat-container, .input-container {
+    flex: 1;
+  }
+
+  .chat-icon {
+    flex-grow: 1;
+    height: 10%;
+  }
+
+  .chat-container {
+    flex-grow: 7;
+    height: 70%;
+    overflow-y: auto;
+  }
+
+  .input-container {
+    flex-grow: 2;
+    height: 20%;
+    position: relative;
   }
   
   .chat-container {
     width: 88%;
     height: 90%;
-    min-height: 580px;
+    min-height: 500px;
     /* border: 1px solid #ccc; */
     margin: 0 auto;
     overflow-y: auto;
@@ -387,9 +410,8 @@
   }
   
   .input-container {
-    display: flex;
+    /* display: flex; */
     justify-content: center;
-    margin-top: 10px;
     padding: 10px;
     /* width: 100%; */
   }
@@ -408,8 +430,8 @@
     position: relative;
     /* width: 450px; */
     width: 92%;
-    min-height: 80px;
-    max-height: 80px;
+    min-height: 100px;
+    max-height: 100px;
     overflow: auto;
     padding: 10px;
     border-radius: 12px;
@@ -421,7 +443,31 @@
     font-size: 16px;
     font-family: "Avenir", Helvetica, Arial, sans-serif;
   }
-  
+  .chatButton {
+    position: relative;
+    bottom: 49px;
+    right: -171px;
+    background-color: #5AB2B8;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    width: 35px;
+    height: 35px;
+    /* padding: 10px 20px; */
+    cursor: pointer;
+  }
+
+  .chatButton:hover{
+    transform: scale(1.1) !important;
+  }
+
+  .chatButton img {
+    display: block; /* 将图片设置为块级元素 */
+    width: 32px; /* 设置图片宽度为按钮的宽度 */
+    height: 32px; /* 设置高度自适应 */
+  }
+
+    
   textarea:focus {
     outline: none;
   }
@@ -445,26 +491,5 @@
   /* 滚动条滑块悬停样式 */
   ::-webkit-scrollbar-thumb:hover {
     background-color: #a8a8a8;
-  }
-  
-  .chatButton {
-    position: absolute;
-    bottom: 29px;
-    right: 25px;
-    background-color: #5AB2B8;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    width: 35px;
-    height: 35px;
-    /* padding: 10px 20px; */
-    cursor: pointer;
-    /* margin: 5px; */
-  }
-
-  .chatButton img {
-    display: block; /* 将图片设置为块级元素 */
-    width: 32px; /* 设置图片宽度为按钮的宽度 */
-    height: 32px; /* 设置高度自适应 */
   }
   </style>

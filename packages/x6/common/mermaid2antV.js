@@ -2,6 +2,7 @@ function parseMermaidCode(mermaidCode) {
     const lines = mermaidCode.split('\n');
     const nodes = [];
     const edges = [];
+    const variables = {"all": []};
 
     lines.forEach((line) => {
         // console.log("line: ", line);
@@ -45,27 +46,19 @@ function parseMermaidCode(mermaidCode) {
             let nodeAction = nodeLine[2];
             // console.log("nodeAction: ", nodeAction);
             //4. 匹配 "userRequest:预约开会"中的"预约开会", 作为node.label
-            let nodeLabel = nodeLine[3];
-            // console.log("nodeLabel: ", nodeLabel);
-            
-            //5. 判断node.actionType
-            // let actionType = "ACTION";
-            // if (nodeId[0] === "r") {
-            //     actionType = "TRIGGER";
-            // } else {
-            //     if (nodeId[0] === "c") {
-            //         actionType = "CONDITION";
-            //     } 
-            //     else{
-            //         //判断是不是for循环相关的节点
-            //         // console.log(nodeLine[0][nodeId.length] + nodeLine[0][nodeId.length+1]);
-            //         if (nodeLine[0][nodeId.length] + nodeLine[0][nodeId.length+1] == "{{") {
-            //             // console.log("for节点");     
-            //             actionType = "FOR";                               
-            //         }
+            let nodeLabel = nodeLine[3].trim();
+            console.log("nodeLabel: ", nodeLabel);
 
-            //     }
-            // }
+            const parts = nodeLabel.split(";");
+            for (let index = 1; index < parts.length; index++) {
+                let variable = parts[index];
+                variables['all'].push(variable)
+            }
+
+            const set = new Set(variables['all']);  // 使用 Set 去除重复元素
+            const tuple = Array.from(set);  // 将 Set 转换为数组
+            variables['all'] = tuple;
+            
             //5. 判断node.actionType
             // console.log("nodeAction: ", nodeAction)
             let actionType = nodeAction.toUpperCase();
@@ -154,11 +147,12 @@ function parseMermaidCode(mermaidCode) {
     // 判断这个node是不是最后一个，如果是的话，也应该是TRIGGER 
     // nodes[nodes.length - 1]["data"]["actionType"] = "TRIGGER";
     console.log("mermaid2antV: nodes+edges: ", {nodes, edges});
-    return { nodes, edges };
+    console.log("mermaid2antV: variables: ", variables);
+    return { nodes, edges, variables };
 }
 
 
-export function getMermaidData(data){
+export function getMermaidData(mermaidCode){
     //todo 预留接受后端mermaid数据接口
     // const data = await axios.get('api')    
     // const sourcedata = `graph TB
@@ -199,6 +193,6 @@ export function getMermaidData(data){
     //                                     k_01(["end:任务结束"])
     //                                     j_02 --> k_01
     //                                     `
-    const antVdata = parseMermaidCode(data);
+    const antVdata = parseMermaidCode(mermaidCode);
     return antVdata;
 }
