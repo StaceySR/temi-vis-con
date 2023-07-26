@@ -149,14 +149,14 @@
               
       },
 
-      async NL2JSwithContext(userInput,currentJSCode) {
-        const res = await fetch("http://192.168.123.70:3001/APIs/js2NLexplain" ,
+      async NL2JSwithContext(_userInput,_currentJSCode) {
+        const res = await fetch("http://192.168.123.70:3001/APIs/nl2jswithContext" ,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ text: userInput,context: currentJSCode })
+            body: JSON.stringify({ text: _userInput,context: _currentJSCode })
           }
         );
 
