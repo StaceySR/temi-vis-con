@@ -27,10 +27,10 @@
       <button class="auto-layout-button" @click="handleAutoLayout">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/autoLayout.png"/>
       </button>
-      <button v-if="isSelected" class="redo-button">
+      <button  class="redo-button">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/redo.png"/>
       </button>
-      <button v-if="isSelected" class="ok-button" @click="handleConfirmChanges">
+      <button  class="ok-button" @click="handleConfirmChanges">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
       </button>
 
@@ -549,6 +549,8 @@ export default defineComponent({
         if (data.currentIndex > list.length - 1) data.currentIndex = 0;
         return current;
       },
+
+      // 实现自动布局
       handleSwitchDefault() {  //[SwitchData]
         const { nodes, edges } = methods.switchData();
         console.log("defaultData: node: ", nodes);
@@ -587,21 +589,28 @@ export default defineComponent({
         graphFunc.autoLayout(nodes, edges);
       },
 
+      // 暂时先去掉验证
       handleConfirmChanges() {  //[confirm the changes]
-        const { ok, errs } = graphFunc.graphValidate();
-        if (ok && data.isUpdate==true) {
+        // const { ok, errs } = graphFunc.graphValidate();
+        // if (ok && data.isUpdate==true) {
+        //   const { nodesJSON, edgesJSON } = graphFunc.exportData();
+        //   const newMermaidCode = graphFunc.confirmChanges(nodesJSON, edgesJSON);
+        //   EventBus.$emit("send-new-mermaid-data", newMermaidCode);
+        //   // console.log(mermaidCode);
+
+        //   Message.success("Export succeeded. Please view it on the console");
+        // } else {
+        //   console.log("[debug]errs:", errs);
+        //   // Message.error(errs[0]);
+        // }
+
           const { nodesJSON, edgesJSON } = graphFunc.exportData();
           const newMermaidCode = graphFunc.confirmChanges(nodesJSON, edgesJSON);
           EventBus.$emit("send-new-mermaid-data", newMermaidCode);
           // console.log(mermaidCode);
-
-          Message.success("Export succeeded. Please view it on the console");
-        } else {
-          console.log("[debug]errs:", errs);
-          // Message.error(errs[0]);
-        }
       },
 
+      // 从mermaid code中获取数据并处理为 x6 graph的数据格式 as list
       getData(mCode=mermaidCode){
                            // console.log("流程图的mermaid code: ", data);
         const {nodes,edges, variables} = graphFunc.getListData(mCode);

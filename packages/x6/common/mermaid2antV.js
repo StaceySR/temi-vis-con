@@ -47,7 +47,7 @@ function parseMermaidCode(mermaidCode) {
             // console.log("nodeAction: ", nodeAction);
             //4. 匹配 "userRequest:预约开会"中的"预约开会", 作为node.label
             let nodeLabel = nodeLine[3].trim();
-            console.log("nodeLabel: ", nodeLabel);
+            //console.log("nodeLabel: ", nodeLabel);
 
             const parts = nodeLabel.split(";");
             for (let index = 1; index < parts.length; index++) {
