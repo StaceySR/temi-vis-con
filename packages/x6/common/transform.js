@@ -179,14 +179,14 @@ function getBaseConfig(node) {
     // }
     if (Lang.isObject(attrs)) {
         _tooltip = attrs.label.text
-        // console.log("_tooltip: ", attrs.label.text)
+        //console.log("_tooltip: ", attrs.label.text)
         // console.log("true: tooltip: ", data.tooltip)
     }
     // if (Lang.isObject(data)){
     //     _tooltip = data.tooltip
     // }
     const cutLabel = fmtLabelOverflow(_tooltip)
-
+    console.log("cutLabel: ", cutLabel)
     return {
         // type: _shape,
         x: x,
@@ -208,7 +208,7 @@ function getBaseConfig(node) {
  */
 export function getDetailNode(node) {
     let { x, y, label, id, data, width, height } = getBaseConfig(node)
-    // console.log("getDetailNode: ", label)
+    //console.log("getDetailNode: ", label)
     const actionType = data.actionType;
     // 主题色
     const targetTheme = getActionTypeTheme(actionType)
@@ -216,6 +216,7 @@ export function getDetailNode(node) {
 
     return {
         id,
+        lable: label,
         shape: "rect",
         width: width,
         height: height,

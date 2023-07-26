@@ -63,7 +63,8 @@ export default defineComponent({
               tooltip: label,
               // size: { width: 100, height: 50 },
               attrs: {label: {text: label}},
-              data: {actionType: actionType},
+              //lable: "未命名",
+              data: {actionType: actionType, label: label,tooltip: label},
               initialization: true,
             });
         const node = graph.value.createNode(json);
