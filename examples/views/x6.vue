@@ -603,7 +603,7 @@ export default defineComponent({
       },
 
       getData(mCode=mermaidCode){
-                           // console.log("流程图的mermaid code: ", data);
+        // console.log("流程图的mermaid code: ", data);
         const {nodes,edges, variables} = graphFunc.getListData(mCode);
         list = [{nodes,edges}];
         console.log("list:",list);
@@ -648,17 +648,11 @@ export default defineComponent({
           data.form.action = ""
           data.form.tooltip = detail.node.data.tooltip;
           data.form.label = detail.label;
-
-          console.log("[debug]detail.node.data.tooltip:", detail.node.data.tooltip);
           const parts = detail.node.data.tooltip.split(':');
 
-          if (parts.length === 2) {
-            data.form.name = parts[0].trim();
-            data.form.label = parts[1].trim();
-          } else {
-            data.form.name = detail.node.data.tooltip.trim();
-            data.form.label = '未设定';
-          }
+          // const parts = detail.label.split(':');
+          data.form.name = parts[0];   // 'name'
+          data.form.label = parts[1]; // 'John'
 
           const parts2 = data.form.label.split(";");
           data.form.action = parts2[0];
