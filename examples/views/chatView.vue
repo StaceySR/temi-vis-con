@@ -140,7 +140,7 @@
         );
 
         const result = await res.text().then((data) => {
-          console.log('data', data);
+          //console.log('data', data);
 
           return data;
         });
@@ -204,7 +204,7 @@
 
 
         const result = await res.text().then((data) => {
-          console.log('data', data);
+          //console.log('data', data);
 
           return data;
         });
