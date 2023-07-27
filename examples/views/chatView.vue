@@ -45,8 +45,8 @@
         systemMsg: "",
         historyMsg: [],
         currentMsg: "",
-          currentJSCode: "",
-          currentFlowCode: "",
+        currentJSCode: "",
+        currentFlowCode: "",
         newMermaidData: "",
         selectedCells: [],
         currentStage: stageType.authoring,
@@ -62,8 +62,6 @@
 
         this.addMessage(this.userInput, "user");
         
-
-
 
         if (this.currentStage == stageType.authoring) {
           this.addMessage("正在理解你的需求....", "assistant");
@@ -142,7 +140,8 @@
         setTimeout(() => {
           this.resizeTextarea({ target: this.$refs.textarea });
         }, 100);
-  
+        
+        EventBus.$emit("send-new-title", "send-new-title");
       },
 
       async TemiServiceBuild() {

@@ -41,6 +41,20 @@ export default defineComponent({
   methods: {
     imagePath(label) {
       // 构建图片路径
+      const turn = {
+        '服务启动词': 'userRequest',
+        '说话': 'speak',
+        '询问': 'ask',
+        '前往': 'goto',
+        '人物检测': 'detectHuman',
+        '判断': 'condition',
+        '循环': 'forLoop',
+        '退出循环': 'loopEnd',
+        '创建变量': 'infoDeclare',
+        '变量赋值': 'infoAssign',
+        '服务结束': 'end'
+      }
+      label = turn[label]
       return "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/" + label + ".png"
     },
   },
@@ -54,8 +68,11 @@ export default defineComponent({
 
     const methods = {
       startDrag(currentTarget, e) {
-        const { actionType, shape, label } = currentTarget;
+        let { actionType, shape, label } = currentTarget;
         console.log("currentTarget: ", { actionType, shape, label })
+        if (label == 'detectHuman') {
+          label = '人物检测'
+        }
         let json = getDetailNode({
               shape,
               tooltip: label,

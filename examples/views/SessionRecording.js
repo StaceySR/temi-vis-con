@@ -12,7 +12,7 @@ class Session{
     }
 
     async recording(type, content) {
-        const res = await fetch('http://localhost:3001/APIs/recording', {
+        const res = await fetch('http://192.168.123.70:3001/APIs/recording', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -131,7 +131,7 @@
           <el-input
               clearable
               :disabled="!isSelected"
-              v-model="form.label"
+              v-model="form.action"
               @keyup.enter.native="handleUpdateLabel"
               class="update-input"
             ></el-input>
@@ -974,6 +974,13 @@ export default defineComponent({
       EventBus.$on('callGetData', (payload) => {
         methods.getData(payload);
         methods.handleSwitchDefault();
+      });
+
+      EventBus.$on('send-new-title', (payload) => {
+        // methods.getData(payload);
+        console.log("send-new-title: ", payload)
+        // methods.handleSwitchDefault();
+        document.getElementById("emitTitleToParent").click()
       });
     });
     return {
