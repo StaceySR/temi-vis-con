@@ -45,4 +45,5 @@ function uuidv4() {
 }
 
 export let session = new Session();
+session.recording('start', 'start a new session');
 

@@ -28,6 +28,13 @@
   // import { getMermaidData }     from "../../packages/x6/common/mermaid2antV.js";
   import { EventBus } from "./eventBus.js";
   import { session } from "./SessionRecording.js";
+
+  // 定义阶段类型，包括 authoring,debugging, magicModify
+  const stageType = {
+    authoring: 0,
+    debugging: 1,
+    magicModify: 2,
+  };
   
   export default {
     data() {
@@ -42,6 +49,7 @@
           currentFlowCode: "",
         newMermaidData: "",
         selectedCells: [],
+        currentStage: stageType.authoring,
       };
     },
     methods: {
@@ -291,7 +299,7 @@
         console.log("chatview中的魔法棒: ", this.selectedCells)
 
         //从选中的cells中提取出node，然后从node中取出label,并记录，然后进行打印。
-        let selectedNodes = [];
+        let selectedNodesID = [];
 
         for (let i = 0; i < this.selectedCells.length; i++){
         // 判断当前cell是否为node
@@ -300,25 +308,49 @@
             } else {
             console.log("find node!");
             //添加到selectedNodes中
-            selectedNodes.push(this.selectedCells[i]);    
+            selectedNodesID.push(this.selectedCells[i].id);    
 
           }
 
-          // 提取出node的label
-           console.log("selectedNodes[i].id: ", selectedNodes[i].id);
-
-
-      
 
         }
 
+                // 提取出node的label
+          //console.log("selectedNodes[i].id: ", selectedNodes[i].id);
+
+        this.addMessage("正在思考解释你选中的节点....", "assistant");
+        const res = await fetch("//192.168.123.70:3001/APIs/magicModify",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+              body: JSON.stringify({
+                  sessionID: session.id,
+                  selectedNodes: selectedNodesID,
+                  jscode: this.currentJSCode,
+                  flow: this.currentFlowCode,
+            })
+          }
+        );
+
+
+        await res.text().then((data) => {
+          //console.log('data', data);
+          console.log("data from magic modify: ", data);
+          const serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = data;
+
+          return data;
+        });
 
 
 
 
 
-        console.log("selectedNodes: ", selectedNodes);
-        console.log("current mermaidCode:" + this.currentFlowCode);
+
+        //console.log("selectedNodes: ", selectedNodesID);
+        //console.log("current mermaidCode:" + this.currentFlowCode);
 
 
 
