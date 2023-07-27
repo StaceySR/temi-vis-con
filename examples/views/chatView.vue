@@ -60,7 +60,7 @@
         console.log('sendContent', sendContent);
 
         this.addMessage(this.userInput, "user");
-        this.addMessage("正在生成中....", "assistant");
+        this.addMessage("正在理解你的需求....", "assistant");
 
         if(this.currentJSCode.length === 0) {
           this.currentJSCode = await this.NL2JS(sendContent);
@@ -69,10 +69,11 @@
           // 取回生成的hs代码后，进一步生成解释
           // const explainContent = await this.JS2NL(this.currentJSCode);
           // console.log('explainContent', explainContent);
-
+          const serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = "正在构建代码...";
           this.JS2NL(this.currentJSCode).then((data) => {
             console.log('data', data);
-            const serverMsg = this.messages[this.messages.length - 1];
+            //serverMsg = this.messages[this.messages.length - 1];
             serverMsg.content = data;
           });
 
@@ -86,17 +87,21 @@
 
           const explainContent = await this.ExplainModifiedJS(this.currentJSCode, modifiedJSCode);
 
+          
           //将最后的sytem message改成该解释内容
           // 获得 messages 中最后一条role为system的message
           const serverMsg = this.messages[this.messages.length - 1];
           serverMsg.content = explainContent;          
         }
 
+        this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
         // 生成代码后开始处理flow部分
         const mermaidCode = await this.js2flow(this.currentJSCode);
         this.currentFlowCode = mermaidCode;
         EventBus.$emit('callGetData', this.currentFlowCode);
 
+        const serverMsg = this.messages[this.messages.length - 1];
+        serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";
 
 
 
@@ -372,7 +377,7 @@
       this.$refs.textarea.addEventListener("input", this.resizeTextarea);
       //this.setSystemMsg();
   
-      this.addMessage("你好，我是你的助手，我将帮助你进行机器人的功能定制，请你开始进行创作吧！", "assistant");
+      this.addMessage("你好，我是你的助手，我将帮助你进行Temi机器人的服务定制，请你提出你的个性化服务需求吧！", "assistant");
 
       EventBus.$on("send-new-mermaid-data", newMermaidCode => {
         this.newMermaidData = newMermaidCode;
