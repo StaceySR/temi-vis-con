@@ -18,6 +18,7 @@ const node_height = 40;
 
 /**获取不同actionType对应主题色 */
 export function getActionTypeTheme(type) {
+    console.log(type, type.length)
     /**@enum */
     const Theme = {
         /**默认深蓝 */
@@ -30,18 +31,9 @@ export function getActionTypeTheme(type) {
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT
     if (!type) return DEFAULE_THEME
-    // const { TRIGGER, CONDITION, ACTION, FOR } = ActionType
-    // return {
-    //     // 触发器
-    //     [TRIGGER]: Theme.GREEN,
-    //     // 状态条件
-    //     [CONDITION]: Theme.GRAY,
-    //     // 执行动作
-    //     [ACTION]: Theme.BLUE,
-    //     // FOR循环
-    //     [FOR]: Theme.ORANGE,
-    // }[type]
-    const { USERREQUEST, SPEAK, ASK, FOR, IF, INFO, END, GOTO, DETECTHUMAN} = ActionType
+
+    const { USERREQUEST, SPEAK, ASK, FOR, IF, INFO, INFODECLARE, INFOASSIGN, END, GOTO, DETECTHUMAN} = ActionType
+    console.log()
     return {
         [USERREQUEST]: Theme.YELLOW,
         [SPEAK]: Theme.BLUE,
@@ -49,6 +41,8 @@ export function getActionTypeTheme(type) {
         [FOR]: Theme.PURPLE,
         [IF]: Theme.PURPLE,
         [INFO]: Theme.GREEN,
+        [INFODECLARE]: Theme.GREEN,
+        [INFOASSIGN]: Theme.GREEN,
         [GOTO]: Theme.BLUE,
         [END]: Theme.YELLOW,
         [DETECTHUMAN]: Theme.BLUE,
@@ -65,16 +59,18 @@ export function getActionTypeIcon(type) {
         SPEAK: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
         ASK: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/ask.png",
         GOTO: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/goto.png",
-        FOR: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/for.png",
-        IF: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/if.png",
-        INFO: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons//var.png",
+        FOR: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/forLoop.png",
+        IF: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/condition.png",
+        INFO: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
+        INFODECLARE: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
+        INFOASSIGN: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
         DETECTHUMAN: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
         END: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/end.png",
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT
     if (!type) return DEFAULE_THEME
-    const { USERREQUEST, SPEAK, ASK, FOR, IF, INFO, END, GOTO, DETECTHUMAN} = ActionType
+    const { USERREQUEST, SPEAK, ASK, FOR, IF, INFO, INFODECLARE, INFOASSIGN, END, GOTO, DETECTHUMAN} = ActionType
     return {
         [USERREQUEST]: Theme.USERREQUEST,
         [SPEAK]: Theme.SPEAK,
@@ -82,6 +78,8 @@ export function getActionTypeIcon(type) {
         [FOR]: Theme.FOR,
         [IF]: Theme.IF,
         [INFO]: Theme.INFO,
+        [INFODECLARE]: Theme.INFODECLARE,
+        [INFOASSIGN]: Theme.INFOASSIGN,
         [GOTO]: Theme.GOTO,
         [END]: Theme.END,
         [DETECTHUMAN]: Theme.DETECTHUMAN,
@@ -177,10 +175,14 @@ function getBaseConfig(node) {
     //         attrs.label.text = data.tooltip            
     //     }
     // }
+
     if (Lang.isObject(attrs)) {
         _tooltip = attrs.label.text
         // console.log("_tooltip: ", attrs.label.text)
         // console.log("true: tooltip: ", data.tooltip)
+    }
+    if (!data.tooltip) {
+        data.tooltip = _tooltip
     }
     // if (Lang.isObject(data)){
     //     _tooltip = data.tooltip
@@ -210,9 +212,12 @@ export function getDetailNode(node) {
     let { x, y, label, id, data, width, height } = getBaseConfig(node)
     // console.log("getDetailNode: ", label)
     const actionType = data.actionType;
+    console.log("actionType: ", actionType)
     // 主题色
     const targetTheme = getActionTypeTheme(actionType)
+    console.log("targetTheme: ", targetTheme)
     let iconURL = getActionTypeIcon(actionType)
+
 
     return {
         id,

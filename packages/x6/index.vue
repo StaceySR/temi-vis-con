@@ -9,17 +9,6 @@
       <div class="left-node-bar-container">
         <NodesBar :nodes="nodes"></NodesBar>
       </div>
-      <!-- <div class="right-buttons">
-        <button class="auto-layout-button">
-          <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/autoLayout.png"/>
-        </button>
-        <button class="redo-button">
-          <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/redo.png"/>
-        </button>
-        <button class="ok-button">
-          <img src="http://127.0.0.1:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
-        </button>
-      </div> -->
       <!-- 图形容器 -->
       <div id="container" class="graph-main-container" />
       <!-- 可操作区 -->

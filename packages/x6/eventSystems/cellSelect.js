@@ -21,6 +21,7 @@ export default (graph) => {
 
     // 多单选选中时，移除删除
     const cells = graph.getSelectedCells();
+    console.log("selected cells: ", cells)
     if (cells.length > 1) {
       cells.forEach(currentCell => {
         currentCell.removeTools()

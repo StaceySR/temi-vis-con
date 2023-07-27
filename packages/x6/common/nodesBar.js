@@ -98,19 +98,29 @@ export const nodes = [
         styles: getStyles(ActionType.DETECTHUMAN),
     },
     {
-        label: 'if',
+        label: 'condition',
         actionType: ActionType.IF,
         styles: getStyles(ActionType.IF),
     },
     {
-        label: 'for',
+        label: 'forLoop',
         actionType: ActionType.FOR,
         styles: getStyles(ActionType.FOR),
     },
+    // {
+    //     label: 'info',
+    //     actionType: ActionType.INFO,
+    //     styles: getStyles(ActionType.INFO),
+    // },
     {
-        label: 'var',
-        actionType: ActionType.INFO,
-        styles: getStyles(ActionType.INFO),
+        label: 'infoDeclare',
+        actionType: ActionType.INFODECLARE,
+        styles: getStyles(ActionType.INFODECLARE),
+    },
+    {
+        label: 'infoAssign',
+        actionType: ActionType.INFOASSIGN,
+        styles: getStyles(ActionType.INFOASSIGN),
     },
     {
         label: 'end',

@@ -32,9 +32,6 @@ import { defineComponent, reactive, toRefs, watch } from "@vue/composition-api";
 import { useGraph } from "../store";
 import VueNode from "./vue-static-shape/VueNode.vue";
 
-
-
-
 export default defineComponent({
   props: ["nodes"],
   components: {
@@ -66,7 +63,9 @@ export default defineComponent({
               data: {actionType: actionType},
               initialization: true,
             });
+        console.log("startDrag: nodeJson: ", json)
         const node = graph.value.createNode(json);
+        console.log("startDrag: node: ", node)
         if (!data.freeze) data.dnd.start(node, e);
       },
       initDnd() {
