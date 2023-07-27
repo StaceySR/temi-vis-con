@@ -308,7 +308,7 @@
             } else {
             console.log("find node!");
             //添加到selectedNodes中
-            selectedNodesID.push(this.selectedCells[i].id);    
+            selectedNodesID.push(this.selectedCells[i].data.tooltip);    
 
           }
 
