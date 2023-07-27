@@ -131,7 +131,7 @@
           <el-input
               clearable
               :disabled="!isSelected"
-              v-model="form.action"
+              v-model="form.label"
               @keyup.enter.native="handleUpdateLabel"
               class="update-input"
             ></el-input>
@@ -327,8 +327,8 @@
       <span class="node-name node-name-end">服务结束</span>
     </div>
 
-    <div v-if="isLoopEndSelected"  class="options-container options-container-end">
-      <span class="node-name">退出循环</span>
+    <div v-if="isLoopEndSelected"  class="options-container options-container-loop-end">
+      <span class="node-name node-name-loop-end">退出循环</span>
     </div>
 
     <div v-if="isUserRequestSelected"  class="options-container">
@@ -617,7 +617,7 @@ export default defineComponent({
       title: "",
       form: { label: "", name: "" , tooltip: "", variable: "", action: ""},
       variables: { all: ["21"]},
-      gotoVariables: ["接待区", "会议室", "管理员办公室", "教师办公室", "小莉的座位", "数字媒体创作室", "健身房", "会客厅", "茶水间", "展陈区", "开放办公空间"],
+      gotoVariables: ["接待区", "会议室", "管理员的座位", "领导办公室", "数媒创作室", "健身房", "会客厅", "茶水间"],
       titleData: {
         title: 'X6 示例标题', // 假设这里有一个标题
       },
@@ -691,8 +691,16 @@ export default defineComponent({
       handleUpdateLabel() {  //[ChangeTheData]
         data.isMenuOpen = false
         console.log("handleUpdateLabel: ", data.form)
-        if (data.form.name != 'goto' && data.form.name != "forLoop" && data.form.name != "userRequest") {
-          data.form.label = data.form.action + ";" + data.form.variable        
+        // if (data.form.name != 'goto' && data.form.name != "forLoop" && data.form.name != "userRequest") {
+        //   data.form.label = data.form.action + ";" + data.form.variable        
+        // }
+        // if (data.form.name != 'GOTO' && data.form.name != "FORLOOP" && data.form.name != "USERREQUEST") {
+        //   // data.form.label = data.form.action + ";" + data.form.variable    
+        //   data.form.label = data.form.label + ";" + data.form.variable    
+        // }
+
+        if (data.form.name == 'SPEAK' || data.form.name == 'ASK' || data.form.name == 'IF' || data.form.name == 'INFOASSIGN') {
+          data.form.label = data.form.action + ";" + data.form.variable    
         }
 
         console.log("handleUpdateLabel: ", data.form.label)
@@ -780,11 +788,15 @@ export default defineComponent({
         this.isMenuOpen = !this.isMenuOpen;
       },
 
+      computedValue() {
+        return this.form.label.replace(this.form.variable, "");
+      },
+
       confirmAddVariable(){
         console.log("确认添加这些变量")
         console.log(this.selectedOptions);
         console.log("form.name: ", data.form.name)
-        if (data.form.name == 'goto' || data.form.name == 'forLoop') {
+        if (data.form.name == 'GOTO' || data.form.name == 'FORLOOP') {
           data.form.label = this.selectedOptions;
           this.selectedOptions = []
         }else {
@@ -796,6 +808,7 @@ export default defineComponent({
           }
           this.selectedOptions = []
         }
+        console.log("data.form.variable: ", data.form.variable)
         session.recording("Node update -- variable", data.form);
         Message.success("Variable is modified successfully. Please view it on the console");
         data.isMenuOpen = false
@@ -819,22 +832,26 @@ export default defineComponent({
       },
       listener() {
         graphFunc.GraphListener.doubleNodeClick((detail) => {
-          console.log("detail: ", detail)
+          console.log("detail: ", detail.node.data)
           data.form.variable = ""
           data.form.action = ""
           data.form.tooltip = detail.node.data.tooltip;
           data.form.label = detail.label;
-          const parts = detail.node.data.tooltip.split(':');
+          // const parts = detail.node.data.tooltip.split(':');
 
-          // const parts = detail.label.split(':');
-          data.form.name = parts[0];   // 'name'
-          if (parts[1]) {
-            data.form.label = parts[1]; // 'John'
-          }else{
-            data.form.label = "";  //赋值为空
-          }
+          // // const parts = detail.label.split(':');
+          // data.form.name = parts[0];   // 'name'
+          // if (parts[1]) {
+          //   data.form.label = parts[1]; // 'John'
+          // }else{
+          //   data.form.label = "";  //赋值为空
+          // }
+
+          data.form.name = detail.node.data.actionType
+          console.log("name: ", data.form.name)
           if (data.form.label) {
             console.log("listen:label: ", data.form.label)
+
             if (data.form.label == 'goto') {
               data.form.variable = "接待区 会议室 开放办公空间 管理员办公室 教师办公室 小莉的座位 数字媒体创作室 健身房 会客厅 茶水间 展陈区 开放办公空间"
             }else {
@@ -848,37 +865,70 @@ export default defineComponent({
           console.log("data.form: ", data.form)
           // data.isUpdate = true;
 
-          if (data.form.name == 'speak') {
+          // if (data.form.name == 'speak') {
+          //   data.isSpeakSelected = true
+          // }
+          // if (data.form.name == 'ask') {
+          //   data.isAskSelected = true            
+          // }
+          // if (data.form.name == 'goto') {
+          //   data.isGotoSelected = true
+          // }
+          // if (data.form.name == 'condition') {
+          //   data.isIfSelected = true
+          // }
+          // if (data.form.name == 'detectHuman') {
+          //   data.isDetectHumanSelected = true
+          // }
+          // if (data.form.name == 'loopEnd') {
+          //   data.isLoopEndSelected = true            
+          // }
+          // if (data.form.name == 'end') {
+          //   data.isEndSelected = true
+          // }
+          // if (data.form.name == 'userRequest') {
+          //   data.isUserRequestSelected = true
+          // }
+          // if (data.form.name == 'forLoop') {
+          //   data.isForSelected = true
+          // }
+          // if (data.form.name == 'infoDeclare') {
+          //   data.isInfoDeclareSelected = true
+          // }
+          // if (data.form.name == 'infoAssign') {
+          //   data.isInfoAssignSelected = true
+          // }
+          if (data.form.name == 'SPEAK') {
             data.isSpeakSelected = true
           }
-          if (data.form.name == 'ask') {
+          if (data.form.name == 'ASK') {
             data.isAskSelected = true            
           }
-          if (data.form.name == 'goto') {
+          if (data.form.name == 'GOTO') {
             data.isGotoSelected = true
           }
-          if (data.form.name == 'condition') {
+          if (data.form.name == 'IF') {
             data.isIfSelected = true
           }
-          if (data.form.name == 'detectHuman') {
+          if (data.form.name == 'DETECTHUMAN') {
             data.isDetectHumanSelected = true
           }
-          if (data.form.name == 'loopEnd') {
-            data.isLoopEndSelected = true            
+          if (data.form.name == 'FOR') {
+            data.isForSelected = true            
           }
-          if (data.form.name == 'end') {
+          if (data.form.name == 'END') {
             data.isEndSelected = true
           }
-          if (data.form.name == 'userRequest') {
+          if (data.form.name == 'USERREQUEST') {
             data.isUserRequestSelected = true
           }
-          if (data.form.name == 'forLoop') {
-            data.isForSelected = true
+          if (data.form.name == 'LOOPEND') {
+            data.isLoopEndSelected = true
           }
-          if (data.form.name == 'infoDeclare') {
+          if (data.form.name == 'INFODECLARE') {
             data.isInfoDeclareSelected = true
           }
-          if (data.form.name == 'infoAssign') {
+          if (data.form.name == 'INFOASSIGN') {
             data.isInfoAssignSelected = true
           }
 
@@ -1070,6 +1120,11 @@ export default defineComponent({
 
 .options-container-end{
   width: 180px;
+  color: #CCC74D;
+}
+.options-container-loop-end{
+  width: 180px;
+  color: #B16C9D;
 }
 .right-buttons button:hover {
   // background-color: #EEE;
@@ -1193,6 +1248,9 @@ export default defineComponent({
 }
 .node-name-end{
   color: #CCC74D;
+}
+.node-name-loop-end{
+  color: #B16C9D;
 }
 .node-name-if{
   color: #B16C9D;

@@ -65,22 +65,34 @@ function parseMermaidCode(mermaidCode) {
             if (nodeAction == "condition") {
                 actionType = "IF"                
             }
-            if (nodeAction == "forLoop" || nodeAction == "loopEnd") {
+            if (nodeAction == "forLoop") {
                 actionType = "FOR"
+            }
+            if (nodeAction == "loopEnd") {
+                actionType = "LOOPEND"
             }
             if (nodeAction == "end") {
                 actionType = "END"
             }
             if (nodeLabel.length == 0) {
-                nodeLabel = nodeAction                
+                nodeLabel = nodeAction
+                if (nodeLabel == "detectHuman") {
+                    nodeLabel = "人物检测"
+                }                
             }
             //5. 将node格式化保存至nodes列表
+            // const node = {
+            //                 "attrs": {"label": { "text": nodeAction+": "+nodeLabel }},
+            //                 // "attrs": {"label": { "text": nodeLabel }},
+            //                 "id": nodeId,
+            //                 "data": { "actionType": actionType , "tooltip": nodeAction+": "+nodeLabel}//代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
+            //             };
             const node = {
-                            "attrs": {"label": { "text": nodeAction+": "+nodeLabel }},
-                            // "attrs": {"label": { "text": nodeLabel }},
-                            "id": nodeId,
-                            "data": { "actionType": actionType , "tooltip": nodeAction+": "+nodeLabel}//代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
-                        };
+                "attrs": {"label": { "text": nodeLabel }},
+                // "attrs": {"label": { "text": nodeLabel }},
+                "id": nodeId,
+                "data": { "actionType": actionType , "tooltip": nodeLabel}//代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
+            };
             // console.log("mermaid: each node: ", node);
             nodes.push(node);
         }

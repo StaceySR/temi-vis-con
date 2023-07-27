@@ -107,6 +107,11 @@ export const nodes = [
         actionType: ActionType.FOR,
         styles: getStyles(ActionType.FOR),
     },
+    {
+        label: 'loopEnd',
+        actionType: ActionType.LOOPEND,
+        styles: getStyles(ActionType.LOOPEND),
+    },
     // {
     //     label: 'info',
     //     actionType: ActionType.INFO,

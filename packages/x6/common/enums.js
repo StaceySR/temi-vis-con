@@ -88,6 +88,7 @@ export const ActionType = {
     SPEAK: 'SPEAK',
     ASK: 'ASK',
     FOR: 'FOR',
+    LOOPEND: 'LOOPEND',
     INFO: 'INFO',
     INFODECLARE: 'INFODECLARE',
     INFOASSIGN: 'INFOASSIGN',

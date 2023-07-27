@@ -32,12 +32,12 @@ export function fmtLabelOverflow(label) {
     console.log("label + label.length: ", label, label.length)
     
     if (!Lang.isString(label)) return label
-    if (label.length <= 12) return label
+    if (label.length <= 9) return label
     let cutLabel = ""
     if (label.slice(0, 4) == 'user' || label.slice(0, 4) == 'info' || label.slice(0, 4) == 'dete' || label.slice(0, 4) == 'cond') {
         cutLabel = label.slice(0, 15) + '...'
     }else{
-        cutLabel = label.slice(0, 12) + '...'
+        cutLabel = label.slice(0, 9) + '...'
     }
     
     return cutLabel
@@ -167,7 +167,8 @@ export function updateNode(data) {
         console.log("label: ---", label, name, tooltip)
         // 设置label
         if (label) {
-            label = name + ": " + label
+            // label = name + ": " + label
+            
             console.log("updateNode: ", label)
             const cutLabel = fmtLabelOverflow(label)
             console.log("cutLabel: ---", cutLabel)

@@ -32,13 +32,14 @@ export function getActionTypeTheme(type) {
     const DEFAULE_THEME = Theme.DEFAULT
     if (!type) return DEFAULE_THEME
 
-    const { USERREQUEST, SPEAK, ASK, FOR, IF, INFO, INFODECLARE, INFOASSIGN, END, GOTO, DETECTHUMAN} = ActionType
+    const { USERREQUEST, SPEAK, ASK, FOR, LOOPEND, IF, INFO, INFODECLARE, INFOASSIGN, END, GOTO, DETECTHUMAN} = ActionType
     console.log()
     return {
         [USERREQUEST]: Theme.YELLOW,
         [SPEAK]: Theme.BLUE,
         [ASK]: Theme.BLUE,
         [FOR]: Theme.PURPLE,
+        [LOOPEND]: Theme.PURPLE,
         [IF]: Theme.PURPLE,
         [INFO]: Theme.GREEN,
         [INFODECLARE]: Theme.GREEN,
@@ -58,7 +59,8 @@ export function getActionTypeIcon(type) {
         SPEAK: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
         ASK: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/ask.png",
         GOTO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/goto.png",
-        FOR: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/for.png",
+        FOR: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/forLoop.png",
+        LOOPEND: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/loopEnd.png",
         IF: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/condition.png",
         INFO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/var.png",
         INFODECLARE: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/infoDeclare.png",
@@ -69,12 +71,13 @@ export function getActionTypeIcon(type) {
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT
     if (!type) return DEFAULE_THEME
-    const { USERREQUEST, SPEAK, ASK, FOR, IF, INFO, INFODECLARE, INFOASSIGN, END, GOTO, DETECTHUMAN} = ActionType
+    const { USERREQUEST, SPEAK, ASK, FOR, LOOPEND, IF, INFO, INFODECLARE, INFOASSIGN, END, GOTO, DETECTHUMAN} = ActionType
     return {
         [USERREQUEST]: Theme.USERREQUEST,
         [SPEAK]: Theme.SPEAK,
         [ASK]: Theme.ASK,
         [FOR]: Theme.FOR,
+        [LOOPEND]: Theme.LOOPEND,
         [IF]: Theme.IF,
         [INFO]: Theme.INFO,
         [INFODECLARE]: Theme.INFODECLARE,
@@ -209,7 +212,7 @@ function getBaseConfig(node) {
  */
 export function getDetailNode(node) {
     let { x, y, label, id, data, width, height } = getBaseConfig(node)
-    // console.log("getDetailNode: ", label)
+    // console.log("getDetailNode: ", { x, y, label, id, data, width, height })
     const actionType = data.actionType;
     console.log("actionType: ", actionType)
     // 主题色
@@ -233,7 +236,6 @@ export function getDetailNode(node) {
             rx: 5,
             ry: 5,
           },
-          
           leftRect: {
             x: 2,
             y: 2,
