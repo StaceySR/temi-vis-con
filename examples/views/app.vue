@@ -6,10 +6,10 @@
         </div>
         <div class="title-buttons">
           <button class="title-button">
-            <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/play.png"/>
+            <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/play.png"/>
           </button>
           <button class="title-button">
-            <img class="title-button-img2" src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/download.png"/>
+            <img class="title-button-img2" src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/download.png"/>
           </button>
         </div>
       </div>

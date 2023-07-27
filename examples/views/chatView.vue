@@ -1,7 +1,7 @@
 <template>
     <div id="chat">
       <div class="chat-icon">
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/robot.png"/>
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/robot.png"/>
         <span class="chat-title">RSC</span>
       </div>
       <div class="chat-container">
@@ -16,7 +16,7 @@
           
         </textarea>
         <button class="chatButton" @click="sendMessage">
-          <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/sendButton.png" alt="按钮">
+          <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/sendButton.png" alt="按钮">
         </button>
         <!-- <button class="chatButton" @click="TemiServiceBuild">部署</button> -->
       </div>
@@ -140,7 +140,7 @@
         );
 
         const result = await res.text().then((data) => {
-          console.log('data', data);
+          //console.log('data', data);
 
           return data;
         });
@@ -149,14 +149,14 @@
               
       },
 
-      async NL2JSwithContext(userInput,currentJSCode) {
-        const res = await fetch("http://192.168.123.70:3001/APIs/js2NLexplain" ,
+      async NL2JSwithContext(_userInput,_currentJSCode) {
+        const res = await fetch("http://192.168.123.70:3001/APIs/nl2jswithContext" ,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ text: userInput,context: currentJSCode })
+            body: JSON.stringify({ text: _userInput,context: _currentJSCode })
           }
         );
 
@@ -204,7 +204,7 @@
 
 
         const result = await res.text().then((data) => {
-          console.log('data', data);
+          //console.log('data', data);
 
           return data;
         });
