@@ -647,7 +647,7 @@ export default defineComponent({
         data.isInfoAssignSelected = false
         data.isMenuOpen = false
 
-        session.recording("nodeClick", e.node);
+        session.recording("nodeClick", e.label);
       },
       handleExportAtoms() {  //[GetData]
         const data = graphFunc.getAtoms();  //获取graph上的数据
