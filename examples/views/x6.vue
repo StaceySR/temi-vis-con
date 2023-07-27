@@ -991,11 +991,11 @@ export default defineComponent({
     }
 
     .redo-button {
-      background-color: #FFC0C0;
+      background-color: #675AB8;
       width: 55px;
       height: 55px;
       border-radius: 109px; 
-      border: 2px solid #FFC0C0;
+      border: 2px solid #675AB8;
       margin-top: 40px;
       // flex-shrink: 0;
       // fill: #FFF;
