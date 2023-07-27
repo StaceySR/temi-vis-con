@@ -64,6 +64,8 @@ export function getActionTypeIcon(type) {
         INFO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons//var.png",
         DETECTHUMAN: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
         END: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/end.png",
+        INFOASSIGN: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/infoAssign.png",
+        INFODECLARE: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/infoDeclare.png",
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT
