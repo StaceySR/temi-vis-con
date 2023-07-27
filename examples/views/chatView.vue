@@ -50,6 +50,7 @@
         newMermaidData: "",
         selectedCells: [],
         currentStage: stageType.authoring,
+        currentSeletecNodes: [],
       };
     },
     methods: {
@@ -60,11 +61,12 @@
         console.log('sendContent', sendContent);
 
         this.addMessage(this.userInput, "user");
-        this.addMessage("正在理解你的需求....", "assistant");
+        
 
 
 
-        if(this.currentStage == stageType.authoring) {
+        if (this.currentStage == stageType.authoring) {
+          this.addMessage("正在理解你的需求....", "assistant");
           this.currentJSCode = await this.NL2JS(sendContent);
           console.log('currentJSCode', this.currentJSCode);
 
@@ -96,29 +98,34 @@
           serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";
 
 
-        }else if (this.currentStage == stageType.debugging) {
-          const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
+          } else if (this.currentStage == stageType.debugging) {
+            this.addMessage("正在理解你的需求....", "assistant");
+            const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
+            this.currentJSCode = modifiedJSCode;
 
-          const explainContent = await this.ExplainModifiedJS(this.currentJSCode, modifiedJSCode);
+            const explainContent = await this.ExplainModifiedJS(this.currentJSCode, modifiedJSCode);
 
-          
-          //将最后的sytem message改成该解释内容
-          // 获得 messages 中最后一条role为system的message
-          let serverMsg = this.messages[this.messages.length - 1];
-          serverMsg.content = explainContent;   
+            
+            //将最后的sytem message改成该解释内容
+            // 获得 messages 中最后一条role为system的message
+            let serverMsg = this.messages[this.messages.length - 1];
+            serverMsg.content = explainContent;   
 
-          this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
-          // 生成代码后开始处理flow部分
-          const mermaidCode = await this.js2flow(this.currentJSCode);
-          this.currentFlowCode = mermaidCode;
-          EventBus.$emit('callGetData', this.currentFlowCode);
+            this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
+            // 生成代码后开始处理flow部分
+            const mermaidCode = await this.js2flow(this.currentJSCode);
+            this.currentFlowCode = mermaidCode;
+            console.log("修改后的currentFlowCode: ", this.currentFlowCode);
+            EventBus.$emit('callGetData', this.currentFlowCode);
 
-          serverMsg = this.messages[this.messages.length - 1];
-          serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";
+            serverMsg = this.messages[this.messages.length - 1];
+            serverMsg.content = "已重新绘制流程图，你可以继续提出你的服务流程修改需求，我会帮助你进行修改。";
 
         }else if(this.currentStage == stageType.magicModify) {
           console.log("magic modify time!");
-          
+
+          this.magicModifyIT(sendContent);
+
           
         } 
 
@@ -337,6 +344,8 @@
         }
         // 提取出node的label
         //console.log("selectedNodes[i].id: ", selectedNodes[i].id);
+
+        this.currentSeletecNodes = selectedNodesID;
         this.addMessage("正在思考解释你选中的节点....", "magic");
         const res = await fetch("//192.168.123.70:3001/APIs/magicModify",
           {
@@ -358,10 +367,52 @@
           const serverMsg = this.messages[this.messages.length - 1];
           serverMsg.content = data;
 
+          // 最后修改当前的stage
+          this.currentStage = stageType.magicModify;
           return data;
         });
-        //console.log("selectedNodes: ", selectedNodesID);
-        //console.log("current mermaidCode:" + this.currentFlowCode);
+
+
+
+
+      },
+
+      async magicModifyIT(userInput) {
+        this.addMessage("正在思考....", "magic");
+        const res = await fetch("//192.168.123.70:3001/APIs/magicModifyPhase",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+              body: JSON.stringify({
+                  sessionID: session.id,
+                  selectedNodes: this.selectedNodesID,
+                  jscode: this.currentJSCode,
+                  flow: this.currentFlowCode,
+                  text: userInput,
+            })
+          }
+        );
+        await res.text().then((data) => {
+          //console.log('data', data);
+          console.log("data from magic modify: ", data);
+
+          //判断回复的data字符串中是否包含<end>标签。，如果有的话就结束魔法修改。
+          if (data.indexOf("<end>") != -1) {
+          //包含<end>标签，结束魔法修改
+          const serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = "退出节点编辑模式";
+          this.addMessage("你可以继续提出你的服务流程修改需求，我会帮助你进行修改。", "assistant");
+          this.currentStage = stageType.debugging;
+
+
+            // const serverMsg = this.messages[this.messages.length - 1];
+            // serverMsg.content = data;
+
+            // return data;
+          }
+        });        
       },
 
       async startRunTemi() {
