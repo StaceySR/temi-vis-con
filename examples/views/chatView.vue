@@ -6,7 +6,7 @@
       </div>
       <div class="chat-container">
         <div class="message" v-for="message in messages" :key="message.id" :class="message.role">
-          <div class="content" :class="message.role ==='user' ?  'content-user' : 'content-assistant'">
+          <div class="content" :class="{'user': 'content-user', 'assistant': 'content-assistant', 'magic': 'content-magic'}[message.role]">
             {{ message.content }}
           </div>
         </div>
@@ -133,8 +133,8 @@
         });
 
         // 获得 messages 中最后一条role为system的message
-        const serverMsg = this.messages[this.messages.length - 1];
-        serverMsg.content = result;
+        const magcMsg = this.messages[this.messages.length - 1];
+        magcMsg.content = result;
 
       },
 
@@ -309,7 +309,7 @@
         }
         // 提取出node的label
         //console.log("selectedNodes[i].id: ", selectedNodes[i].id);
-        this.addMessage("正在思考解释你选中的节点....", "assistant");
+        this.addMessage("正在思考解释你选中的节点....", "magic");
         const res = await fetch("//192.168.123.70:3001/APIs/magicModify",
           {
             method: "POST",
@@ -481,6 +481,11 @@
     justify-content: flex-start;
     
   }
+
+  .message.magic {
+    justify-content: flex-start;
+    
+  }
   
   .content {
     border-radius: 5px;
@@ -490,13 +495,18 @@
   }
   
   .content-user {
-    background-color: #00a1ff;
-    color: #fff;
+    background-color: #f1f1f1;
+    color: #333;
   }
   
   .content-assistant {
-    background-color: #f1f1f1;
-    color: #333;
+    background-color: #5AB2B8;
+    color: #fff;
+  }
+
+  .content-magic{
+    background-color: #675AB8;
+    color: #fff;
   }
   
   .input-container {
