@@ -18,7 +18,7 @@ const node_height = 40;
 
 /**获取不同actionType对应主题色 */
 export function getActionTypeTheme(type) {
-    console.log(type, type.length)
+    // console.log(type, type.length)
     /**@enum */
     const Theme = {
         /**默认深蓝 */
@@ -214,7 +214,7 @@ export function getDetailNode(node) {
     let { x, y, label, id, data, width, height } = getBaseConfig(node)
     // console.log("getDetailNode: ", { x, y, label, id, data, width, height })
     const actionType = data.actionType;
-    console.log("actionType: ", actionType)
+    // console.log("actionType: ", actionType)
     // 主题色
     const targetTheme = getActionTypeTheme(actionType)
     let iconURL = getActionTypeIcon(actionType)

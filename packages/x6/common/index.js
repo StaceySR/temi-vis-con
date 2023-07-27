@@ -29,7 +29,7 @@ export function fmtJSON(target) {
 
 /**文字溢出格式化 */
 export function fmtLabelOverflow(label) {
-    console.log("label + label.length: ", label, label.length)
+    // console.log("label + label.length: ", label, label.length)
     
     if (!Lang.isString(label)) return label
     if (label.length <= 9) return label
@@ -169,16 +169,16 @@ export function updateNode(data) {
         if (label) {
             // label = name + ": " + label
             
-            console.log("updateNode: ", label)
+            // console.log("updateNode: ", label)
             const cutLabel = fmtLabelOverflow(label)
-            console.log("cutLabel: ---", cutLabel)
+            // console.log("cutLabel: ---", cutLabel)
             cell.setData({
                 tooltip: label,
                 initialization: false
             })
             cell.setAttrs({ label: {text: cutLabel} })
         }
-        console.log("cell: --", cell)
+        // console.log("cell: --", cell)
         // 清除选框
         graph.value.cleanSelection()
     }
@@ -187,7 +187,7 @@ export function updateNode(data) {
 export function selectedNodesCount(){
     const graph = useGraph()
     const cells = graph.value.getSelectedCells()
-    console.log("cells: ", cells.length)
+    // console.log("cells: ", cells.length)
     return cells.length
 }
 
@@ -256,7 +256,7 @@ function getBaseNodes() {
     // 获取所有节点
     const nodes = graph.value.getNodes()
     return nodes.map(node => {
-        console.log("getBaseNodes: node: ", node)
+        // console.log("getBaseNodes: node: ", node)
         const { attrs, id, data } = node
         // console.log("getBaseNodes: node: ", { attrs, id, data })
         return {

@@ -56,7 +56,8 @@
     methods: {
       async sendMessage() {
         if (this.userInput.trim() === "") return;
-  
+        
+        console.log("userInput: ", this.userInput)
         let sendContent = this.userInput;
         console.log('sendContent', sendContent);
 
@@ -119,29 +120,21 @@
             serverMsg = this.messages[this.messages.length - 1];
             serverMsg.content = "已重新绘制流程图，你可以继续提出你的服务流程修改需求，我会帮助你进行修改。";
 
+            // EventBus.$emit("send-new-title", "send-new-title");
         }else if(this.currentStage == stageType.magicModify) {
           console.log("magic modify time!");
 
           this.magicModifyIT(sendContent);
-
-          
         } 
 
-        
-
-
-
-
-
         this.userInput = "";
-  
   
         //resize textarea height after 0.5 sce
         setTimeout(() => {
           this.resizeTextarea({ target: this.$refs.textarea });
         }, 100);
         
-        EventBus.$emit("send-new-title", "send-new-title");
+
       },
 
       async TemiServiceBuild() {

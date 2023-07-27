@@ -617,7 +617,7 @@ export default defineComponent({
       title: "",
       form: { label: "", name: "" , tooltip: "", variable: "", action: ""},
       variables: { all: ["21"]},
-      gotoVariables: ["接待区", "会议室", "管理员的座位", "领导办公室", "数媒创作室", "健身房", "会客厅", "茶水间"],
+      gotoVariables: ["接待区", "会议室", "员工办公区", "领导办公室", "创作室", "健身房", "会客厅", "茶水间"],
       titleData: {
         title: 'X6 示例标题', // 假设这里有一个标题
       },
@@ -708,9 +708,9 @@ export default defineComponent({
         data.form.label = "";
         // data.isUpdate = false;
         data.isUpdate = true;
-        const { nodes, edges } = graphFunc.getAtoms();
+        // const { nodes, edges } = graphFunc.getAtoms();
         // console.log("auto-nodes: ", nodes);
-        graphFunc.autoLayout(nodes, edges);
+        // graphFunc.autoLayout(nodes, edges);
         // data.isUpdate = false;
 
         session.recording("Node update", data.form);
@@ -770,7 +770,7 @@ export default defineComponent({
         list = [{nodes,edges}];
         console.log("list:", list);
         data.variables.all = variables['all']
-        console.log("variables: ", data.variables.all);
+        // console.log("variables: ", data.variables.all);
 
         data.gotoVariables = [...new Set([...data.gotoVariables, ...data.variables.all])]
         // methods.emitTitleToParent();
@@ -793,9 +793,9 @@ export default defineComponent({
       },
 
       confirmAddVariable(){
-        console.log("确认添加这些变量")
-        console.log(this.selectedOptions);
-        console.log("form.name: ", data.form.name)
+        // console.log("确认添加这些变量")
+        // console.log(this.selectedOptions);
+        // console.log("form.name: ", data.form.name)
         if (data.form.name == 'GOTO' || data.form.name == 'FORLOOP') {
           data.form.label = this.selectedOptions;
           this.selectedOptions = []
@@ -848,9 +848,9 @@ export default defineComponent({
           // }
 
           data.form.name = detail.node.data.actionType
-          console.log("name: ", data.form.name)
+          // console.log("name: ", data.form.name)
           if (data.form.label) {
-            console.log("listen:label: ", data.form.label)
+            // console.log("listen:label: ", data.form.label)
 
             if (data.form.label == 'goto') {
               data.form.variable = "接待区 会议室 开放办公空间 管理员办公室 教师办公室 小莉的座位 数字媒体创作室 健身房 会客厅 茶水间 展陈区 开放办公空间"
@@ -939,7 +939,7 @@ export default defineComponent({
         graphFunc.GraphListener.nodeClick((detail) => {
           console.log("单击detail: ", detail)
           const cellCount = graphFunc.magicUpdate()
-          console.log("cellCount: ", cellCount.length)
+          // console.log("cellCount: ", cellCount.length)
           if (cellCount.length >= 1) {
             data.isSelected = true            
           } else{
@@ -974,14 +974,15 @@ export default defineComponent({
       EventBus.$on('callGetData', (payload) => {
         methods.getData(payload);
         methods.handleSwitchDefault();
+        document.getElementById("emitTitleToParent").click();
       });
 
-      EventBus.$on('send-new-title', (payload) => {
-        // methods.getData(payload);
-        console.log("send-new-title: ", payload)
-        // methods.handleSwitchDefault();
-        document.getElementById("emitTitleToParent").click()
-      });
+      // EventBus.$on('send-new-title', (payload) => {
+      //   // methods.getData(payload);
+      //   console.log("send-new-title: ", payload)
+      //   // methods.handleSwitchDefault();
+      //   document.getElementById("emitTitleToParent").click()
+      // });
     });
     return {
       ...toRefs(data),

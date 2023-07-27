@@ -20,7 +20,7 @@ function showTips(graph, tooltips, x, y) {
       width = 15 * tooltips.length
     }
   }
-  console.log("tooltips-width: ", tooltips.length, width)
+  // console.log("tooltips-width: ", tooltips.length, width)
   graph.addNode({
     x,
     y,
