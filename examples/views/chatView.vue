@@ -336,11 +336,30 @@
         //console.log("current mermaidCode:" + this.currentFlowCode);
       },
 
-      startRunTemi() {
+      async startRunTemi() {
         // 部署到Temi上
         console.log('chatView 子组件startRunTemi方法被调用了！');
+        console.log("current jscode:"+ this.currentJSCode);
 
-
+        //部署代码到temi上
+        const res = await fetch("//192.168.123.70:3001/APIs/js2temi",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+              body: JSON.stringify({
+                  sessionID: session.id,
+                  text: this.currentJSCode, 
+            })
+          }
+        );
+        await res.text().then((data) => {
+          //console.log('data', data);
+          console.log(data);
+          this.addMessage(data, "assistant");
+          return data;
+        });
 
 
 
