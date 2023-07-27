@@ -21,10 +21,18 @@
       <button class="auto-layout-button" @click="handleAutoLayout">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/autoLayout.png"/>
       </button>
-      <button class="redo-button" @click="handleMagicUpdate">
+      <button v-if="isSelected" class="redo-button" @click="handleMagicUpdate">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/redo.png"/>
       </button>
-      <button v-if="isSelected" class="ok-button" @click="handleConfirmChanges">
+
+      <button v-if="!isSelected" class="redo-button redo-button-unselected">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/redo.png"/>
+      </button>
+
+      <button v-if="isUpdate" class="ok-button" @click="handleConfirmChanges">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
+      </button>
+      <button v-if="!isUpdate" class="ok-button ok-button-unupdated" @click="handleConfirmChanges">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
       </button>
 
@@ -111,7 +119,7 @@
           <span class="node-name">引用变量</span>
           <el-input
             clearable
-            :disabled="!isUpdate"
+            :disabled="!isSelected"
             v-model="form.variable"
             @keyup.enter.native="handleUpdateLabel"
             class="update-input-yinyong"
@@ -122,7 +130,7 @@
           <span class="node-name">行为描述</span>
           <el-input
               clearable
-              :disabled="!isUpdate"
+              :disabled="!isSelected"
               v-model="form.action"
               @keyup.enter.native="handleUpdateLabel"
               class="update-input"
@@ -166,7 +174,7 @@
           <span class="node-name">引用变量</span>
           <el-input
             clearable
-            :disabled="!isUpdate"
+            :disabled="!isSelected"
             v-model="form.variable"
             @keyup.enter.native="handleUpdateLabel"
             class="update-input-yinyong"
@@ -177,7 +185,7 @@
           <span class="node-name">行为描述</span>
           <el-input
               clearable
-              :disabled="!isUpdate"
+              :disabled="!isSelected"
               v-model="form.action"
               @keyup.enter.native="handleUpdateLabel"
               class="update-input"
@@ -221,7 +229,7 @@
           <span class="node-name">引用变量</span>
           <el-input
             clearable
-            :disabled="!isUpdate"
+            :disabled="!isSelected"
             v-model="form.variable"
             @keyup.enter.native="handleUpdateLabel"
             class="update-input-yinyong"
@@ -232,7 +240,7 @@
           <span class="node-name">判断条件</span>
           <el-input
               clearable
-              :disabled="!isUpdate"
+              :disabled="!isSelected"
               v-model="form.action"
               @keyup.enter.native="handleUpdateLabel"
               class="update-input"
@@ -276,7 +284,7 @@
           <!-- <span class="node-name">引用变量</span> -->
           <el-input
             clearable
-            :disabled="!isUpdate"
+            :disabled="!isSelected"
             v-model="form.label"
             @keyup.enter.native="handleUpdateLabel"
             class="update-input-yinyong"
@@ -301,7 +309,6 @@
             </label>
           </li>
         </ul>
-        <!-- <p>已选选项: {{form.variable}},{{ selectedOptions }}</p> -->
       </div>
 
       <button
@@ -332,7 +339,7 @@
           <!-- <span class="node-name">引用变量</span> -->
           <el-input
             clearable
-            :disabled="!isUpdate"
+            :disabled="!isSelected"
             v-model="form.label"
             @keyup.enter.native="handleUpdateLabel"
             class="update-input-goto"
@@ -355,7 +362,7 @@
           <span class="node-name">遍历</span>
           <el-input
             clearable
-            :disabled="!isUpdate"
+            :disabled="!isSelected"
             v-model="form.label"
             @keyup.enter.native="handleUpdateLabel"
             class="update-input-yinyong"
@@ -399,7 +406,7 @@
           <span class="node-name">变量名称</span>
           <el-input
             clearable
-            :disabled="!isUpdate"
+            :disabled="!isSelected"
             v-model="form.label"
             @keyup.enter.native="handleUpdateLabel"
             class="update-input-goto"
@@ -442,7 +449,7 @@
           <span class="node-name">引用变量</span>
           <el-input
             clearable
-            :disabled="!isUpdate"
+            :disabled="!isSelected"
             v-model="form.variable"
             @keyup.enter.native="handleUpdateLabel"
             class="update-input-yinyong"
@@ -453,7 +460,7 @@
           <span class="node-name">变量操作</span>
           <el-input
               clearable
-              :disabled="!isUpdate"
+              :disabled="!isSelected"
               v-model="form.action"
               @keyup.enter.native="handleUpdateLabel"
               class="update-input"
@@ -701,6 +708,7 @@ export default defineComponent({
         const { nodes, edges } = graphFunc.getAtoms();
         // console.log("auto-nodes: ", nodes);
         graphFunc.autoLayout(nodes, edges);
+        Message.success("AutoLayout succeeded. Please view it on the console");
       },
 
       handleConfirmChanges() {  //[confirm the changes]
@@ -712,6 +720,7 @@ export default defineComponent({
           // console.log(mermaidCode);
 
           Message.success("Export succeeded. Please view it on the console");
+          data.isUpdate = false
         } else {
           console.log("[debug]errs:", errs);
           // Message.error(errs[0]);
@@ -722,6 +731,7 @@ export default defineComponent({
         const selectedCells = graphFunc.magicUpdate()
         console.log("selectedCells: ", selectedCells)
         EventBus.$emit("magic-selected-cells", selectedCells);
+        Message.success("Magic modify succeeded. Please view it on the console");
       },
 
       getData(mCode=mermaidCode){
@@ -731,6 +741,8 @@ export default defineComponent({
         console.log("list:",list);
         data.variables.all = variables['all']
         console.log("variables: ", data.variables.all);
+
+        data.gotoVariables = [...new Set([...data.gotoVariables, ...data.variables.all])]
         // methods.emitTitleToParent();
       },
 
@@ -761,6 +773,7 @@ export default defineComponent({
           }
           this.selectedOptions = []
         }
+        Message.success("Variable is modified successfully. Please view it on the console");
         data.isMenuOpen = false
       },
       // confirmGotoVariable(){
@@ -807,10 +820,9 @@ export default defineComponent({
                 data.form.variable = data.form.variable + " " + parts2[index];
               }
             }
-
           }
           console.log("data.form: ", data.form)
-          data.isUpdate = true;
+          // data.isUpdate = true;
 
           if (data.form.name == 'speak') {
             data.isSpeakSelected = true
@@ -850,11 +862,16 @@ export default defineComponent({
           console.log("[debug]detail:", detail);
         });
 
-        // graphFunc.GraphListener.nodeClick((detail) => {
-        //   console.log("单击detail: ", detail)
-        //   graphFunc.magicUpdate()
-        // });
-
+        graphFunc.GraphListener.nodeClick((detail) => {
+          console.log("单击detail: ", detail)
+          const cellCount = graphFunc.magicUpdate()
+          console.log("cellCount: ", cellCount.length)
+          if (cellCount.length >= 1) {
+            data.isSelected = true            
+          } else{
+            data.isSelected = false
+          }
+        });
 
         graphFunc.GraphListener.runtimeError((err) => {
           console.log(
@@ -1004,6 +1021,11 @@ export default defineComponent({
       filter: drop-shadow(0px 0px 6px rgba(209, 209, 209, 0.8));
     }
 
+    .redo-button-unselected{
+      background-color: #e5e4ea;
+      border: 2px solid #e5e4ea;
+    }
+
     .ok-button {
       background-color: #5AB2B8;
       width: 55px;
@@ -1016,6 +1038,10 @@ export default defineComponent({
       // stroke: #FFF;
       filter: drop-shadow(0px 0px 6px rgba(209, 209, 209, 0.8));
     }    
+    .ok-button-unupdated {
+      background-color: #e5e4ea;
+      border: 2px solid #e5e4ea;
+    }
   }
 
 .options-container-end{

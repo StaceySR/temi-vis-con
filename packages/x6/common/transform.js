@@ -53,10 +53,6 @@ export function getActionTypeTheme(type) {
 export function getActionTypeIcon(type) {
     /**@enum */
     const Theme = {
-<<<<<<< HEAD
-=======
-        /**默认 */
->>>>>>> 014df5fe3b5183992679ec35db1c3eeac0a89cb3
         DEFAULT: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
         USERREQUEST: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
         SPEAK: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
@@ -64,16 +60,11 @@ export function getActionTypeIcon(type) {
         GOTO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/goto.png",
         FOR: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/for.png",
         IF: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/condition.png",
-        INFO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons//var.png",
-        INFODECLARE: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
-        INFOASSIGN: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
+        INFO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/var.png",
+        INFODECLARE: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/infoDeclare.png",
+        INFOASSIGN: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/infoAssign.png",
         DETECTHUMAN: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
         END: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/end.png",
-<<<<<<< HEAD
-=======
-        INFOASSIGN: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/infoAssign.png",
-        INFODECLARE: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/infoDeclare.png",
->>>>>>> 014df5fe3b5183992679ec35db1c3eeac0a89cb3
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT

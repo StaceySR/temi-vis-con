@@ -213,17 +213,21 @@ export function validate() {
     if (nodeSet.size !== nodes.length) errs.push('存在未连线的节点')
 
     // 校验 是否包含 触发器 和 动作
-    const { TRIGGER, ACTION } = ActionType
+    const { USERREQUEST } = ActionType
+    // const { USERREQUEST, SPEAK, ASK, FOR, IF, INFO, INFODECLARE, INFOASSIGN, END, GOTO, DETECTHUMAN} = ActionType
     let startNodes = 0, endNodes = 0
     for (const node of nodes) {
         const { initialization, tooltip, actionType } = node.getData()
         // 数据未修改过
         if (initialization) errs.push(`[${tooltip || ''}]节点数据不能为空`)
         switch (actionType) {
-            case TRIGGER:
+            case USERREQUEST:
                 startNodes += 1
                 break;
-            case ACTION:
+            // case ACTION:
+            //     endNodes += 1
+            //     break;
+            default:
                 endNodes += 1
                 break;
         }
