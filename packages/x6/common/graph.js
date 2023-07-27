@@ -68,7 +68,7 @@ export function initGraph() {
                     attrs: {
                         "stroke-width": 2,
                         // stroke: "skyblue",
-                        stroke: "red"
+                        stroke: "green"
                     },
                 },
             },
@@ -80,7 +80,7 @@ export function initGraph() {
                     attrs: {
                         "stroke-width": 8,
                         // stroke: "skyblue",
-                        stroke: "red",
+                        stroke: "green",
 
                     },
                 },
