@@ -10,7 +10,7 @@
       >
     </div> -->
     <div class="graph-container">
-      <antv-x6-vue2 ref="graphContainer" @node-click="handleNodeClick">
+      <antv-x6-vue2 ref="graphContainer" @node-click="handleNodeClick" >
         <div slot="panel_area_slot" slot-scope="{ row }">
           <el-form-item label="Label:">
             <el-input
@@ -33,7 +33,9 @@
       <button  class="ok-button" @click="handleConfirmChanges">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
       </button>
-
+      <button  class="nodesDebug-button" @click="handleNodesDebugging">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/ok.png"/>
+      </button>
       <button id="emitTitleToParent" @click="emitTitleToParent"></button>
     </div>
     <!-- <div v-if="isSelected"  class="options-container"> -->
@@ -523,6 +525,12 @@ export default defineComponent({
         data.isForSelected = false
         data.isMenuOpen = false
       },
+      handleNodeSelect(e) {
+        console.log("[debug]节点选中Emit事件:", e);
+      },
+
+
+
       handleExportAtoms() {  //[GetData]
         const data = graphFunc.getAtoms();  //获取graph上的数据
         console.log("[debug]data:", data);
@@ -608,6 +616,10 @@ export default defineComponent({
           const newMermaidCode = graphFunc.confirmChanges(nodesJSON, edgesJSON);
           EventBus.$emit("send-new-mermaid-data", newMermaidCode);
           // console.log(mermaidCode);
+      },
+
+      handleNodesDebugging() {
+
       },
 
       // 从mermaid code中获取数据并处理为 x6 graph的数据格式 as list
@@ -870,7 +882,21 @@ export default defineComponent({
       // stroke-width: 1px;
       // stroke: #FFF;
       filter: drop-shadow(0px 0px 6px rgba(209, 209, 209, 0.8));
-    }    
+    }
+    
+    .nodesDebug-button{
+        background-color: #675AB8;
+        width: 55px;
+        height: 55px;
+        border-radius: 109px; 
+        border: 2px solid #675AB8;
+        margin-top: 140px;
+        // flex-shrink: 0;
+        // fill: #FFF;
+        // stroke-width: 1px;
+        // stroke: #FFF;
+        filter: drop-shadow(0px 0px 6px rgba(209, 209, 209, 0.8));     
+    }
   }
 .right-buttons button:hover {
   // background-color: #EEE;

@@ -167,8 +167,19 @@ export function updateNode(data) {
 export function selectedNodesCount(){
     const graph = useGraph()
     const cells = graph.value.getSelectedCells()
-    console.log("cells: ", cells.length)
+    console.log("cells length: ", cells.length)
     return cells.length
+}
+
+export function getAllSelectedNodes() {
+    const graph = useGraph()
+    const cells = graph.value.getSelectedCells()
+    console.log("cells:: ", cells)
+    
+    // 只返回node节点
+    const nodes = cells.filter(cell => cell.isNode())
+    console.log("nodes:: ", nodes)
+    return nodes
 }
 
 /**

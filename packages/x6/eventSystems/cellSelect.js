@@ -36,21 +36,27 @@ export default (graph) => {
         args: removeBtnCfg // 工具对应的参数
       });
     }
+
+    //debug 选中节点的信息
+    console.log("cell:: ", cell)
   });
 
-  graph.on('cell:unselected', ({ cell }) => {
-    if (cell.isEdge()) {
-      cell.attr('line', { stroke: '#7c68fc', strokeWidth: 2 });
-    } else {
-      const cellView = graph.findView(cell);
-      cellView && cellView.removeClass(`${cell.shape}-selected`);
-    }
-    cell.removeTools()
+  graph.on('node:dblclick', ({ node }) => {
+    console.log("node:dblclick: ", node)
+    graph.on('cell:unselected', ({ cell }) => {
+      if (cell.isEdge()) {
+        cell.attr('line', { stroke: '#7c68fc', strokeWidth: 2 });
+      } else {
+        const cellView = graph.findView(cell);
+        cellView && cellView.removeClass(`${cell.shape}-selected`);
+      }
+      cell.removeTools()
 
-    Channel.dispatchEvent(CustomEventTypeEnum.CELL_CLICK, SelectStateEnum.UN_SELECTED)
-    // 取消 tooltip
-    graph.getNodes()?.forEach(node => {
-      if (node.shape === 'html') graph.removeNode(node)
+      Channel.dispatchEvent(CustomEventTypeEnum.CELL_CLICK, SelectStateEnum.UN_SELECTED)
+      // 取消 tooltip
+      graph.getNodes()?.forEach(node => {
+        if (node.shape === 'html') graph.removeNode(node)
+      })
     })
-  });
+  })
 }
