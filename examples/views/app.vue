@@ -5,9 +5,9 @@
           <a class="title" href="https://github.com/g0ngjie/antv-x6-vue2">{{titleData.title}}</a>
         </div>
         <div class="title-buttons">
-          <button class="title-button">
+          <!-- <button class="title-button">
             <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/play.png"/>
-          </button>
+          </button> -->
           <button class="title-button">
             <img class="title-button-img2" src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/download.png"/>
           </button>
