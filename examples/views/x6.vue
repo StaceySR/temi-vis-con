@@ -647,7 +647,7 @@ export default defineComponent({
         data.isInfoAssignSelected = false
         data.isMenuOpen = false
 
-        session.recording("nodeClick", "hello");
+        session.recording("nodeClick", e.node);
       },
       handleExportAtoms() {  //[GetData]
         const data = graphFunc.getAtoms();  //获取graph上的数据
@@ -704,6 +704,8 @@ export default defineComponent({
         // console.log("auto-nodes: ", nodes);
         graphFunc.autoLayout(nodes, edges);
         // data.isUpdate = false;
+
+        session.recording("Node update", data.form);
       },
       handleAutoLayout() {  //[AutoLayout]
         console.log("auto Layout！");
@@ -712,6 +714,7 @@ export default defineComponent({
         const { nodes, edges } = graphFunc.getAtoms();
         // console.log("auto-nodes: ", nodes);
         graphFunc.autoLayout(nodes, edges);
+        session.recording("AutoLayout", "自动布局");
         Message.success("AutoLayout succeeded. Please view it on the console");
       },
 
@@ -727,6 +730,7 @@ export default defineComponent({
           EventBus.$emit("send-new-mermaid-data", newMermaidCode);
           // console.log(mermaidCode);
 
+          session.recording("Graph update", "确认graph中所有修改操作");
           Message.success("Export succeeded. Please view it on the console");
 
           document.getElementById("emitTitleToParent").click()       
@@ -743,6 +747,9 @@ export default defineComponent({
         console.log("selectedCells: ", selectedCells)
         if (selectedCells.length >= 1) {
           EventBus.$emit("magic-selected-cells", selectedCells);
+
+          session.recording("Graph+LLM update", "magicUpdate");
+
           Message.success("Magic modify succeeded. Please view it on the console");
         }else {
           Message.success("Magic modify failed. Please select the nodes.");
@@ -789,6 +796,7 @@ export default defineComponent({
           }
           this.selectedOptions = []
         }
+        session.recording("Node update -- variable", data.form);
         Message.success("Variable is modified successfully. Please view it on the console");
         data.isMenuOpen = false
       },

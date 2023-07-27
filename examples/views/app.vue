@@ -8,7 +8,7 @@
           <!-- <button class="title-button">
             <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/play.png"/>
           </button> -->
-          <button class="title-button">
+          <button class="title-button" @click="runInTemi">
             <img class="title-button-img2" src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/download.png"/>
           </button>
         </div>
@@ -19,7 +19,8 @@
         <x6 @title-to-parent="handleTitleFromX6" />
         </div>
         <div class="ChatView-Wrapper">
-          <chatView/>
+          <!-- <chatView/> -->
+          <chatView ref="chatViewRef" />
         </div>
       </div>
     </div>
@@ -51,6 +52,11 @@
         console.log('Received title from x6:', title);
         this.titleData.title = title; // 更新父组件的 title 数据
       },
+      runInTemi() {
+        console.log("部署到temi上")
+        // 在这里调用 chatView 子组件的方法
+        this.$refs.chatViewRef.startRunTemi(); // 调用 chatView 的方法
+      }
     },
     // mounted() {
     //   EventBus.$on("send-new-title", newTitle => {

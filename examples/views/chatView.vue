@@ -275,7 +275,6 @@
           }
         );
 
-
         const result = await res.text().then((data) => {
           console.log('new jscode data', data);
           return data;
@@ -287,17 +286,13 @@
         const mermaidCode = await this.js2flow(this.currentJSCode);
         this.currentFlowCode = mermaidCode;
         EventBus.$emit('callGetData', this.currentFlowCode);        
-
-
         return result;
         //
       },
 
       //魔法棒修改，选中流程图中的节点，与LLM对话
       async magicUpdateWithLLM(){
-        
         console.log("chatview中的魔法棒: ", this.selectedCells)
-
         //从选中的cells中提取出node，然后从node中取出label,并记录，然后进行打印。
         let selectedNodesID = [];
 
@@ -311,13 +306,9 @@
             selectedNodesID.push(this.selectedCells[i].data.tooltip);    
 
           }
-
-
         }
-
-                // 提取出node的label
-          //console.log("selectedNodes[i].id: ", selectedNodes[i].id);
-
+        // 提取出node的label
+        //console.log("selectedNodes[i].id: ", selectedNodes[i].id);
         this.addMessage("正在思考解释你选中的节点....", "assistant");
         const res = await fetch("//192.168.123.70:3001/APIs/magicModify",
           {
@@ -333,8 +324,6 @@
             })
           }
         );
-
-
         await res.text().then((data) => {
           //console.log('data', data);
           console.log("data from magic modify: ", data);
@@ -343,18 +332,22 @@
 
           return data;
         });
-
-
-
-
-
-
         //console.log("selectedNodes: ", selectedNodesID);
         //console.log("current mermaidCode:" + this.currentFlowCode);
-
-
-
       },
+
+      startRunTemi() {
+        // 部署到Temi上
+        console.log('chatView 子组件startRunTemi方法被调用了！');
+
+
+
+
+
+
+
+
+      }
     },
     mounted() {
       this.$refs.textarea.addEventListener("input", this.resizeTextarea);

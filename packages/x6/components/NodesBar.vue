@@ -31,6 +31,7 @@ import {
 import { defineComponent, reactive, toRefs, watch } from "@vue/composition-api";
 import { useGraph } from "../store";
 import VueNode from "./vue-static-shape/VueNode.vue";
+import { session } from "../../../examples/views/SessionRecording.js";
 
 export default defineComponent({
   props: ["nodes"],
@@ -67,6 +68,8 @@ export default defineComponent({
         const node = graph.value.createNode(json);
         console.log("startDrag: node: ", node)
         if (!data.freeze) data.dnd.start(node, e);
+
+        session.recording("newNodeAdd", node);
       },
       initDnd() {
         data.dnd = new Addon.Dnd({
