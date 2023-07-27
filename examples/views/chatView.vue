@@ -290,7 +290,35 @@
         
         console.log("chatview中的魔法棒: ", this.selectedCells)
 
+        //从选中的cells中提取出node，然后从node中取出label,并记录，然后进行打印。
+        let selectedNodes = [];
 
+        for (let i = 0; i < this.selectedCells.length; i++){
+        // 判断当前cell是否为node
+          if (!this.selectedCells[i].isNode()) {
+            console.log("not node!");
+            } else {
+            console.log("find node!");
+            //添加到selectedNodes中
+            selectedNodes.push(this.selectedCells[i]);    
+
+          }
+
+          // 提取出node的label
+           console.log("selectedNodes[i].id: ", selectedNodes[i].id);
+
+
+      
+
+        }
+
+
+
+
+
+
+        console.log("selectedNodes: ", selectedNodes);
+        console.log("current mermaidCode:" + this.currentFlowCode);
 
 
 
