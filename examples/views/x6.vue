@@ -502,7 +502,7 @@
 
 <script>
 import { EventBus} from "./eventBus.js";
-import * as mockData from "./data";
+// import * as mockData from "./data";
 import { graphFunc } from "../../packages";
 import {
   defineComponent,
@@ -513,16 +513,17 @@ import {
 import { Message } from "element-ui";
 // import G6 from '@antv/g6';
 
-let list = [
-  // {
-  //   nodes: mockData.nodes2,
-  //   edges: mockData.edges2,
-  // },
-  {
-    nodes: mockData.nodes1,
-    edges: mockData.edges1,
-  },
-];
+// let list = [
+//   // {
+//   //   nodes: mockData.nodes2,
+//   //   edges: mockData.edges2,
+//   // },
+//   {
+//     nodes: mockData.nodes1,
+//     edges: mockData.edges1,
+//   },
+// ];
+let list = [];
 const mermaidCode =  `graph TB
   r_01(["userRequest:预约开会"])
   id_01["infoDeclare:用户回复，地点，目标成员"]
@@ -715,11 +716,18 @@ export default defineComponent({
         const { ok, errs } = graphFunc.graphValidate();
         if (ok && data.isUpdate==true) {
           const { nodesJSON, edgesJSON } = graphFunc.exportData();
+          const nodes = nodesJSON
+          const edges = edgesJSON
+          list = [{nodes, edges}];
+          console.log("list changes: ", list)
           const newMermaidCode = graphFunc.confirmChanges(nodesJSON, edgesJSON);
           EventBus.$emit("send-new-mermaid-data", newMermaidCode);
           // console.log(mermaidCode);
 
           Message.success("Export succeeded. Please view it on the console");
+
+          document.getElementById("emitTitleToParent").click()       
+
           data.isUpdate = false
         } else {
           console.log("[debug]errs:", errs);
@@ -730,15 +738,19 @@ export default defineComponent({
       handleMagicUpdate() { //魔法棒修改
         const selectedCells = graphFunc.magicUpdate()
         console.log("selectedCells: ", selectedCells)
-        EventBus.$emit("magic-selected-cells", selectedCells);
-        Message.success("Magic modify succeeded. Please view it on the console");
+        if (selectedCells.length >= 1) {
+          EventBus.$emit("magic-selected-cells", selectedCells);
+          Message.success("Magic modify succeeded. Please view it on the console");
+        }else {
+          Message.success("Magic modify failed. Please select the nodes.");
+        }
       },
 
       getData(mCode=mermaidCode){
         // console.log("流程图的mermaid code: ", data);
         const {nodes, edges, variables} = graphFunc.getListData(mCode);
         list = [{nodes,edges}];
-        console.log("list:",list);
+        console.log("list:", list);
         data.variables.all = variables['all']
         console.log("variables: ", data.variables.all);
 
@@ -761,6 +773,7 @@ export default defineComponent({
       confirmAddVariable(){
         console.log("确认添加这些变量")
         console.log(this.selectedOptions);
+        console.log("form.name: ", data.form.name)
         if (data.form.name == 'goto' || data.form.name == 'forLoop') {
           data.form.label = this.selectedOptions;
           this.selectedOptions = []
