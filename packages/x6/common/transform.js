@@ -53,21 +53,6 @@ export function getActionTypeTheme(type) {
 export function getActionTypeIcon(type) {
     /**@enum */
     const Theme = {
-        /**默认 */
-<<<<<<< HEAD
-        DEFAULT: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
-        USERREQUEST: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
-        SPEAK: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
-        ASK: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/ask.png",
-        GOTO: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/goto.png",
-        FOR: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/forLoop.png",
-        IF: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/condition.png",
-        INFO: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
-        INFODECLARE: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
-        INFOASSIGN: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
-        DETECTHUMAN: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
-        END: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/end.png",
-=======
         DEFAULT: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
         USERREQUEST: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
         SPEAK: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
@@ -76,9 +61,10 @@ export function getActionTypeIcon(type) {
         FOR: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/for.png",
         IF: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/if.png",
         INFO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons//var.png",
+        INFODECLARE: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
+        INFOASSIGN: "http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/info.png",
         DETECTHUMAN: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
         END: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/end.png",
->>>>>>> 987c245c133dd7c7cc2c0a2b5222c91ae61afdc9
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT
@@ -228,9 +214,7 @@ export function getDetailNode(node) {
     console.log("actionType: ", actionType)
     // 主题色
     const targetTheme = getActionTypeTheme(actionType)
-    console.log("targetTheme: ", targetTheme)
     let iconURL = getActionTypeIcon(actionType)
-
 
     return {
         id,

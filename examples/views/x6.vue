@@ -21,7 +21,7 @@
       <button class="auto-layout-button" @click="handleAutoLayout">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/autoLayout.png"/>
       </button>
-      <button v-if="isSelected" class="redo-button">
+      <button class="redo-button" @click="handleMagicUpdate">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/redo.png"/>
       </button>
       <button v-if="isSelected" class="ok-button" @click="handleConfirmChanges">
@@ -343,7 +343,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
       </button>
     </div>
 
@@ -411,7 +411,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/{a}.png">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -430,7 +430,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://192.168.123.109:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/yes.png">
       </button>
     </div>
 
@@ -684,7 +684,6 @@ export default defineComponent({
           data.form.label = data.form.action + ";" + data.form.variable        
         }
 
-        
         console.log("handleUpdateLabel: ", data.form.label)
         graphFunc.updateNode(data.form);
         data.form.label = "";
@@ -717,6 +716,12 @@ export default defineComponent({
           console.log("[debug]errs:", errs);
           // Message.error(errs[0]);
         }
+      },
+
+      handleMagicUpdate() { //魔法棒修改
+        const selectedCells = graphFunc.magicUpdate()
+        console.log("selectedCells: ", selectedCells)
+        EventBus.$emit("magic-selected-cells", selectedCells);
       },
 
       getData(mCode=mermaidCode){
@@ -840,11 +845,17 @@ export default defineComponent({
           if (data.form.name == 'infoAssign') {
             data.isInfoAssignSelected = true
           }
-          
 
           data.isSelected = true;
           console.log("[debug]detail:", detail);
         });
+
+        // graphFunc.GraphListener.nodeClick((detail) => {
+        //   console.log("单击detail: ", detail)
+        //   graphFunc.magicUpdate()
+        // });
+
+
         graphFunc.GraphListener.runtimeError((err) => {
           console.log(
             "[debug]errorCode, errorMsg:",

@@ -238,6 +238,14 @@ export function initGraph() {
     // 缓存实例化graph引用
     useProvideGraph(graph)
 
+
+    // graph.on('cell:selected', ({ cell }) => {
+    //     console.log("cell: ", cell)
+    
+    //     // 多单选选中时，移除删除
+    //     console.log("选中的cells: ", graph.getSelectedCells());
+    //   });
+
     // graph.on('edge:mouseenter', ({ cell }) => {
     //     cell.addTools([
     //       'source-arrowhead',

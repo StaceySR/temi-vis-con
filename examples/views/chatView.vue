@@ -40,6 +40,7 @@
           currentJSCode: "",
           currentFlowCode: "",
         newMermaidData: "",
+        selectedCells: [],
       };
     },
     methods: {
@@ -281,7 +282,18 @@
 
         return result;
         //
-      }  
+      },
+
+      //魔法棒修改，选中流程图中的节点，与LLM对话
+      async magicUpdateWithLLM(){
+        
+        console.log("chatview中的魔法棒: ", this.selectedCells)
+
+
+
+
+
+      },
     },
     mounted() {
       this.$refs.textarea.addEventListener("input", this.resizeTextarea);
@@ -293,10 +305,15 @@
         this.newMermaidData = newMermaidCode;
         this.changeRobotJsCode();
       });
+      EventBus.$on("magic-selected-cells", selectedCells => {
+        this.selectedCells = selectedCells;
+        this.magicUpdateWithLLM();
+      });
       // getMermaidData();
     },
     beforeDestroy() {
       EventBus.$off("send-new-mermaid-data");
+      EventBus.$off("magic-selected-cells");
     }
   };
   </script>

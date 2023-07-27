@@ -1,8 +1,7 @@
 import { Channel } from "../common/transmit";
 import { CustomEventTypeEnum, SelectStateEnum, ToolTypeEnum } from "../common/enums";
-
+export let cells = "";
 export default (graph) => {
-
   graph.on('cell:selected', ({ cell }) => {
     let removeBtnCfg;
     if (cell.isEdge()) {
@@ -20,8 +19,8 @@ export default (graph) => {
     Channel.dispatchEvent(CustomEventTypeEnum.CELL_CLICK, SelectStateEnum.SELECTED)
 
     // 多单选选中时，移除删除
-    const cells = graph.getSelectedCells();
-    console.log("selected cells: ", cells)
+    cells = graph.getSelectedCells();
+    // console.log("selected cells: ", cells)
     if (cells.length > 1) {
       cells.forEach(currentCell => {
         currentCell.removeTools()

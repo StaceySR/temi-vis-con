@@ -47,7 +47,7 @@ function parseMermaidCode(mermaidCode) {
             // console.log("nodeAction: ", nodeAction);
             //4. 匹配 "userRequest:预约开会"中的"预约开会", 作为node.label
             let nodeLabel = nodeLine[3].trim();
-            console.log("nodeLabel: ", nodeLabel);
+            // console.log("nodeLabel: ", nodeLabel);
 
             const parts = nodeLabel.split(";");
             for (let index = 1; index < parts.length; index++) {
@@ -81,7 +81,7 @@ function parseMermaidCode(mermaidCode) {
                             "id": nodeId,
                             "data": { "actionType": actionType , "tooltip": nodeAction+": "+nodeLabel}//代表这个node的形状，TRIGGER是圆形；CONDITION是菱形；ACTION是矩形
                         };
-            console.log("mermaid: each node: ", node);
+            // console.log("mermaid: each node: ", node);
             nodes.push(node);
         }
 

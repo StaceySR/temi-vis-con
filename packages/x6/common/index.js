@@ -107,6 +107,17 @@ export function nodeClick(cb) {
     Channel.eventListener(CustomEventTypeEnum.NODE_CLICK, (detail) => cb(detail));
 }
 
+export function cellSelected(){
+    // console.log("被选中的节点")
+    const graph = useGraph()
+    const cells = graph.value.getSelectedCells()
+    // console.log("cells selected ", cells)
+    // if (Lang.isArray(cells) && cells.length >= 1) {
+    //     console.log("传递后端")
+    // }
+    return cells
+}
+
 /**运行时异常回调 */
 export function runtimeError(cb) {
     Channel.eventListener(CustomEventTypeEnum.RUNTIME_ERR, (err) => cb(err))

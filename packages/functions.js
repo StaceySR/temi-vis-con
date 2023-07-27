@@ -1,4 +1,4 @@
-import { getGraphJSON, setDefaultGraphData, disableGraph, nodeDclick, nodeClick, updateNode as commonUpdateNode, validate, getAtoms as getAtomList, runtimeError as catchErr, graphClean, graphAutoLayout, getData, changeAntVToMermaid, selectedNodesCount} from "./x6/common";
+import { getGraphJSON, setDefaultGraphData, disableGraph, nodeDclick, nodeClick, updateNode as commonUpdateNode, validate, getAtoms as getAtomList, runtimeError as catchErr, graphClean, graphAutoLayout, getData, changeAntVToMermaid, selectedNodesCount, cellSelected as cellSelectedUpdate} from "./x6/common";
 /**
  * 获取数据
  * @returns {IExportData}
@@ -40,6 +40,12 @@ export const confirmChanges = (nodes, edges) => changeAntVToMermaid(nodes, edges
  * @param {IUpdateOptions} options
  */
 export const updateNode = (options) => commonUpdateNode(options);
+
+/**
+ * 魔法棒：在流程图中选中节点后，借助LLM修改
+ */
+export const magicUpdate = () => cellSelectedUpdate();
+
 /**
  * 图形校验
  * @returns {IGraphValidate}
