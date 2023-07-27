@@ -12,14 +12,15 @@ const changePortsVisible = (node, visible) => {
 function showTips(graph, tooltips, x, y) {
   let width = 15 * tooltips.length
   if (tooltips.length <= 4) {
-    width = 18 * tooltips.length    
+    width = 25 * tooltips.length    
   }else{
     if (tooltips.length <= 6) {
       width = 16 * tooltips.length
     }else {
-      width = 10 * tooltips.length
+      width = 15 * tooltips.length
     }
   }
+  console.log("tooltips-width: ", tooltips.length, width)
   graph.addNode({
     x,
     y,
