@@ -27,6 +27,7 @@
 
   // import { getMermaidData }     from "../../packages/x6/common/mermaid2antV.js";
   import { EventBus } from "./eventBus.js";
+  import { session } from "./SessionRecording.js";
   
   export default {
     data() {
@@ -136,7 +137,7 @@
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ text: userInput })
+            body: JSON.stringify({ text: userInput,sessionID: session.id })
           }
         );
 

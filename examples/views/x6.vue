@@ -511,6 +511,7 @@ import {
   toRefs,
 } from "@vue/composition-api";
 import { Message } from "element-ui";
+import { session } from "./SessionRecording.js";
 // import G6 from '@antv/g6';
 
 // let list = [
@@ -645,6 +646,8 @@ export default defineComponent({
         data.isInfoDeclareSelected = false
         data.isInfoAssignSelected = false
         data.isMenuOpen = false
+
+        session.recording("nodeClick", e.node.label);
       },
       handleExportAtoms() {  //[GetData]
         const data = graphFunc.getAtoms();  //获取graph上的数据
