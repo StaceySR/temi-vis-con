@@ -62,14 +62,16 @@
         this.addMessage(this.userInput, "user");
         this.addMessage("正在理解你的需求....", "assistant");
 
-        if(this.currentJSCode.length === 0) {
+
+
+        if(this.currentStage == stageType.authoring) {
           this.currentJSCode = await this.NL2JS(sendContent);
           console.log('currentJSCode', this.currentJSCode);
 
           // 取回生成的hs代码后，进一步生成解释
           // const explainContent = await this.JS2NL(this.currentJSCode);
           // console.log('explainContent', explainContent);
-          const serverMsg = this.messages[this.messages.length - 1];
+          let serverMsg = this.messages[this.messages.length - 1];
           serverMsg.content = "正在构建代码...";
           this.JS2NL(this.currentJSCode).then((data) => {
             console.log('data', data);
@@ -77,12 +79,24 @@
             serverMsg.content = data;
           });
 
+          this.currentStage = stageType.debugging;
+
 
           // 将最后的sytem message改成该解释内容
           // 获得 messages 中最后一条role为system的message
           // const serverMsg = this.messages[this.messages.length - 1];
           // serverMsg.content = explainContent;
-        } else {
+          this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
+          // 生成代码后开始处理flow部分
+          const mermaidCode = await this.js2flow(this.currentJSCode);
+          this.currentFlowCode = mermaidCode;
+          EventBus.$emit('callGetData', this.currentFlowCode);
+
+          serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";
+
+
+        }else if (this.currentStage == stageType.debugging) {
           const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
 
           const explainContent = await this.ExplainModifiedJS(this.currentJSCode, modifiedJSCode);
@@ -90,18 +104,27 @@
           
           //将最后的sytem message改成该解释内容
           // 获得 messages 中最后一条role为system的message
-          const serverMsg = this.messages[this.messages.length - 1];
-          serverMsg.content = explainContent;          
-        }
+          let serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = explainContent;   
 
-        this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
-        // 生成代码后开始处理flow部分
-        const mermaidCode = await this.js2flow(this.currentJSCode);
-        this.currentFlowCode = mermaidCode;
-        EventBus.$emit('callGetData', this.currentFlowCode);
+          this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
+          // 生成代码后开始处理flow部分
+          const mermaidCode = await this.js2flow(this.currentJSCode);
+          this.currentFlowCode = mermaidCode;
+          EventBus.$emit('callGetData', this.currentFlowCode);
 
-        const serverMsg = this.messages[this.messages.length - 1];
-        serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";
+          serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";
+
+        }else if(this.currentStage == stageType.magicModify) {
+          console.log("magic modify time!");
+          
+          
+        } 
+
+        
+
+
 
 
 
