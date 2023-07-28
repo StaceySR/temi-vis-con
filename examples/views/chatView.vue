@@ -79,7 +79,7 @@
             //serverMsg = this.messages[this.messages.length - 1];
             serverMsg.content = data;
           });
-
+          serverMsg.content = "代码构建完成！";
           this.currentStage = stageType.debugging;
 
 
@@ -655,7 +655,7 @@
   .chatButton {
     position: relative;
     bottom: 51px;
-    right: -216px;
+    right: -256px;
     background-color: #5AB2B8;
     color: #fff;
     border: none;

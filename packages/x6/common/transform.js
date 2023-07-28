@@ -27,14 +27,28 @@ export function getActionTypeTheme(type) {
         GREEN: { border: '#6D9862', background: '#E7FCE2', left_background: '#6D9862' },
         YELLOW: { border: '#CCC74D', background: '#FFFEE0', left_background: '#CCC74D' },
         PURPLE: { border: '#B16C9D', background: '#FFEFFB', left_background: '#B16C9D' },
+        GRAY: { border: '#969696', background: '#D9D9D9', left_background: '#969696' }
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT
     if (!type) return DEFAULE_THEME
 
     const { USERREQUEST, SPEAK, ASK, FOR, LOOPEND, IF, INFO, INFODECLARE, INFOASSIGN, END, GOTO, DETECTHUMAN} = ActionType
-    console.log()
-    return {
+    // return {
+    //     [USERREQUEST]: Theme.YELLOW,
+    //     [SPEAK]: Theme.BLUE,
+    //     [ASK]: Theme.BLUE,
+    //     [FOR]: Theme.PURPLE,
+    //     [LOOPEND]: Theme.PURPLE,
+    //     [IF]: Theme.PURPLE,
+    //     [INFO]: Theme.GREEN,
+    //     [INFODECLARE]: Theme.GREEN,
+    //     [INFOASSIGN]: Theme.GREEN,
+    //     [GOTO]: Theme.BLUE,
+    //     [END]: Theme.YELLOW,
+    //     [DETECTHUMAN]: Theme.BLUE,
+    // }[type]
+    const themeColors = {
         [USERREQUEST]: Theme.YELLOW,
         [SPEAK]: Theme.BLUE,
         [ASK]: Theme.BLUE,
@@ -47,7 +61,16 @@ export function getActionTypeTheme(type) {
         [GOTO]: Theme.BLUE,
         [END]: Theme.YELLOW,
         [DETECTHUMAN]: Theme.BLUE,
-    }[type]
+        default: Theme.GRAY, // 添加default匹配
+      };
+    //   console.log("type: ", type)
+    //   if (themeColors[type]) {
+    //     console.log("themeColors[type] : ", themeColors[type] )
+    //     return themeColors[type]        
+    //   }else{
+    //     return themeColors.default
+    //   }
+      return themeColors[type] || themeColors.default;
 }
 
 /**获取不同actionType对应icon图标 */
