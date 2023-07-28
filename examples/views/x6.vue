@@ -714,6 +714,7 @@ export default defineComponent({
         // data.isUpdate = false;
 
         session.recording("Node update", data.form);
+        Message.success("节点内容修改成功！")
       },
       handleAutoLayout() {  //[AutoLayout]
         console.log("auto Layout！");
@@ -723,7 +724,7 @@ export default defineComponent({
         // console.log("auto-nodes: ", nodes);
         graphFunc.autoLayout(nodes, edges);
         session.recording("AutoLayout", "自动布局");
-        Message.success("AutoLayout succeeded. Please view it on the console");
+        Message.success("自动布局已完毕！");
       },
 
       handleConfirmChanges() {  //[confirm the changes]
@@ -738,8 +739,8 @@ export default defineComponent({
           EventBus.$emit("send-new-mermaid-data", newMermaidCode);
           // console.log(mermaidCode);
 
-          session.recording("Graph update", "确认graph中所有修改操作");
-          Message.success("Export succeeded. Please view it on the console");
+          // session.recording("Graph update", "确认graph中所有修改操作");
+          Message.success("确认所有修改，生成新的代码！");
 
           document.getElementById("emitTitleToParent").click()       
 
@@ -756,11 +757,11 @@ export default defineComponent({
         if (selectedCells.length >= 1) {
           EventBus.$emit("magic-selected-cells", selectedCells);
 
-          session.recording("Graph+LLM update", "magicUpdate");
+          // session.recording("Graph+LLM update", "magicUpdate");
 
-          Message.success("Magic modify succeeded. Please view it on the console");
+          Message.success("魔法棒施法成功，将生成该节点的文字解释！");
         }else {
-          Message.success("Magic modify failed. Please select the nodes.");
+          Message.success("魔法棒施法失败...");
         }
       },
 
@@ -810,7 +811,7 @@ export default defineComponent({
         }
         console.log("data.form.variable: ", data.form.variable)
         session.recording("Node update -- variable", data.form);
-        Message.success("Variable is modified successfully. Please view it on the console");
+        Message.success("变量修改成功！");
         data.isMenuOpen = false
       },
       // confirmGotoVariable(){

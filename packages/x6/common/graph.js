@@ -264,15 +264,15 @@ export function initGraph() {
     //     cell.removeTools()
     // })
 
-    //   // 双击进入edge label编辑模式
-    // graph.on('edge:dblclick', ({ cell, e }) => {
-    //     cell.addTools({
-    //     name: 'edge-editor',
-    //     args: {
-    //         event: e,
-    //     },
-    //     })
-    // });
+      // 双击进入edge label编辑模式
+    graph.on('edge:dblclick', ({ cell, e }) => {
+        cell.addTools({
+        name: 'edge-editor',
+        args: {
+            event: e,
+        },
+        })
+    });
     //单击画布，取消所有选中
     // graph.on('canvas:click', () => {
     //     console.log("canvas click clean")

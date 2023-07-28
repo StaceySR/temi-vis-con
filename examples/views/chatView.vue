@@ -2,7 +2,7 @@
     <div id="chat">
       <div class="chat-icon">
         <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/robot.png"/>
-        <span class="chat-title">RSC</span>
+        <span class="chat-title">Co-coBot</span>
       </div>
       <div class="chat-container">
         <div class="message" v-for="message in messages" :key="message.id" :class="message.role">
@@ -290,7 +290,10 @@
         console.log("newMermaidData: ", this.newMermaidData);
         //
 
-        
+        //生成等待提示对话框
+        this.addMessage("正在按照流程图生成新的代码，请等待...", "assistant");
+
+
         //方法体（补充）
         const res = await fetch("//192.168.123.70:3001/APIs/flow2js",
           {
@@ -312,7 +315,11 @@
         // 生成代码后开始处理flow部分
         const mermaidCode = await this.js2flow(this.currentJSCode);
         this.currentFlowCode = mermaidCode;
-        EventBus.$emit('callGetData', this.currentFlowCode);        
+        EventBus.$emit('callGetData', this.currentFlowCode);  
+        
+        this.addMessage("按照流程图，新的代码已生成完毕！", "assistant");
+        
+
         return result;
         //
       },
@@ -330,10 +337,11 @@
             } else {
             console.log("find node!");
             //添加到selectedNodes中
-            selectedNodesID.push(this.selectedCells[i].data.tooltip);    
-
+            
+            selectedNodesID.push(this.selectedCells[i].data.actionType + ": " + this.selectedCells[i].data.tooltip);    
           }
         }
+        console.log("selectNodesID: ", selectedNodesID)
         // 提取出node的label
         //console.log("selectedNodes[i].id: ", selectedNodes[i].id);
 
@@ -363,9 +371,6 @@
           this.currentStage = stageType.magicModify;
           return data;
         });
-
-
-
 
       },
 
@@ -513,7 +518,7 @@
   /* margin-top: -20px; */
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
+  width: 130px;
   height: 60px;
   display: flex;
   justify-content: center;
@@ -616,8 +621,8 @@
   }
   .chatButton {
     position: relative;
-    bottom: 49px;
-    right: -171px;
+    bottom: 51px;
+    right: -216px;
     background-color: #5AB2B8;
     color: #fff;
     border: none;

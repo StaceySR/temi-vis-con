@@ -9,7 +9,7 @@
             <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/play.png"/>
           </button> -->
           <button class="title-button" @click="runInTemi">
-            <img class="title-button-img2" src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/download.png"/>
+            <img class="title-button-img2" src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/play.png"/>
           </button>
         </div>
       </div>
