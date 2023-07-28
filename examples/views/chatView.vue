@@ -1,8 +1,8 @@
 <template>
     <div id="chat">
       <div class="chat-icon">
-        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/robot.png"/>
-        <span class="chat-title">Co-coBot</span>
+        <img src="http://localhost:5500/Temi-Program-Visualization-main/packages/icons/logo.png"/>
+        <span class="chat-title">co-CoBot</span>
       </div>
       <div class="chat-container">
         <div class="message" v-for="message in messages" :key="message.id" :class="message.role">
@@ -63,7 +63,7 @@
 
         this.addMessage(this.userInput, "user");
         
-
+        this.userInput = "";
         if (this.currentStage == stageType.authoring) {
           this.addMessage("正在理解你的需求....", "assistant");
           this.currentJSCode = await this.NL2JS(sendContent);
@@ -454,31 +454,27 @@
         console.log('chatView 子组件startRunTemi方法被调用了！');
         console.log("current jscode:"+ this.currentJSCode);
 
-        //部署代码到temi上
-        const res = await fetch("//192.168.123.70:3001/APIs/js2temi",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-              body: JSON.stringify({
-                  sessionID: session.id,
-                  text: this.currentJSCode, 
-            })
+        if (this.currentJSCode.length > 0) {
+          //部署代码到temi上
+          const res = await fetch("//192.168.123.70:3001/APIs/js2temi",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+                body: JSON.stringify({
+                    sessionID: session.id,
+                    text: this.currentJSCode, 
+              })
+            }
+          );
+          await res.text().then((data) => {
+            //console.log('data', data);
+            console.log(data);
+            this.addMessage(data, "assistant");
+            return data;
+          });
           }
-        );
-        await res.text().then((data) => {
-          //console.log('data', data);
-          console.log(data);
-          this.addMessage(data, "assistant");
-          return data;
-        });
-
-
-
-
-
-
       }
     },
     mounted() {
@@ -555,7 +551,7 @@
   /* margin-top: -20px; */
   left: 50%;
   transform: translateX(-50%);
-  width: 130px;
+  width: 200px;
   height: 60px;
   display: flex;
   justify-content: center;
@@ -563,8 +559,8 @@
 }
 
 .chat-icon img {
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
 }
 
 .chat-title {
