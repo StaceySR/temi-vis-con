@@ -780,6 +780,13 @@ export default defineComponent({
 
       getTitle(){
         data.title = list[0].nodes[0].attrs.label.text
+        console.log("getTitle: ", list[0])
+        for (let index = 0; index < list[0].length; index++) {
+          const actionType = list[0].nodes[index].data.actionType;
+          if (actionType == 'USERREQUEST') {
+            data.title = list[0].nodes[index].attrs.label.text
+          }          
+        }
         console.log("gettitle: ", data.title)
         const newTitle = data.title
         console.log("newTitle: ", newTitle)
