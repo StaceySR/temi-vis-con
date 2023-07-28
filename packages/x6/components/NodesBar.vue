@@ -55,7 +55,7 @@ export default defineComponent({
         '服务结束': 'end'
       }
       label = turn[label]
-      return "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/" + label + ".png"
+      return "http://localhost:5500/packages/icons/" + label + ".png"
     },
   },
   setup() {

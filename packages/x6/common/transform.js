@@ -77,19 +77,19 @@ export function getActionTypeTheme(type) {
 export function getActionTypeIcon(type) {
     /**@enum */
     const Theme = {
-        DEFAULT: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
-        USERREQUEST: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/UserRequest.png",
-        SPEAK: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/speak.png",
-        ASK: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/ask.png",
-        GOTO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/goto.png",
-        FOR: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/forLoop.png",
-        LOOPEND: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/loopEnd.png",
-        IF: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/condition.png",
-        INFO: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/var.png",
-        INFODECLARE: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/infoDeclare.png",
-        INFOASSIGN: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/infoAssign.png",
-        DETECTHUMAN: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/detectHuman.png",
-        END: "http://localhost:5500/Temi-Program-Visualization-main/packages/icons/end.png",
+        DEFAULT: "http://localhost:5500/packages/icons/UserRequest.png",
+        USERREQUEST: "http://localhost:5500/packages/icons/UserRequest.png",
+        SPEAK: "http://localhost:5500/packages/icons/speak.png",
+        ASK: "http://localhost:5500/packages/icons/ask.png",
+        GOTO: "http://localhost:5500/packages/icons/goto.png",
+        FOR: "http://localhost:5500/packages/icons/forLoop.png",
+        LOOPEND: "http://localhost:5500/packages/icons/loopEnd.png",
+        IF: "http://localhost:5500/packages/icons/condition.png",
+        INFO: "http://localhost:5500/packages/icons/var.png",
+        INFODECLARE: "http://localhost:5500/packages/icons/infoDeclare.png",
+        INFOASSIGN: "http://localhost:5500/packages/icons/infoAssign.png",
+        DETECTHUMAN: "http://localhost:5500/packages/icons/detectHuman.png",
+        END: "http://localhost:5500/packages/icons/end.png",
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT
