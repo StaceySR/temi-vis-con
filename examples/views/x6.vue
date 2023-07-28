@@ -739,13 +739,9 @@ export default defineComponent({
           EventBus.$emit("send-new-mermaid-data", newMermaidCode);
           // console.log(mermaidCode);
 
-<<<<<<< HEAD
-          // session.recording("Graph update", "确认graph中所有修改操作");
           Message.success("确认所有修改，生成新的代码！");
-=======
-          //session.recording("Graph update", "确认graph中所有修改操作");
-          Message.success("Export succeeded. Please view it on the console");
->>>>>>> 1710b19a66bab47dfa0c5ce61f0ea604e2fd961b
+
+          // Message.success("Export succeeded. Please view it on the console");
 
           document.getElementById("emitTitleToParent").click()       
 
@@ -762,11 +758,7 @@ export default defineComponent({
         if (selectedCells.length >= 1) {
           EventBus.$emit("magic-selected-cells", selectedCells);
 
-<<<<<<< HEAD
-          // session.recording("Graph+LLM update", "magicUpdate");
-=======
           //session.recording("Graph+LLM update", "magicUpdate");
->>>>>>> 1710b19a66bab47dfa0c5ce61f0ea604e2fd961b
 
           Message.success("魔法棒施法成功，将生成该节点的文字解释！");
         }else {
