@@ -738,7 +738,7 @@ export default defineComponent({
           EventBus.$emit("send-new-mermaid-data", newMermaidCode);
           // console.log(mermaidCode);
 
-          session.recording("Graph update", "确认graph中所有修改操作");
+          //session.recording("Graph update", "确认graph中所有修改操作");
           Message.success("Export succeeded. Please view it on the console");
 
           document.getElementById("emitTitleToParent").click()       
@@ -756,7 +756,7 @@ export default defineComponent({
         if (selectedCells.length >= 1) {
           EventBus.$emit("magic-selected-cells", selectedCells);
 
-          session.recording("Graph+LLM update", "magicUpdate");
+          //session.recording("Graph+LLM update", "magicUpdate");
 
           Message.success("Magic modify succeeded. Please view it on the console");
         }else {
