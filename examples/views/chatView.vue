@@ -257,7 +257,10 @@
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ text: this.currentJSCode})
+            body: JSON.stringify({
+              text: this.currentJSCode,
+              sessionID: session.id
+            })
           }
         );
 
@@ -301,7 +304,12 @@
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ jscode: this.currentJSCode, oldFlow: this.currentFlowCode, newFlow: this.newMermaidData})
+              body: JSON.stringify({
+                  jscode: this.currentJSCode,
+                  oldFlow: this.currentFlowCode,
+                newFlow: this.newMermaidData,
+                sessionID : session.id
+            })
           }
         );
 
@@ -355,7 +363,7 @@
             },
               body: JSON.stringify({
                   sessionID: session.id,
-                  selectedNodes: selectedNodesID,
+                  selectedNodes: this.currentSeletecNodes,
                   jscode: this.currentJSCode,
                   flow: this.currentFlowCode,
             })
@@ -384,32 +392,61 @@
             },
               body: JSON.stringify({
                   sessionID: session.id,
-                  selectedNodes: this.selectedNodesID,
+                  selectedNodes: this.currentSeletecNodes,
                   jscode: this.currentJSCode,
                   flow: this.currentFlowCode,
                   text: userInput,
             })
           }
         );
-        await res.text().then((data) => {
+
+
+        const result =  await res.text().then((data) => {
           //console.log('data', data);
           console.log("data from magic modify: ", data);
+          return data;
+        }); 
 
-          //判断回复的data字符串中是否包含<end>标签。，如果有的话就结束魔法修改。
-          if (data.indexOf("<end>") != -1) {
-          //包含<end>标签，结束魔法修改
+        //判断回复的data字符串中是否包含<end>标签。，如果有的话就结束魔法修改。
+        if (result.indexOf("<end>") != -1) {
+        //包含<end>标签，结束魔法修改
+        const serverMsg = this.messages[this.messages.length - 1];
+        serverMsg.content = "退出节点调试模式";
+        this.addMessage("你可以继续提出你的服务流程修改需求，我会帮助你进行修改。", "assistant");
+        this.currentStage = stageType.debugging;
+        }        
+
+        // 如果用户请求的是修改代码
+        if (result.indexOf("<code>") != -1) {
           const serverMsg = this.messages[this.messages.length - 1];
-          serverMsg.content = "退出节点编辑模式";
-          this.addMessage("你可以继续提出你的服务流程修改需求，我会帮助你进行修改。", "assistant");
-          this.currentStage = stageType.debugging;
+          serverMsg.content = "正在生成新的代码....";          
+          // 将<code></code>标签内的内容提取出来，作为新的jscode
+          const newJSCode = result.substring(result.indexOf("<code>") + 6, result.indexOf("</code>"));
+          this.currentJSCode = newJSCode;
+
+          // 将<description></description>标签内的内容提取出来,作为新的description
+          const newDescription = result.substring(result.indexOf("<description>") + 13, result.indexOf("</description>"));
+
+          const newflowCode = await this.js2flow(this.currentJSCode);
+          this.currentFlowCode = newflowCode;
+          EventBus.$emit('callGetData', this.currentFlowCode);
+
+          //const serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = newDescription;
+
+          this.currentJSCode = newJSCode;
 
 
-            // const serverMsg = this.messages[this.messages.length - 1];
-            // serverMsg.content = data;
+          this.addMessage("已退出节点调试模式。你现在可以继续提出你对整个服务流程的修改要求。或者再次选中节点进入节点调试模式进行修改。", "assistant");
+        }
 
-            // return data;
-          }
-        });        
+        if (result.indexOf("<explain>") != -1) {
+          // 将<explain></explain>标签内的内容提取出来
+          const newExplain = result.substring(result.indexOf("<explain>") + 9, result.indexOf("</explain>"));
+          const serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = newExplain;
+        }
+        
       },
 
       async startRunTemi() {
