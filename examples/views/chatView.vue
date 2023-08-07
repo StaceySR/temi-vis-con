@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="input-container">
-        <textarea ref="textarea" v-model="userInput" placeholder="请输入内容" class="chat-input">
+        <textarea ref="textarea" v-model="userInput" placeholder="请输入内容" class="chat-input" @keyup.enter="sendMessage">
           
         </textarea>
         <button class="chatButton" @click="sendMessage">
@@ -143,7 +143,7 @@
 
 
         //部署代码到temi上
-        const res = await fetch("http://192.168.123.70:3001/APIs/js2temi",
+        const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/js2temi`,
           {
             method: "POST",
             headers: {
@@ -166,7 +166,7 @@
       },
 
       async NL2JS(userInput) {
-        const res = await fetch("http://192.168.123.70:3001/APIs/nl2js",
+        const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/nl2js`,
           {
             method: "POST",
             headers: {
@@ -185,9 +185,9 @@
         return result;
               
       },
-
+      
       async NL2JSwithContext(_userInput,_currentJSCode) {
-        const res = await fetch("http://192.168.123.70:3001/APIs/nl2jswithContext" ,
+        const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs//APIs/nl2jswithContext` ,
           {
             method: "POST",
             headers: {
@@ -208,7 +208,7 @@
       },
 
       async ExplainModifiedJS(originCode, ModifiedCode) {
-        const res = await fetch("//192.168.123.70:3001/APIs/explainModifiedJS",
+        const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/explainModifiedJS`,
         {
             method: "POST",
             headers: {
@@ -229,7 +229,7 @@
       },
 
       async JS2NL(jscode) {
-        const res = await fetch("//192.168.123.70:3001/APIs/js2NLexplain",
+        const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/js2NLexplain`,
           {
             method: "POST",
             headers: {
@@ -251,7 +251,7 @@
       },
 
       async js2flow() {
-        const res = await fetch("//192.168.123.70:3001/APIs/js2flow",
+        const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/js2flow`,
           {
             method: "POST",
             headers: {
@@ -355,7 +355,7 @@
 
         this.currentSeletecNodes = selectedNodesID;
         this.addMessage("正在思考解释你选中的节点....", "magic");
-        const res = await fetch("//192.168.123.70:3001/APIs/magicModify",
+        const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/magicModify`,
           {
             method: "POST",
             headers: {
@@ -384,7 +384,7 @@
 
       async magicModifyIT(userInput) {
         this.addMessage("正在思考....", "magic");
-        const res = await fetch("//192.168.123.70:3001/APIs/magicModifyPhase",
+        const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/magicModifyPhase`,
           {
             method: "POST",
             headers: {
@@ -456,7 +456,7 @@
 
         if (this.currentJSCode.length > 0) {
           //部署代码到temi上
-          const res = await fetch("//192.168.123.70:3001/APIs/js2temi",
+          const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/js2temi`,
             {
               method: "POST",
               headers: {
