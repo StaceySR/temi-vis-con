@@ -54,6 +54,7 @@
       };
     },
     methods: {
+      // 处理每次的用户交互
       async sendMessage() {
         if (this.userInput.trim() === "") return;
         
@@ -481,7 +482,7 @@
       this.$refs.textarea.addEventListener("input", this.resizeTextarea);
       //this.setSystemMsg();
   
-      this.addMessage("你好，我是你的助手，我将帮助你进行Temi机器人的服务定制，请你提出你的个性化服务需求吧！", "assistant");
+      this.addMessage("你好，我是你的助手，我将帮助你进行Temi机器人的服务定制，请你告诉我你想要定制什么类型的服务？", "assistant");
 
       EventBus.$on("send-new-mermaid-data", newMermaidCode => {
         this.newMermaidData = newMermaidCode;
