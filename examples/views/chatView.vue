@@ -51,6 +51,9 @@
         selectedCells: [],
         currentStage: stageType.authoring,
         currentSeletecNodes: [],
+        authoringChat: [],
+        serviceGoal: "",
+        serviceReuqirements: "",
       };
     },
     methods: {
@@ -68,6 +71,46 @@
         if (this.currentStage == stageType.authoring) {
 
             this.addMessage("正在理解你的需求...", "assistant");
+
+
+            // 将用户输入添加到authoringChat中
+            this.authoringChat.push({
+              role: "user",
+              content: sendContent});
+
+            // 向后端发送请求，获得gpt返回结果
+            const result = await this.authoring(this.authoringChat);
+            console.log('result', result);
+            this.authoringChat.push({
+              role: "assistant",
+              content: result});
+
+            // 获得当前的需求沟通阶段: 从result中搜索包含phase xml标记的内容，如果没有就报错
+            const phase = this.getXMLcontent(result, "phase");
+            console.log('phase', phase);
+            
+            const chatContent = this.getChatContent(result);
+
+            // 判断当前的阶段
+            switch (phase) {
+              case "GoalCommunication":
+                this.addMessage(chatContent, "assistant");
+                break;
+              case "RefiningRequirements":
+                this.addMessage(chatContent, "assistant");
+                break;
+              case "Completion":
+                this.addMessage(chatContent, "assistant");
+                this.serviceGoal = this.getXMLcontent(result, "goal");
+                this.serviceReuqirements = this.getXMLcontent(result, "requirements");
+
+                this.initCode();
+
+
+                break;
+              default:
+                break;
+            }
           
 
           // this.addMessage("正在理解你的需求....", "assistant");
@@ -142,9 +185,127 @@
 
       },
 
+      async initCode() {
+        this.addMessage("正在根据你的需求构建服务流程...", "assistant");
 
-      async AuthoringCommunication() {
-          
+        const codeRequirement = `
+        实现一个${this.serviceGoal}的服务，该服务需要满足以下需求：${this.serviceReuqirements}
+        `
+
+        this.currentJSCode = await this.NL2JS(codeRequirement);
+        console.log('currentJSCode', this.currentJSCode);
+
+        // 取回生成的hs代码后，进一步生成解释
+        const explainContent = await this.JS2NL(this.currentJSCode);
+        console.log('explainContent', explainContent);
+        let serverMsg = this.messages[this.messages.length - 1];
+        serverMsg.content = "正在构建代码...";
+
+        this.JS2NL(this.currentJSCode).then((data) => {
+          console.log('data', data);
+          serverMsg = this.messages[this.messages.length - 1];
+          serverMsg.content = data;
+        });
+        serverMsg.content = "代码构建完成！";
+        this.currentStage = stageType.debugging;
+
+        // 将最后的sytem message改成该解释内容
+        // 获得 messages 中最后一条role为system的message
+        this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
+        // 生成代码后开始处理flow部分
+        const mermaidCode = await this.js2flow(this.currentJSCode);
+        this.currentFlowCode = mermaidCode;
+        EventBus.$emit('callGetData', this.currentFlowCode);
+
+        serverMsg = this.messages[this.messages.length - 1];
+        serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";       
+
+
+
+
+          // this.addMessage("正在理解你的需求....", "assistant");
+          // this.currentJSCode = await this.NL2JS(sendContent);
+          // console.log('currentJSCode', this.currentJSCode);
+
+          // // 取回生成的hs代码后，进一步生成解释
+          // // const explainContent = await this.JS2NL(this.currentJSCode);
+          // // console.log('explainContent', explainContent);
+          // let serverMsg = this.messages[this.messages.length - 1];
+          // serverMsg.content = "正在构建代码...";
+          // this.JS2NL(this.currentJSCode).then((data) => {
+          //   console.log('data', data);
+          //   //serverMsg = this.messages[this.messages.length - 1];
+          //   serverMsg.content = data;
+          // });
+          // serverMsg.content = "代码构建完成！";
+          // this.currentStage = stageType.debugging;
+
+
+          // // 将最后的sytem message改成该解释内容
+          // // 获得 messages 中最后一条role为system的message
+          // // const serverMsg = this.messages[this.messages.length - 1];
+          // // serverMsg.content = explainContent;
+          // this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
+          // // 生成代码后开始处理flow部分
+          // const mermaidCode = await this.js2flow(this.currentJSCode);
+          // this.currentFlowCode = mermaidCode;
+          // EventBus.$emit('callGetData', this.currentFlowCode);
+
+          // serverMsg = this.messages[this.messages.length - 1];
+          // serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";        
+      },
+
+      getChatContent(content) {
+        //从内容中删除所有xml标记的内容，比如删除<phase>content</phase>
+        const pattern = /<.*?>(.*?)<\/.*?>/g;
+        return content.replace(pattern, "");
+        
+      },
+
+
+      getXMLcontent(content, tag) {
+        //从内容中搜索包含tag xml标记的内容，如果没有就报错
+        const pattern = new RegExp(`<${tag}>(.*?)</${tag}>`, "g");
+        const result = content.match(pattern);
+        if (result == null) {
+          console.log(`没有找到${tag}标记`);
+          return null;
+        } else {
+          return result[0].replace(new RegExp(`<${tag}>`, "g"), "").replace(new RegExp(`</${tag}>`, "g"), "");
+        }
+        
+      },
+
+      getPhase(content) {
+        //从内容中搜索包含phase xml标记的内容，如果没有就报错
+        const phasePattern = /<phase>(.*?)<\/phase>/g;
+        const phase = content.match(phasePattern);
+        if (phase == null) {
+          console.log("没有找到phase标记");
+          return null;
+        } else {
+          return phase[0].replace(/<phase>/g, "").replace(/<\/phase>/g, "");
+        }
+      },
+
+      async authoring(authoringChat) {
+          const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/authoring`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ chat: authoringChat , sessionID: session.id})
+            }
+          ); 
+
+          const result = await res.text().then((data) => {
+            //console.log('data', data);
+            return data;
+
+          });
+
+          return result;
       },
 
       async TemiServiceBuild() {
@@ -159,7 +320,7 @@
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ text: this.currentJSCode })
+            body: JSON.stringify({ text: this.currentJSCode, sessionID: session.id})
           }
         );
 
