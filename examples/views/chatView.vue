@@ -63,14 +63,15 @@
         
         console.log("userInput: ", this.userInput)
         let sendContent = this.userInput;
-        console.log('sendContent', sendContent);
+        //console.log('sendContent', sendContent);
 
         this.addMessage(this.userInput, "user");
         
-        this.userInput = "";
+        
         if (this.currentStage == stageType.authoring) {
 
             this.addMessage("正在理解你的需求...", "assistant");
+            let serverMsg = this.messages[this.messages.length - 1];
 
 
             // 将用户输入添加到authoringChat中
@@ -94,13 +95,14 @@
             // 判断当前的阶段
             switch (phase) {
               case "GoalCommunication":
-                this.addMessage(chatContent, "assistant");
+                serverMsg.content = chatContent;
+                //this.addMessage(chatContent, "assistant");
                 break;
               case "RefiningRequirements":
-                this.addMessage(chatContent, "assistant");
+                serverMsg.content = chatContent;
                 break;
               case "Completion":
-                this.addMessage(chatContent, "assistant");
+                serverMsg.content = chatContent;
                 this.serviceGoal = this.getXMLcontent(result, "goal");
                 this.serviceReuqirements = this.getXMLcontent(result, "requirements");
 
@@ -188,6 +190,9 @@
       async initCode() {
         this.addMessage("正在根据你的需求构建服务流程...", "assistant");
 
+
+        console.log('serviceGoal', this.serviceGoal);
+        console.log('serviceReuqirements', this.serviceReuqirements);
         const codeRequirement = `
         实现一个${this.serviceGoal}的服务，该服务需要满足以下需求：${this.serviceReuqirements}
         `
@@ -261,6 +266,7 @@
         return content.replace(pattern, "");
         
       },
+
 
 
       getXMLcontent(content, tag) {
