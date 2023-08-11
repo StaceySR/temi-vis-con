@@ -63,11 +63,9 @@
         
         console.log("userInput: ", this.userInput)
         let sendContent = this.userInput;
-        //console.log('sendContent', sendContent);
-
-        this.addMessage(this.userInput, "user");
+        this.addMessage(sendContent, "user");
         
-        
+        this.userInput = "";
         if (this.currentStage == stageType.authoring) {
 
             this.addMessage("正在理解你的需求...", "assistant");
@@ -115,37 +113,6 @@
             }
           
 
-          // this.addMessage("正在理解你的需求....", "assistant");
-          // this.currentJSCode = await this.NL2JS(sendContent);
-          // console.log('currentJSCode', this.currentJSCode);
-
-          // // 取回生成的hs代码后，进一步生成解释
-          // // const explainContent = await this.JS2NL(this.currentJSCode);
-          // // console.log('explainContent', explainContent);
-          // let serverMsg = this.messages[this.messages.length - 1];
-          // serverMsg.content = "正在构建代码...";
-          // this.JS2NL(this.currentJSCode).then((data) => {
-          //   console.log('data', data);
-          //   //serverMsg = this.messages[this.messages.length - 1];
-          //   serverMsg.content = data;
-          // });
-          // serverMsg.content = "代码构建完成！";
-          // this.currentStage = stageType.debugging;
-
-
-          // // 将最后的sytem message改成该解释内容
-          // // 获得 messages 中最后一条role为system的message
-          // // const serverMsg = this.messages[this.messages.length - 1];
-          // // serverMsg.content = explainContent;
-          // this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
-          // // 生成代码后开始处理flow部分
-          // const mermaidCode = await this.js2flow(this.currentJSCode);
-          // this.currentFlowCode = mermaidCode;
-          // EventBus.$emit('callGetData', this.currentFlowCode);
-
-          // serverMsg = this.messages[this.messages.length - 1];
-          // serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";
-
 
           } else if (this.currentStage == stageType.debugging) {
             this.addMessage("正在理解你的需求....", "assistant");
@@ -177,7 +144,7 @@
           this.magicModifyIT(sendContent);
         } 
 
-        this.userInput = "";
+        
   
         //resize textarea height after 0.5 sce
         setTimeout(() => {
@@ -189,7 +156,7 @@
 
       async initCode() {
         this.addMessage("正在根据你的需求构建服务流程...", "assistant");
-
+        let serviceBuildMsg = this.messages[this.messages.length - 1];
 
         console.log('serviceGoal', this.serviceGoal);
         console.log('serviceReuqirements', this.serviceReuqirements);
@@ -200,30 +167,25 @@
         this.currentJSCode = await this.NL2JS(codeRequirement);
         console.log('currentJSCode', this.currentJSCode);
 
-        // 取回生成的hs代码后，进一步生成解释
-        const explainContent = await this.JS2NL(this.currentJSCode);
-        console.log('explainContent', explainContent);
-        let serverMsg = this.messages[this.messages.length - 1];
-        serverMsg.content = "正在构建代码...";
+        // 取回生成的js代码后，进一步生成解释
 
-        this.JS2NL(this.currentJSCode).then((data) => {
-          console.log('data', data);
-          serverMsg = this.messages[this.messages.length - 1];
-          serverMsg.content = data;
+        await this.JS2NL(this.currentJSCode).then((data) => {
+          console.log('explainContent', data);
+          serviceBuildMsg.content = data;
         });
-        serverMsg.content = "代码构建完成！";
-        this.currentStage = stageType.debugging;
 
-        // 将最后的sytem message改成该解释内容
-        // 获得 messages 中最后一条role为system的message
         this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
-        // 生成代码后开始处理flow部分
+        let flowMsg = this.messages[this.messages.length - 1];
         const mermaidCode = await this.js2flow(this.currentJSCode);
         this.currentFlowCode = mermaidCode;
         EventBus.$emit('callGetData', this.currentFlowCode);
 
-        serverMsg = this.messages[this.messages.length - 1];
-        serverMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";       
+        flowMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";       
+        
+        this.currentStage = stageType.debugging;
+
+
+
 
 
 
