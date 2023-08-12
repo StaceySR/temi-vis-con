@@ -544,7 +544,7 @@ const mermaidCode =  `graph TB
   ia_06["infoAssign:将目标成员不在座位上赋值为用户回复;用户回复"]
   g_02["goto:客厅"]
   s_02["speak:告知用户预约结果;用户回复"]
-  k_01(["end:任务结束"])
+  k_01(["end:服务结束"])
 
   r_01 --> id_01 
   id_01 --> a_01
