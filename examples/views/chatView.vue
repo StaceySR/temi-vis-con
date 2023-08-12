@@ -1,7 +1,7 @@
 <template>
     <div id="chat">
       <div class="chat-icon">
-        <img src="http://localhost:5500/packages/icons/logo.png"/>
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/logo.png'"/>
         <span class="chat-title">co-CoBot</span>
       </div>
       <div class="chat-container">
@@ -16,7 +16,7 @@
           
         </textarea>
         <button class="chatButton" @click="sendMessage">
-          <img src="http://localhost:5500/packages/icons/sendButton.png" alt="按钮">
+          <img :src="VUE_APP_ICON_Server + '/packages/icons/sendButton.png'" alt="按钮">
         </button>
         <!-- <button class="chatButton" @click="TemiServiceBuild">部署</button> -->
       </div>
@@ -54,6 +54,7 @@
         authoringChat: [],
         serviceGoal: "",
         serviceReuqirements: "",
+        VUE_APP_ICON_Server: process.env.VUE_APP_ICON_Server
       };
     },
     methods: {

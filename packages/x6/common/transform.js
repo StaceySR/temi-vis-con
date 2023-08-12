@@ -77,19 +77,19 @@ export function getActionTypeTheme(type) {
 export function getActionTypeIcon(type) {
     /**@enum */
     const Theme = {
-        DEFAULT: "http://localhost:5500/packages/icons/UserRequest.png",
-        USERREQUEST: "http://localhost:5500/packages/icons/UserRequest.png",
-        SPEAK: "http://localhost:5500/packages/icons/speak.png",
-        ASK: "http://localhost:5500/packages/icons/ask.png",
-        GOTO: "http://localhost:5500/packages/icons/goto.png",
-        FOR: "http://localhost:5500/packages/icons/forLoop.png",
-        LOOPEND: "http://localhost:5500/packages/icons/loopEnd.png",
-        IF: "http://localhost:5500/packages/icons/condition.png",
-        INFO: "http://localhost:5500/packages/icons/var.png",
-        INFODECLARE: "http://localhost:5500/packages/icons/infoDeclare.png",
-        INFOASSIGN: "http://localhost:5500/packages/icons/infoAssign.png",
-        DETECTHUMAN: "http://localhost:5500/packages/icons/detectHuman.png",
-        END: "http://localhost:5500/packages/icons/end.png",
+        DEFAULT: process.env.VUE_APP_ICON_Server + "/packages/icons/UserRequest.png",
+        USERREQUEST: process.env.VUE_APP_ICON_Server + "/packages/icons/UserRequest.png",
+        SPEAK: process.env.VUE_APP_ICON_Server + "/packages/icons/speak.png",
+        ASK: process.env.VUE_APP_ICON_Server + "/packages/icons/ask.png",
+        GOTO: process.env.VUE_APP_ICON_Server + "/packages/icons/goto.png",
+        FOR: process.env.VUE_APP_ICON_Server + "/packages/icons/forLoop.png",
+        LOOPEND:process.env.VUE_APP_ICON_Server + "/packages/icons/loopEnd.png",
+        IF: process.env.VUE_APP_ICON_Server + "/packages/icons/condition.png",
+        INFO: process.env.VUE_APP_ICON_Server + "/packages/icons/var.png",
+        INFODECLARE: process.env.VUE_APP_ICON_Server + "/packages/icons/infoDeclare.png",
+        INFOASSIGN: process.env.VUE_APP_ICON_Server + "/packages/icons/infoAssign.png",
+        DETECTHUMAN: process.env.VUE_APP_ICON_Server + "/packages/icons/detectHuman.png",
+        END: process.env.VUE_APP_ICON_Server + "/packages/icons/end.png",
     }
     // 默认主题色
     const DEFAULE_THEME = Theme.DEFAULT

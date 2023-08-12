@@ -5,11 +5,8 @@
           <a class="title" href="https://github.com/g0ngjie/antv-x6-vue2">{{titleData.title}}</a>
         </div>
         <div class="title-buttons">
-          <!-- <button class="title-button">
-            <img src="http://localhost:5500/packages/icons/play.png"/>
-          </button> -->
           <button class="title-button" @click="runInTemi">
-            <img class="title-button-img2" src="http://localhost:5500/packages/icons/play.png"/>
+            <img class="title-button-img2" :src="VUE_APP_ICON_Server + '/packages/icons/play.png'"/>
           </button>
         </div>
       </div>
@@ -44,6 +41,7 @@
           title: '标题从子组件传递给父组件，困扰了我2天，无法解决，只能通过页面中点按钮，从子组件传给父组件，而无法自动',
         }),
         newTitleData: "",
+        VUE_APP_ICON_Server: process.env.VUE_APP_ICON_Server
       };
     },
     methods: {

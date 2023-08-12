@@ -19,21 +19,21 @@
 
     <div class="right-buttons">
       <button class="auto-layout-button" @click="handleAutoLayout">
-        <img src="http://localhost:5500/packages/icons/autoLayout.png"/>
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/autoLayout.png'"/>
       </button>
       <button v-if="isSelected" class="redo-button" @click="handleMagicUpdate">
-        <img src="http://localhost:5500/packages/icons/redo.png"/>
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/redo.png'"/>
       </button>
 
       <button v-if="!isSelected" class="redo-button redo-button-unselected">
-        <img src="http://localhost:5500/packages/icons/redo.png"/>
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/redo.png'"/>
       </button>
 
       <button v-if="isUpdate" class="ok-button" @click="handleConfirmChanges">
-        <img src="http://localhost:5500/packages/icons/ok.png"/>
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/ok.png'"/>
       </button>
       <button v-if="!isUpdate" class="ok-button ok-button-unupdated" @click="handleConfirmChanges">
-        <img src="http://localhost:5500/packages/icons/ok.png"/>
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/ok.png'"/>
       </button>
 
       <button id="emitTitleToParent" @click="emitTitleToParent"></button>
@@ -142,7 +142,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/{a}.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/{a}.png'">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -162,7 +162,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/yes.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/yes.png'">
       </button>
     </div>
 
@@ -197,7 +197,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/{a}.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/{a}.png'">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -217,7 +217,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/yes.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/yes.png'">
       </button>
     </div>
 
@@ -252,7 +252,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/{a}.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/{a}.png'">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -272,7 +272,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/yes.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/yes.png'">
       </button>
     </div>
 
@@ -296,7 +296,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/{a}.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/{a}.png'">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -315,7 +315,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/yes.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/yes.png'">
       </button>
     </div>
 
@@ -350,7 +350,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/yes.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/yes.png'">
       </button>
     </div>
 
@@ -374,7 +374,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/{a}.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/{a}.png'">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -394,7 +394,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/yes.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/yes.png'">
       </button>
     </div>
 
@@ -437,7 +437,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/yes.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/yes.png'">
       </button>
     </div>
 
@@ -472,7 +472,7 @@
         @click="variablesMenu"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/{a}.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/{a}.png'">
       </button>
 
       <div v-if="isMenuOpen" class="menu">
@@ -492,7 +492,7 @@
         @click="handleUpdateLabel"
         class="bottom-button"
         >
-        <img src="http://localhost:5500/packages/icons/yes.png">
+        <img :src="VUE_APP_ICON_Server + '/packages/icons/yes.png'">
       </button>
     </div>
 
@@ -621,6 +621,7 @@ export default defineComponent({
       titleData: {
         title: 'X6 示例标题', // 假设这里有一个标题
       },
+      VUE_APP_ICON_Server: process.env.VUE_APP_ICON_Server
     });
     const computed = {
       showOptions() {

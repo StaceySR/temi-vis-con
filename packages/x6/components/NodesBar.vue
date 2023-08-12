@@ -55,7 +55,7 @@ export default defineComponent({
         '服务结束': 'end'
       }
       label = turn[label]
-      return "http://localhost:5500/packages/icons/" + label + ".png"
+      return process.env.VUE_APP_ICON_Server + "/packages/icons/" + label + ".png"
     },
   },
   setup() {
