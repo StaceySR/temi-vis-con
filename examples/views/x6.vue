@@ -21,6 +21,7 @@
       <button class="auto-layout-button" @click="handleAutoLayout">
         <img :src="VUE_APP_ICON_Server + '/packages/icons/autoLayout.png'"/>
       </button>
+      <span class="rightButtonLabel">自动布局</span>
       <button v-if="isSelected" class="redo-button" @click="handleMagicUpdate">
         <img :src="VUE_APP_ICON_Server + '/packages/icons/redo.png'"/>
       </button>
@@ -28,14 +29,14 @@
       <button v-if="!isSelected" class="redo-button redo-button-unselected">
         <img :src="VUE_APP_ICON_Server + '/packages/icons/redo.png'"/>
       </button>
-
-      <button v-if="isUpdate" class="ok-button" @click="handleConfirmChanges">
+      <span class="rightButtonLabel">魔法编辑</span>
+      <button class="ok-button" @click="handleConfirmChanges">
         <img :src="VUE_APP_ICON_Server + '/packages/icons/ok.png'"/>
       </button>
-      <button v-if="!isUpdate" class="ok-button ok-button-unupdated" @click="handleConfirmChanges">
+      <!-- <button v-if="!isUpdate" class="ok-button ok-button-unupdated" @click="handleConfirmChanges">
         <img :src="VUE_APP_ICON_Server + '/packages/icons/ok.png'"/>
-      </button>
-
+      </button> -->
+      <span class="rightButtonLabel">完成修改</span>
       <button id="emitTitleToParent" @click="emitTitleToParent"></button>
     </div>
     <!-- <div v-if="isSelected"  class="options-container"> -->
@@ -730,7 +731,7 @@ export default defineComponent({
 
       handleConfirmChanges() {  //[confirm the changes]
         const { ok, errs } = graphFunc.graphValidate();
-        if (ok && data.isUpdate==true) {
+        if (ok ) {
           const { nodesJSON, edgesJSON } = graphFunc.exportData();
           const nodes = nodesJSON
           const edges = edgesJSON
@@ -1133,6 +1134,10 @@ export default defineComponent({
     .ok-button-unupdated {
       background-color: #e5e4ea;
       border: 2px solid #e5e4ea;
+    }
+
+    .rightButtonLabel{
+      color: #5AB2B8;
     }
   }
 
