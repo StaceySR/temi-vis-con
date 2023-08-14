@@ -112,6 +112,8 @@
               default:
                 break;
             }
+
+            this.scrollToButton();
           
 
 
@@ -128,6 +130,7 @@
             // 获得 messages 中最后一条role为system的message
             let serverMsg = this.messages[this.messages.length - 1];
             serverMsg.content = explainContent;   
+            this.scrollToButton();
 
             this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
             // 生成代码后开始处理flow部分
@@ -138,6 +141,7 @@
 
             serverMsg = this.messages[this.messages.length - 1];
             serverMsg.content = "已重新绘制流程图，你可以继续提出你的服务流程修改需求，我会帮助你进行修改。";
+            this.scrollToButton();
 
             // EventBus.$emit("send-new-title", "send-new-title");
         }else if(this.currentStage == stageType.magicModify) {
@@ -155,6 +159,7 @@
         
 
       },
+
 
       async initCode() {
         this.addMessage("正在根据你的需求构建服务流程...", "assistant");
@@ -174,6 +179,7 @@
         await this.JS2NL(this.currentJSCode).then((data) => {
           console.log('explainContent', data);
           serviceBuildMsg.content = data;
+          this.scrollToButton();
         });
 
         this.addMessage("正在绘制定制服务的流程图，请稍候。", "assistant");
@@ -183,6 +189,7 @@
         EventBus.$emit('callGetData', this.currentFlowCode);
 
         flowMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";       
+        this.scrollToButton();
         
         this.currentStage = stageType.debugging;
 
@@ -267,6 +274,7 @@
         // 获得 messages 中最后一条role为system的message
         const magcMsg = this.messages[this.messages.length - 1];
         magcMsg.content = result;
+        this.scrollToButton();
 
       },
 
@@ -386,8 +394,20 @@
           content,
           role,
         });
+
+        // 将 chat-container 视图滚动到最下方
+        this.scrollToButton();
   
       },
+
+      scrollToButton() {
+        // 将 chat-container 视图滚动到最下方
+        this.$nextTick(() => {
+          const chatContainer = this.$el.querySelector(".chat-container");
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        });        
+      },
+      
       resizeTextarea(event) {
         event.target.style.height = "auto";
         event.target.style.height = event.target.scrollHeight + "px";
