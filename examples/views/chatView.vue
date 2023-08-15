@@ -61,6 +61,8 @@
       // 处理每次的用户交互
       async sendMessage() {
         if (this.userInput.trim() === "") return;
+
+        this.userInput = this.userInput.replace(/\n$/, '');  // 去除末尾的换行符
         
         console.log("userInput: ", this.userInput)
         let sendContent = this.userInput;
