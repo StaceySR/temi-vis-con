@@ -82,7 +82,7 @@
 
             // 向后端发送请求，获得gpt返回结果
             const result = await this.authoringNEW(this.authoringChat);
-            console.log('result', result);
+            console.log('【authoringNEW result】', result);
             this.authoringChat.push({
               role: "assistant",
               content: result
@@ -177,11 +177,11 @@
 
         // 获取标签名
         tag = xmlContent.documentElement.nodeName;
-        console.log("标签名:", tag); 
+        //console.log("标签名:", tag); 
 
         // 获取标签内容
         content  = xmlContent.documentElement.textContent;
-        console.log("文本内容:", content); // 输出：完成
+        //console.log("文本内容:", content); // 输出：完成
 
         // const pattern = /<.*?>(.*?)<\/.*?>/g;
         // const resultArray = result.match(pattern);

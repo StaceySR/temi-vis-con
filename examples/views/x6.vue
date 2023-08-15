@@ -679,7 +679,7 @@ export default defineComponent({
       },
       handleSwitchDefault() {  //[SwitchData]
         const { nodes, edges } = methods.switchData();
-        console.log("defaultData: node: ", nodes);
+        //console.log("defaultData: node: ", nodes);
         // graphFunc.initDefaultData(nodes, edges);
         graphFunc.autoLayout(nodes, edges);
       },
@@ -782,7 +782,7 @@ export default defineComponent({
 
       getTitle(){
         data.title = list[0].nodes[0].attrs.label.text
-        console.log("getTitle: ", list[0])
+        //console.log("getTitle: ", list[0])
         for (let index = 0; index < list[0].length; index++) {
           const actionType = list[0].nodes[index].data.actionType;
           if (actionType == 'USERREQUEST') {
@@ -791,7 +791,7 @@ export default defineComponent({
         }
         console.log("gettitle: ", data.title)
         const newTitle = data.title
-        console.log("newTitle: ", newTitle)
+        //console.log("newTitle: ", newTitle)
         EventBus.$emit("send-new-title", newTitle);
       },
 
@@ -838,7 +838,7 @@ export default defineComponent({
       // },
       emitTitleToParent() {
         data.titleData.title = list[0].nodes[0].attrs.label.text
-        console.log("title: ", data.titleData.title)
+        //console.log("title: ", data.titleData.title)
         this.$emit('title-to-parent', this.titleData.title);
       },
       listener() {

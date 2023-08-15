@@ -82,7 +82,7 @@ export function graphAutoLayout(nodes, edges) {
         nodes: nodes,
         edges: edges,
       }
-    console.log("before-dagre-data: ", data)
+    //console.log("before-dagre-data: ", data)
     const dagreLayout = new DagreLayout({
         type: 'dagre',
         rankdir: 'TB',
@@ -95,7 +95,7 @@ export function graphAutoLayout(nodes, edges) {
         controlPoints: true,
       })
     const model = dagreLayout.layout(data)
-    console.log("dagre-model-data: ", model)
+    //console.log("dagre-model-data: ", model)
     fromJSON(graph.value, model.nodes, model.edges)
     // graph.fromJSON(getNodeJSON(model.nodes), fmtJSON(model.edges))
 }
