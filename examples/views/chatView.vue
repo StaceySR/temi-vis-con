@@ -69,7 +69,7 @@
         this.userInput = "";
         if (this.currentStage == stageType.authoring) {
 
-            this.addMessage("正在理解你的需求...", "assistant");
+            this.addMessage("正在理解...", "assistant");
             let serverMsg = this.messages[this.messages.length - 1];
 
 
