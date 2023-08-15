@@ -70,7 +70,7 @@
         if (this.currentStage == stageType.authoring) {
 
             this.addMessage("正在理解...", "assistant");
-            let serverMsg = this.messages[this.messages.length - 1];
+            //let serverMsg = this.messages[this.messages.length - 1];
 
 
             // 将用户输入添加到authoringChat中
@@ -79,39 +79,43 @@
               content: sendContent});
 
             // 向后端发送请求，获得gpt返回结果
-            const result = await this.authoring(this.authoringChat);
+            const result = await this.authoringNEW(this.authoringChat);
             console.log('result', result);
             this.authoringChat.push({
               role: "assistant",
-              content: result});
+              content: result
+            });
 
-            // 获得当前的需求沟通阶段: 从result中搜索包含phase xml标记的内容，如果没有就报错
-            const phase = this.getXMLcontent(result, "phase");
-            console.log('phase', phase);
+            // 处理authoring阶段的返回结果
+            this.authoringMsgHandler(result);
+
+            // // 获得当前的需求沟通阶段: 从result中搜索包含phase xml标记的内容，如果没有就报错
+            // const phase = this.getXMLcontent(result, "phase");
+            // console.log('phase', phase);
             
-            const chatContent = this.getChatContent(result);
+            // const chatContent = this.getChatContent(result);
 
-            // 判断当前的阶段
-            switch (phase) {
-              case "GoalCommunication":
-                serverMsg.content = chatContent;
-                //this.addMessage(chatContent, "assistant");
-                break;
-              case "RefiningRequirements":
-                serverMsg.content = chatContent;
-                break;
-              case "Completion":
-                serverMsg.content = chatContent;
-                this.serviceGoal = this.getXMLcontent(result, "goal");
-                this.serviceReuqirements = this.getXMLcontent(result, "requirements");
+            // // 判断当前的阶段
+            // switch (phase) {
+            //   case "GoalCommunication":
+            //     serverMsg.content = chatContent;
+            //     //this.addMessage(chatContent, "assistant");
+            //     break;
+            //   case "RefiningRequirements":
+            //     serverMsg.content = chatContent;
+            //     break;
+            //   case "Completion":
+            //     serverMsg.content = chatContent;
+            //     this.serviceGoal = this.getXMLcontent(result, "goal");
+            //     this.serviceReuqirements = this.getXMLcontent(result, "requirements");
 
-                this.initCode();
+            //     this.initCode();
 
 
-                break;
-              default:
-                break;
-            }
+            //     break;
+            //   default:
+            //     break;
+            // }
 
             this.scrollToButton();
           
@@ -157,6 +161,69 @@
           this.resizeTextarea({ target: this.$refs.textarea });
         }, 100);
         
+
+      },
+
+      authoringMsgHandler(result) {
+
+        let tag = "";
+        let content = "";
+
+        // 从内容中搜索xml标签以及内容，将标签赋值给tag，将内容赋值给content
+        const parser = new DOMParser();
+        const xmlContent = parser.parseFromString(result, "text/xml");
+
+        // 获取标签名
+        tag = xmlContent.documentElement.nodeName;
+        console.log("标签名:", tag); 
+
+        // 获取标签内容
+        content  = xmlContent.documentElement.textContent;
+        console.log("文本内容:", content); // 输出：完成
+
+        // const pattern = /<.*?>(.*?)<\/.*?>/g;
+        // const resultArray = result.match(pattern);
+        // if (resultArray == null) {
+        //   console.log("没有找到xml标记");
+        //   return null;
+        // } else {
+        //   tag = resultArray[0].replace(/<.*?>/g, "");
+        //   content = resultArray[0].replace(/<.*?>/g, "");
+        // }
+
+        let serverMsg = this.messages[this.messages.length - 1];
+
+        switch (tag) {
+          case "require":
+            this.serviceReuqirements = content;
+            serverMsg.content = `好的，你的需求如下：
+${ this.serviceReuqirements }
+你可以继续提出你的机器人服务定制需求或者进行修改。也可以告诉我你已经完成了你的需求描述，我会为你生成机器人的行为程序。
+            `;
+            break;
+          case "modifiedrequire":
+            this.serviceReuqirements = content;
+            serverMsg.content = `好的，你修改后的需求如下：
+              ${ this.serviceReuqirements }
+              你可以继续提出你的机器人服务定制需求或者进行修改。也可以告诉我你已经完成了你的需求描述，我会为你生成机器人的行为程序。
+            `;
+            break;
+          case "end":
+            serverMsg.content = `好的，你的需求如下：
+              ${ this.serviceReuqirements }
+              即将为你生成机器人的服务流程，请稍候...
+            `;
+            this.initCode();
+            break;
+          default:
+            console.log("没有找到xml标记");
+            break;
+
+        }
+  
+
+
+
 
       },
 
@@ -227,6 +294,26 @@
         } else {
           return phase[0].replace(/<phase>/g, "").replace(/<\/phase>/g, "");
         }
+      },
+
+      async authoringNEW(authoringChat) { 
+        const res = await fetch(`${process.env.VUE_APP_GPT_API_Server}/APIs/authoringNEW` ,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ chat: authoringChat , sessionID: session.id})
+          }
+        );
+
+        const result = await res.text().then((data) => {
+          //console.log('data', data);
+          return data;
+
+        });
+
+        return result;
       },
 
       async authoring(authoringChat) {
@@ -606,7 +693,7 @@
       this.$refs.textarea.addEventListener("input", this.resizeTextarea);
       //this.setSystemMsg();
   
-      this.addMessage("你好，我是你的助手，我将帮助你进行Temi机器人的服务定制，请你告诉我你想要定制什么类型的服务？", "assistant");
+      this.addMessage("你好，我是你的助手，我将帮助你进行Temi机器人的服务定制，请你告诉我你的机器人个性化服务定制需求", "assistant");
 
       EventBus.$on("send-new-mermaid-data", newMermaidCode => {
         this.newMermaidData = newMermaidCode;
