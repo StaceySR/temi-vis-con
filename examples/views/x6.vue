@@ -36,7 +36,7 @@
       <!-- <button v-if="!isUpdate" class="ok-button ok-button-unupdated" @click="handleConfirmChanges">
         <img :src="VUE_APP_ICON_Server + '/packages/icons/ok.png'"/>
       </button> -->
-      <span class="rightButtonLabel">完成修改</span>
+      <span class="rightButtonLabel">同步流程图修改</span>
       <button id="emitTitleToParent" @click="emitTitleToParent"></button>
     </div>
     <!-- <div v-if="isSelected"  class="options-container"> -->

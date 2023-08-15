@@ -210,8 +210,8 @@ ${ this.serviceReuqirements }
             break;
           case "end":
             serverMsg.content = `好的，你的需求如下：
-              ${ this.serviceReuqirements }
-              即将为你生成机器人的服务流程，请稍候...
+${ this.serviceReuqirements }
+即将为你生成机器人的服务流程，请稍候...
             `;
             this.initCode();
             break;
@@ -506,8 +506,8 @@ ${ this.serviceReuqirements }
         //
 
         //生成等待提示对话框
-        this.addMessage("正在按照流程图生成新的代码，请等待...", "assistant");
-
+        this.addMessage("正在按照修改后的流程图生成新的机器人服务流程，请等待...", "assistant");
+        let serverMsg = this.messages[this.messages.length - 1];
 
         //方法体（补充）
         const res = await fetch("//192.168.123.70:3001/APIs/flow2js",
@@ -536,8 +536,9 @@ ${ this.serviceReuqirements }
         const mermaidCode = await this.js2flow(this.currentJSCode);
         this.currentFlowCode = mermaidCode;
         EventBus.$emit('callGetData', this.currentFlowCode);  
-        
-        this.addMessage("按照流程图，新的代码已生成完毕！", "assistant");
+
+        serverMsg.content = "已经为你按照修改后的流程图重新生成机器人的服务程序"
+        //this.addMessage("按照流程图，新的代码已生成完毕！", "assistant");
         
 
         return result;
