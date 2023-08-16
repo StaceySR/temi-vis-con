@@ -124,13 +124,13 @@
 
 
           } else if (this.currentStage == stageType.debugging) {
-            this.addMessage("正在理解你的需求....", "assistant");
+            this.addMessage("正在理解....", "assistant");
             const modifiedJSCode = await this.NL2JSwithContext(sendContent, this.currentJSCode);
             const oldJSCode = this.currentJSCode;
             this.currentJSCode = modifiedJSCode;
 
             const explainContent = await this.ExplainModifiedJS(oldJSCode, modifiedJSCode);
-
+            
             
             //将最后的sytem message改成该解释内容
             // 获得 messages 中最后一条role为system的message
@@ -257,7 +257,13 @@ ${ this.serviceReuqirements }
         this.currentFlowCode = mermaidCode;
         EventBus.$emit('callGetData', this.currentFlowCode);
 
-        flowMsg.content = "已完成个性化机器人服务的构建！我可以为你进一步解释实现的服务流程，你也可以直接向我提出修改需求，我会帮你完成修改。";       
+        // flowMsg.content = "已完成个性化机器人服务的构建！请通过流程图查阅定制机器人服务是否符合你的需求，你可以直接向我提出修改需求，我会帮你完成修改。";     
+
+        flowMsg.content = `已完成个性化机器人服务的构建！请通过流程图查阅定制机器人服务是否符合你的需求。您可以：
+- 直接向我提出修改需求，我会帮你完成修改。
+- 通过节点调试功能来让我解释某个（或者多个）节点的行为，并让我为你修改。
+- 直接编辑流程图以修改机器人的行为。
+        `;
         this.scrollToButton();
         
         this.currentStage = stageType.debugging;
@@ -468,7 +474,7 @@ ${ this.serviceReuqirements }
 
 
         const result = await res.text().then((data) => {
-          console.log('data', data);
+          console.log('【js2flow result】', data);
 
           return data;
         });
@@ -634,7 +640,7 @@ ${ this.serviceReuqirements }
         // 如果用户请求的是修改代码
         if (result.indexOf("<code>") != -1) {
           const serverMsg = this.messages[this.messages.length - 1];
-          serverMsg.content = "正在生成新的代码....";          
+          serverMsg.content = "正在生成新的服务流程....";          
           // 将<code></code>标签内的内容提取出来，作为新的jscode
           const newJSCode = result.substring(result.indexOf("<code>") + 6, result.indexOf("</code>"));
           this.currentJSCode = newJSCode;
