@@ -29,14 +29,14 @@
       <button v-if="!isSelected" class="redo-button redo-button-unselected">
         <img :src="VUE_APP_ICON_Server + '/packages/icons/redo.png'"/>
       </button>
-      <span class="rightButtonLabel">魔法编辑</span>
+      <span class="rightButtonLabel">魔法调试</span>
       <button class="ok-button" @click="handleConfirmChanges">
         <img :src="VUE_APP_ICON_Server + '/packages/icons/ok.png'"/>
       </button>
       <!-- <button v-if="!isUpdate" class="ok-button ok-button-unupdated" @click="handleConfirmChanges">
         <img :src="VUE_APP_ICON_Server + '/packages/icons/ok.png'"/>
       </button> -->
-      <span class="rightButtonLabel">同步流程图修改</span>
+      <span class="rightButtonLabel">同步修改</span>
       <button id="emitTitleToParent" @click="emitTitleToParent"></button>
     </div>
     <!-- <div v-if="isSelected"  class="options-container"> -->

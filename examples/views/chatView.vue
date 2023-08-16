@@ -241,12 +241,12 @@ ${ this.serviceReuqirements }
         `
 
         this.currentJSCode = await this.NL2JS(codeRequirement);
-        console.log('currentJSCode', this.currentJSCode);
+        console.log('【currentJSCode】', this.currentJSCode);
 
         // 取回生成的js代码后，进一步生成解释
 
         await this.JS2NL(this.currentJSCode).then((data) => {
-          console.log('explainContent', data);
+          console.log('【explainContent】', data);
           serviceBuildMsg.content = data;
           this.scrollToButton();
         });
