@@ -108,7 +108,7 @@ function parseMermaidCode(mermaidCode) {
             //2. 匹配c_02 --false--> h_06 中的边的label：false
             let label = "";
 
-            const edgeLabel = edgeMatch[0].match(/(\w+)\s--(\w+)-->\s(\w+)/);
+            const edgeLabel = edgeMatch[0].match(/(\w+)\s--(.*?)-->\s(\w+)/);
             if (edgeLabel){
                 // console.log("label: ", edgeLabel);
                 label = edgeLabel[2];
