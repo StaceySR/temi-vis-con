@@ -549,9 +549,9 @@ ${ this.serviceReuqirements }
 
         this.currentFlowCode = this.newMermaidData;
         // 生成代码后开始处理flow部分
-        const mermaidCode = await this.js2flow(this.currentJSCode);
-        this.currentFlowCode = mermaidCode;
-        EventBus.$emit('callGetData', this.currentFlowCode);  
+        // const mermaidCode = await this.js2flow(this.currentJSCode);
+        // this.currentFlowCode = mermaidCode;
+        // EventBus.$emit('callGetData', this.currentFlowCode);  
 
         serverMsg.content = "已经为你按照修改后的流程图重新生成机器人的服务程序"
         //this.addMessage("按照流程图，新的代码已生成完毕！", "assistant");

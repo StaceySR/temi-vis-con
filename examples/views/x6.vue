@@ -741,7 +741,7 @@ export default defineComponent({
           EventBus.$emit("send-new-mermaid-data", newMermaidCode);
           // console.log(mermaidCode);
 
-          Message.success("确认所有修改，生成新的代码！");
+          Message.success("确认所有修改，生成新的服务流程！");
 
           // Message.success("Export succeeded. Please view it on the console");
 

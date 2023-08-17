@@ -28,6 +28,7 @@
   import x6 from '../views/x6.vue';
   import chatView from '../views/chatView.vue';
   import Vue from 'vue'; // 导入 Vue 对象，用于创建响应式数据
+  import { Message } from "element-ui";
   // import { EventBus } from "./eventBus.js";
   
   export default {
@@ -54,6 +55,8 @@
         console.log("部署到temi上")
         // 在这里调用 chatView 子组件的方法
         this.$refs.chatViewRef.startRunTemi(); // 调用 chatView 的方法
+
+        Message.success("成功部署到temi！");
       }
     },
     // mounted() {
