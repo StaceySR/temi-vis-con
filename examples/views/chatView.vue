@@ -514,7 +514,9 @@ ${ this.serviceReuqirements }
         console.log("currentJSCode: ", this.currentJSCode);
         console.log("oldMermaidData: ", this.currentFlowCode);
         console.log("newMermaidData: ", this.newMermaidData);
-        //
+
+        
+        
 
         //生成等待提示对话框
         this.addMessage("正在按照修改后的流程图生成新的机器人服务流程，请等待...", "assistant");
@@ -544,6 +546,8 @@ ${ this.serviceReuqirements }
         this.currentJSCode = result;
         console.log("new jscode: ", this.currentJSCode);
 
+
+        this.currentFlowCode = this.newMermaidData;
         // 生成代码后开始处理flow部分
         const mermaidCode = await this.js2flow(this.currentJSCode);
         this.currentFlowCode = mermaidCode;
