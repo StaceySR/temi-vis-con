@@ -4,9 +4,9 @@ function convertToMermaidCode(nodes, edges) {
   
     // convert nodes to mermaid code
     nodes.forEach(node => {
-    //   console.log("con-node : ", node);
+      //console.log("con-node : ", node);
       const id = node.id;
-    //   console.log("node.data: ", node.data);
+      console.log("node.data: ", node.data);
       const actionType = node.data.actionType;
 
     //   const label = node.attrs.label.text.substring(actionType.length);
@@ -18,28 +18,67 @@ function convertToMermaidCode(nodes, edges) {
     //   console.log("label: ", node.attrs.label.text);
     //   console.log("label: ", node.attrs.label.text.substring(actionType.length));
 
-
       switch (actionType) {
-        case "TRIGGER":
-          nodeCode = `${id}(["${label}"])`;
+        case "USERREQUEST":
+          nodeCode = `${id}(["userRequest:${label}"])`;
           break;
-        case "CONDITION":
-          nodeCode = `${id}{"${label}"}`;
+        case "INFODECLARE":
+          nodeCode = `${id}["infoDeclare:${label}"]`;
+          break;
+        case "INFOASSIGN":
+          nodeCode = `${id}["infoAssign:${label}"]`;
+          break;
+        case "SPEAK":
+          nodeCode = `${id}["speak:${label}"]`;
+          break;
+        case "ASK":
+          nodeCode = `${id}["ask:${label}"]`;
+          break;
+        case "GOTO":
+          nodeCode = `${id}["goto:${label}"]`;
+          break;
+        case "DETECTHUMAN":
+          nodeCode = `${id}["detectHuman"]`;
+          break;
+        case "IF":
+          nodeCode = `${id}{"condition:${label}"}`;
           break;
         case "FOR":
-          nodeCode = `${id}{{"${label}"}}`;
+          nodeCode = `${id}{{"forLoop:${label}"}}`;
+          break;
+        case "LOOPEND":
+          nodeCode = `${id}{{"loopEnd:${label}"}}`;
+          break;
+        case "END":
+          nodeCode = `${id}(["end:${label}"])`;
           break;
         default:
-          nodeCode = `${id}["${label}"]`;
-          break;
+          
       }
+      
+
+      // switch (actionType) {
+      //   case "TRIGGER":
+      //     nodeCode = `${id}(["${label}"])`;
+      //     break;
+      //   case "CONDITION":
+      //     nodeCode = `${id}{"${label}"}`;
+      //     break;
+      //   case "FOR":
+      //     nodeCode = `${id}{{"${label}"}}`;
+      //     break;
+      //   default:
+      //     nodeCode = `${id}["${label}"]`;
+      //     break;
+      // }
     //   console.log("nodeCode: ", nodeCode);
   
       mermaidCode += `${nodeCode}\n`;
     });
 
     // convert edges to mermaid code
-    edges.forEach(edge => {
+  edges.forEach(edge => {
+      console.log("con-edge : ", edge);
       const sourceId = edge.source.cell;
       const targetId = edge.target.cell;
       const label = edge.labels.length > 0 ? edge.labels[0].attrs.label.text : "";

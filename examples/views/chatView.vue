@@ -509,7 +509,10 @@ ${ this.serviceReuqirements }
       } , 
 
       //根据前端用户修改，返回的new mermaid code，修改后端的驱动机器人的js code
-      async changeRobotJsCode(){
+      async changeRobotJsCode() {
+        console.log("开始根据流程图修改生成代码");
+        console.log("currentJSCode: ", this.currentJSCode);
+        console.log("oldMermaidData: ", this.currentFlowCode);
         console.log("newMermaidData: ", this.newMermaidData);
         //
 
@@ -539,6 +542,7 @@ ${ this.serviceReuqirements }
         });
 
         this.currentJSCode = result;
+        console.log("new jscode: ", this.currentJSCode);
 
         // 生成代码后开始处理flow部分
         const mermaidCode = await this.js2flow(this.currentJSCode);

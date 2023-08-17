@@ -736,7 +736,7 @@ export default defineComponent({
           const nodes = nodesJSON
           const edges = edgesJSON
           list = [{nodes, edges}];
-          console.log("list changes: ", list)
+          //console.log("list changes: ", list)
           const newMermaidCode = graphFunc.confirmChanges(nodesJSON, edgesJSON);
           EventBus.$emit("send-new-mermaid-data", newMermaidCode);
           // console.log(mermaidCode);
