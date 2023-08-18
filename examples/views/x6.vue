@@ -719,7 +719,7 @@ export default defineComponent({
         Message.success("节点内容修改成功！")
       },
       handleAutoLayout() {  //[AutoLayout]
-        console.log("auto Layout！");
+        console.log("auto Layout！"); 
         //当用户点击“autoLayout”button之后，将整个流程图进行自动布局。
         // const { nodes, edges } = list[data.currentIndex];
         const { nodes, edges } = graphFunc.getAtoms();
@@ -762,9 +762,9 @@ export default defineComponent({
 
           //session.recording("Graph+LLM update", "magicUpdate");
 
-          Message.success("魔法棒施法成功，将生成该节点的文字解释！");
+          Message.success("节点调试实施成功，将生成该节点的文字解释！");
         }else {
-          Message.success("魔法棒施法失败...");
+          Message.success("节点调试失败...");
         }
       },
 
