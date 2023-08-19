@@ -86,7 +86,7 @@ export default defineComponent({
         console.log("startDrag: node: ", node)
         if (!data.freeze) data.dnd.start(node, e);
 
-        session.recording("newNodeAdd", node);
+        session.recording("newNodeAdd", node.data.actionType);
       },
       initDnd() {
         data.dnd = new Addon.Dnd({
