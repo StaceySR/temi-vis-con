@@ -74,6 +74,11 @@
             this.addMessage("正在理解...", "assistant");
             //let serverMsg = this.messages[this.messages.length - 1];
 
+            // 对第一次的用户输入进行预处理，加上前缀，以确保正确识别需求，让效果稳定
+            if (this.authoringChat.length == 0) {
+              sendContent = "我的机器人个性化服务定制需求：" + sendContent;
+            }
+
 
             // 将用户输入添加到authoringChat中
             this.authoringChat.push({
