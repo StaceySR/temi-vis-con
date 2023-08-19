@@ -406,7 +406,7 @@ ${ this.serviceReuqirements }
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ text: _userInput,context: _currentJSCode })
+            body: JSON.stringify({ text: _userInput,context: _currentJSCode,sessionID: session.id })
           }
         );
 
@@ -427,7 +427,7 @@ ${ this.serviceReuqirements }
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ origin: originCode, modified: ModifiedCode})
+            body: JSON.stringify({ origin: originCode, modified: ModifiedCode,sessionID: session.id})
           }
         );
 
@@ -448,7 +448,7 @@ ${ this.serviceReuqirements }
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ text: jscode})
+            body: JSON.stringify({ text: jscode,sessionID: session.id})
           }
         );
 

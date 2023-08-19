@@ -90,8 +90,8 @@ export function graphAutoLayout(nodes, edges) {
         align: 'DL',
         // edgeLabelSpace: true,
         // radial:true,
-        ranksep: 25,
-        nodesep: 50,
+        ranksep: 35,
+        nodesep: 80,
         controlPoints: true,
       })
     const model = dagreLayout.layout(data)
