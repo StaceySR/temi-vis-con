@@ -513,6 +513,7 @@ ${ this.serviceReuqirements }
         event.target.style.height = event.target.scrollHeight + "px";
       } , 
 
+      // 流程图修改
       //根据前端用户修改，返回的new mermaid code，修改后端的驱动机器人的js code
       async changeRobotJsCode() {
         console.log("开始根据流程图修改生成代码");
@@ -548,6 +549,7 @@ ${ this.serviceReuqirements }
           return data;
         });
 
+        const oldcode = this.currentJSCode;
         this.currentJSCode = result;
         console.log("new jscode: ", this.currentJSCode);
 
@@ -558,7 +560,11 @@ ${ this.serviceReuqirements }
         // this.currentFlowCode = mermaidCode;
         // EventBus.$emit('callGetData', this.currentFlowCode);  
 
-        serverMsg.content = "已经为你按照修改后的流程图重新生成机器人的服务程序"
+        // 生成解释内容
+        const explainContent = await this.ExplainModifiedJS(oldcode, this.currentJSCode);
+
+        //serverMsg.content = "已经为你按照修改后的流程图重新生成机器人的服务程序"
+        serverMsg.content = explainContent;
         //this.addMessage("按照流程图，新的代码已生成完毕！", "assistant");
         
 
