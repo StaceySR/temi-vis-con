@@ -672,6 +672,8 @@ ${ this.serviceReuqirements }
 
 
           this.addMessage("已退出节点调试模式。你现在可以继续提出你对整个服务流程的修改要求。或者再次选中节点进入节点调试模式进行修改。", "assistant");
+          this.currentStage = stageType.debugging;
+          console.log("退出节点调试模式");
         }
 
         if (result.indexOf("<explain>") != -1) {
